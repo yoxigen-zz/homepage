@@ -1,7 +1,7 @@
 <div>
     <h2 class="module-header">
         <a ng-click="login()" class="module-settings-btn" title="Settings"><i class="icon-cog"></i></a>
-        <img src="{{feed.icon || (feed.link | favicon)}}" class="favicon module-icon" /> {{feed.title}}
+        <a href="{{feed.link}}" target="_blank"><img src="{{feed.icon || (feed.link | favicon)}}" class="favicon module-icon" /> {{feed.title}}</a>
     </h2>
     <ul class="module-content module-content-with-header items-list items-list-{{module.settings.display}}">
         <li ng-repeat="item in feed.items | orderBy:'publishDate':true"

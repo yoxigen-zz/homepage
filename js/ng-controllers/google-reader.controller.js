@@ -1,5 +1,10 @@
 angular.module("Homepage").controller("GoogleReaderController", function($scope, googleReader){
-    $scope.feed = { title: "Google Reader", icon: "http://www.google.com/reader/ui/favicon.ico" };
+    $scope.feed = {
+        title: "Google Reader",
+        icon: "http://www.google.com/reader/ui/favicon.ico",
+        link: "http://www.google.com/reader"
+    };
+
     $scope.displayType = "items";
 
     googleReader.getItems().then(function(readerData){

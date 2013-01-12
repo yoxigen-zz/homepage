@@ -1018,6 +1018,10 @@ h1, h2, h3, h4, h5 {
     padding: 0 15px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 5px 5px 0 0; }
+    .module .module-header a {
+      color: white; }
+      .module .module-header a:hover {
+        text-decoration: underline; }
     .module .module-header .module-icon {
       margin: 0 4px 0 0; }
     .module .module-header .module-settings-btn {
@@ -1143,7 +1147,9 @@ h1, h2, h3, h4, h5 {
       direction: ltr; }
   .items-list .items-list-headline .item-thumbnail {
     max-width: 30px;
-    max-height: 30px; }
+    max-height: 30px;
+    margin-bottom: 0;
+    vertical-align: middle; }
   .items-list .items-list-headline .icon, .items-list .items-list-headline .favicon {
     margin-right: 3px; }
   .items-list [dir=rtl] {
@@ -1167,7 +1173,8 @@ h1, h2, h3, h4, h5 {
       margin-right: 130px; }
     .items-list [dir=rtl] .item-thumbnail {
       float: right;
-      margin: 0 0 10px 10px; }
+      margin-right: 0;
+      margin-left: 10px; }
   .items-list .item-feed {
     margin-bottom: 10px; }
 
