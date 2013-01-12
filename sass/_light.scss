@@ -1,0 +1,22 @@
+$background: rgb(236,236,236);
+$color: #333;
+$border: solid 1px #343434;
+$linkColor: Black;
+$brandColorHover: rgb(157, 208, 255);
+$brandColorPressed: #250019;
+$headerColor: White;
+$moduleHeaderBackground: #ddd;
+$contentPadding: 6px;
+$itemsListPadding: $contentPadding;
+$itemsListBackground: rgb(99, 183, 238);
+$itemsListActive: darken($itemsListBackground, 20%);
+$moduleTextBackground: rgb(236,236,236);
+$moduleTextColor: #333;
+$visitedColor: lighten($linkColor, 30%);
+
+
+@mixin items-list-item{
+  background: $itemsListBackground;
+  color: Black;
+  margin-bottom: 6px;
+}

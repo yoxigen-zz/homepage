@@ -1,0 +1,46 @@
+<div>
+    <h2 class="module-header">
+        <a ng-click="login()" class="module-settings-btn" title="Settings"><i class="icon-cog"></i></a>
+        <img src="{{feed.icon || (feed.link | favicon)}}" class="favicon module-icon" /> {{feed.title}}
+    </h2>
+    <ul class="module-content module-content-with-header items-list items-list-{{module.settings.display}}">
+        <li ng-repeat="item in feed.items | orderBy:'publishDate':true"
+            dir="{{item.direction}}"
+            ng-style="getItemStyle(item)"
+            ng-class="{active:item==currentItem, read: item.isRead}"
+            ng-switch on="module.settings.display">
+            <div ng-switch-when="full">
+                <div class="item-header clearfix">
+                    <a ng-click="setCurrentItem(item)" class="clearfix">
+                        <h4 ng-bind-html-unsafe="item.title"></h4>
+                    </a>
+                    <a ng-click="setCurrentItem(item)" class="clearfix" title="Expand">
+                        <i class="icon icon-double-angle-right icon-large"></i>
+                    </a>
+                    <a href="{{item.link}}" target="_blank" title="View original post">
+                        <i class="icon icon-external-link"></i>
+                    </a>
+                </div>
+                <div class="item-details">
+                    <span class="item-feed"><a href="{{item.link}}" target="_blank" title="Go to the original post on {{item.feed.title}}"><img class="favicon" src="{{item.link | favicon}}" />{{item.feed.title}}</a></span>
+                    <span><i class="icon icon-time"></i>{{item.publishDate | prettyDate}}</span>
+                    <span ng-show="item.author"><i class="icon icon-user"></i>{{item.author}}</span>
+                </div>
+                <div class="item-text" ng-switch on="item==currentItem">
+                    <a ng-click="setCurrentItem(item)">
+                        <img class="item-thumbnail" ng-src="{{item.image.src}}" ng-class="{'full-width': !item.summary}" ng-show="item.image && item!=currentItem"/>
+                    </a>
+                    <div ng-switch-when="true" ng-bind-html-unsafe="item.text"></div>
+                    <div ng-switch-when="false" ng-bind-html-unsafe="item.summary"></div>
+                </div>
+            </div>
+            <div ng-switch-when="headlines" class="items-list-headline">
+                <img src="{{item.image.src}}" ng-show="item.image" class="item-thumbnail" />
+                <div class="item-details">
+                    <span><i class="icon icon-time"></i>{{item.publishDate | prettyDate:true}}</span>
+                </div>
+                <a href="{{item.link}}" target="_blank"><h5 ng-bind-html-unsafe="item.title"></h5></a>
+            </div>
+        </li>
+    </ul>
+</div>

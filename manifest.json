@@ -1,0 +1,23 @@
+{
+    "name": "YoxView",
+    "manifest_version": 2,
+    "description": "The best image gallery ever",
+    "version": "0.0.1",
+	"permissions":[
+		"tabs",
+		"storage",
+		"chrome://favicon/*",
+		"https://*.google.com/*",
+		"https://*.googleapis.com/*"
+	],
+    "content_security_policy": "script-src 'self' https://www.google.com https://ajax.googleapis.com https://www.google-analytics.com; object-src 'self'",
+    "app": {
+        "launch": {
+            "local_path": "index.html"
+        }
+    },
+    "icons": {
+        "16": "img/icon16.png",
+        "128": "img/icon128.png"
+    }
+}

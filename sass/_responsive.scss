@@ -1,0 +1,15 @@
+@media only screen and (max-width:800px){
+  #content{
+    bottom: 0;
+
+    .column{
+      width: 100% !important;
+      border-radius: 0;
+      top: 0;
+      left: 0 !important;
+      display: none;
+
+      &:nth-child(1){ display: block; }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+$background: White;
+$color: White;
+$linkColor: rgb(87, 198, 255);
+$linkColorHover: White;
+
+$headerColor: White;
+$headerBackgroundColor: rgba(0,0,0,.5);
+
+$moduleBackground: rgba(0,0,0,.7);
+$moduleHeaderBackground: rgba(0,0,0,.2);
+$moduleHeaderPadding: 0 15px;
+
+$contentPaddingSidesOnly: 0 25px;
+$contentPadding: 15px 25px;
+$smallContentPadding: 5px 25px;
+
+$itemsListActive: rgba(66,66,66,.5);
+$itemsListActiveRead: darken($linkColor, 30%);
+
+$scrollbarWidth: 6px;
+$scrollbarThumbColor: darken($linkColor, 30%);
+$scrollbarThumbColorHover: $linkColor;
+$scrollbarTrackColor: Transparent;
+
+@mixin firstColumn{
+  color: White;
+
+  a{
+    color: $linkColor;
+    &:hover{
+      color: White;
+
+      h4{ text-decoration: none; }
+    }
+
+    h4{ color: White; }
+  }
+}

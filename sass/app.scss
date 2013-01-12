@@ -1,0 +1,143 @@
+@import "sass/dark";
+@import "sass/font-awesome";
+
+$headerHeight: 45px;
+$headerPadding: 0 15px;
+$moduleHeaderHeight: 40px;
+$column1: 650px;
+$column2: 650px;
+$contentsPadding: 20px;
+$moduleRadius: 5px;
+
+@font-face{
+  font-family: 'Alef';
+  src: url('fonts/AlefAlef-regular.eot');
+  src: url('fonts/Alef-regular.eot?#iefix')
+  format('embedded-opentype'),
+  url('fonts/Alef-regular.woff') format('woff'),
+  url('fonts/Alef-regular.ttf') format('truetype'),
+  url('fonts/Alef-regular.svg#webfont') format('svg');
+}
+
+html, body{ height: 100%; }
+body{
+  margin: 0;
+  padding: 0;
+  background: $background;
+  color: $color;
+  font-family: 'Calibri', 'Muli', 'Alef', Arial, sans-serif;
+
+  & > header{
+    height: $headerHeight;
+    line-height: $headerHeight;
+    padding: $headerPadding;
+    background: $headerBackgroundColor;
+    color: $headerColor;
+  }
+}
+.clearfix::after{
+  content: "";
+  display: block;
+  clear: both;
+}
+
+a{
+  color: $linkColor;
+  text-decoration: none;
+
+  &:hover{ text-decoration: none; color: $linkColorHover }
+}
+
+h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
+
+.content-text{ padding: $contentPadding; }
+
+#content{
+  position: absolute;
+  top: $headerHeight + $contentsPadding;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  .column{
+    position: relative;
+    top: 0;
+    bottom: 0;
+    float: left;
+    height: 100%;
+  }
+}
+
+.module-wrapper{
+  position: relative;
+  margin: 0 $contentsPadding;
+}
+.module{
+  position: absolute;
+  background: $moduleBackground;
+  border-radius: $moduleRadius;
+  top: 0;
+  width: 100%;
+  bottom: $contentsPadding;
+
+  .module-header{
+    height: $moduleHeaderHeight;
+    line-height: $moduleHeaderHeight;
+    font-size: 13pt;
+    padding: $moduleHeaderPadding;
+    background: $moduleHeaderBackground;
+    border-radius: $moduleRadius $moduleRadius 0 0;
+
+    .module-icon{
+      margin: 0 4px 0 0;
+    }
+
+    .module-settings-btn{
+      float: right;
+    }
+    [dir=rtl] .module-settings-btn{ float: left }
+  }
+
+  .module-content{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 4px;
+    padding-bottom: 30px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
+  }
+
+  .module-content-with-header{
+    top: $moduleHeaderHeight + 4;
+  }
+}
+
+[dir=rtl]{
+  .module-header .module-icon{ margin: 2px 0 0 4px }
+}
+
+.favicon{
+  width: 16px; height: 16px;
+  vertical-align: middle;
+}
+@import "sass/reader";
+@import "sass/responsive";
+
+/* Scrollbars */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: $scrollbarThumbColor;
+  min-height: 10px;
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb:hover{
+  background: $scrollbarThumbColorHover;
+}
+*::-webkit-scrollbar-track {
+  background-color: $scrollbarTrackColor;
+}
