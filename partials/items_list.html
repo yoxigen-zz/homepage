@@ -36,10 +36,14 @@
             </div>
             <div ng-switch-when="headlines" class="items-list-headline">
                 <img ng-src="{{item.image.src}}" ng-show="item.image" class="item-thumbnail" />
-                <div class="item-details">
-                    <span><i class="icon icon-time"></i>{{item.publishDate | prettyDate:true}}</span>
+                <div ng-class="{'item-text-with-image':item.image}">
+                    <div class="item-details">
+                        <span><i class="icon icon-time"></i>{{item.publishDate | prettyDate:true}}</span>
+                    </div>
+                    <i class="icon-play item-headline-expand" ng-class="{'item-headline-collapse':item.isOpen}" ng-click="item.isOpen=!item.isOpen"></i>
+                    <a href="{{item.link}}" target="_blank"><h5 ng-bind-html-unsafe="item.title"></h5></a>
+                    <p class="item-text-summary" ng-bind="item.summary" ng-show="item.isOpen"></p>
                 </div>
-                <a href="{{item.link}}" target="_blank"><h5 ng-bind-html-unsafe="item.title"></h5></a>
             </div>
         </li>
     </ul>

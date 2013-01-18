@@ -99,7 +99,7 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "c
         },
         getNotifications: function(){
             var deferred = $q.defer();
-            FB.fql("SELECT notification_id, created_time, icon_url, object_id, object_type, is_unread, sender_id, title_html, body_html, href FROM notification WHERE recipient_id=me() AND is_hidden = 0").then(
+            FB.fql("SELECT notification_id, created_time, icon_url, object_id, object_type, is_unread, sender_id, title_html, body_html, href FROM notification WHERE recipient_id=me()").then(
                 function(response){
                     var notifications = { items: [], unreadCount: 0 };
                     angular.forEach(response.data.data, function(fbNotification){
