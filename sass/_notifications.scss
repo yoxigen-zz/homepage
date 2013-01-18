@@ -74,12 +74,13 @@
     li{
       border-bottom: solid 1px rgba(255,255,255,.05);
       position: relative;
-
+      background: darken($notificationsHoverBackground, 20%);
+      -webkit-transition: background 1s ease-out;
+      -webkit-transition-delay: 5s;
       &:last-child{ border-bottom: none; padding-bottom: 0 }
 
       &.read{
-        opacity: .7;
-        &:hover{ opacity: 1 }
+        background: transparent;
       }
     }
 
