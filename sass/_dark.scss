@@ -23,6 +23,10 @@ $scrollbarThumbColor: darken($linkColor, 30%);
 $scrollbarThumbColorHover: $linkColor;
 $scrollbarTrackColor: Transparent;
 
+$notificationsBackground: White;
+$notificationsColor: #333;
+$notificationsHoverBackground: rgba(87, 198, 255, .2);
+
 @mixin firstColumn{
   color: White;
 

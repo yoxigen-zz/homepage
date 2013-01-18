@@ -1,4 +1,4 @@
-angular.module("Homepage").controller("GoogleReaderController", function($scope, googleReader){
+angular.module("Homepage").controller("GoogleReaderController", ["$scope", "googleReader", function($scope, googleReader){
     $scope.feed = {
         title: "Google Reader",
         icon: "http://www.google.com/reader/ui/favicon.ico",
@@ -33,4 +33,4 @@ angular.module("Homepage").controller("GoogleReaderController", function($scope,
 
     if (googleReader.isAuthorized)
         $scope.currentUser = googleReader.getCurrentUser();
-});
+}]);

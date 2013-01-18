@@ -1,4 +1,4 @@
-angular.module("Homepage").controller("RssController", function($scope, rss){
+angular.module("Homepage").controller("RssController", ["$scope", "rss", function($scope, rss){
     function loadFeeds(){
         rss.load($scope.module.settings.feed).then(function(feeds){
             $scope.feed = feeds[0];
@@ -9,4 +9,4 @@ angular.module("Homepage").controller("RssController", function($scope, rss){
     }
 
     loadFeeds();
-});
+}]);

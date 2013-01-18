@@ -1,5 +1,5 @@
 angular.module("GoogleFeed", [])
-    .factory("rss", function($http, $q, utils, $rootScope){
+    .factory("rss", ["$http", "$q", "utils", "$rootScope", function($http, $q, utils, $rootScope){
         function loadFeed(feedUrl){
             var deferred = $q.defer();
 
@@ -66,4 +66,4 @@ angular.module("GoogleFeed", [])
         };
 
         return methods;
-    });
+    }]);
