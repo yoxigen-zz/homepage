@@ -9,10 +9,17 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", func
         });
     }
 
-    if (notificationsService){
-        if (notificationsService.loggedIn)
-            setNotifications();
+    function setCurrentUser(){
+        notificationsService.getCurrentUser().then(function(user){
+            $scope.notification.user = user;
+        });
+    }
 
+    if (notificationsService){
+        if (notificationsService.loggedIn){
+            setNotifications();
+            setCurrentUser();
+        }
     }
     else
         console.error("Notification service not found: ", $scope.notification.id);
@@ -21,9 +28,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", func
         if (!notificationsService.loggedIn){
             notificationsService.login().then(function(){
                 setNotifications();
-                notificationsService.getCurrentUser().then(function(user){
-                    $scope.notification.user = user;
-                });
+                setCurrentUser();
             });
         }
         else{

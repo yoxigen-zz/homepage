@@ -1149,6 +1149,14 @@ h1, h2, h3, h4, h5 {
       margin-top: .5em; }
       .notification .notificationsItems .notification-item-details img {
         vertical-align: middle; }
+  .notification .notifications-header {
+    padding: 3px;
+    background: rgba(87, 198, 255, 0.2);
+    margin-bottom: 3px; }
+  .notification .notifications-user-image {
+    max-height: 30px;
+    vertical-align: middle;
+    margin-right: 3px; }
   .notification:focus > a {
     background: rgba(0, 0, 0, 0.8); }
     .notification:focus > a .notification-icon {

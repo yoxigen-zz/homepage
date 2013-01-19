@@ -127,6 +127,16 @@
       img{ vertical-align: middle }
     }
   }
+  .notifications-header{
+    padding: 3px;
+    background: rgba(87, 198, 255, .2);
+    margin-bottom: 3px;
+  }
+  .notifications-user-image{
+    max-height: 30px;
+    vertical-align: middle;
+    margin-right: 3px;
+  }
 
   &:focus {
     & > a{

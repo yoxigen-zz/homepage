@@ -3,9 +3,11 @@
     <span ng-cloak ng-show="notification.unreadCount" class="notification-count">{{notification.unreadCount}}</span>
 </a>
 <div class="notificationsItems">
-    <header class="notification-header">
-        <img ng-src="{{notification.user.image}}" ng-show="notification.user.image" />
-        <span ng-bind="notification.user.name || notification.name + ' notifications'"></span>
+    <header class="notifications-header">
+        <a href="{{notification.user.link}}">
+            <img class="notifications-user-image" ng-src="{{notification.user.image}}" ng-show="notification.user.image" />
+            <span ng-bind="notification.user.name || notification.name + ' notifications'"></span>
+        </a>
     </header>
     <div class="notificationItems-scroll">
         <ul>
