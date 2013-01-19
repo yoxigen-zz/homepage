@@ -1058,7 +1058,8 @@ h1, h2, h3, h4, h5 {
   float: right;
   width: 45px;
   height: 100%;
-  position: relative; }
+  position: relative;
+  outline: none; }
   .notification > a {
     display: block;
     height: 100%;
@@ -1067,10 +1068,6 @@ h1, h2, h3, h4, h5 {
     .notification > a:hover {
       background: rgba(255, 255, 255, 0.2); }
       .notification > a:hover .notification-icon {
-        background: White; }
-    .notification > a.active {
-      background: rgba(0, 0, 0, 0.8); }
-      .notification > a.active .notification-icon {
         background: White; }
   .notification .notification-count {
     display: block;
@@ -1089,6 +1086,7 @@ h1, h2, h3, h4, h5 {
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.7);
     min-width: 8px; }
   .notification .notificationsItems {
+    display: none;
     position: absolute;
     top: 100%;
     right: 0;
@@ -1151,6 +1149,12 @@ h1, h2, h3, h4, h5 {
       margin-top: .5em; }
       .notification .notificationsItems .notification-item-details img {
         vertical-align: middle; }
+  .notification:focus > a {
+    background: rgba(0, 0, 0, 0.8); }
+    .notification:focus > a .notification-icon {
+      background: White; }
+  .notification:focus .notificationsItems {
+    display: block; }
 
 .notification-icon {
   width: 24px;

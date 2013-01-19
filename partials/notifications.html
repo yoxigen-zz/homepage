@@ -1,8 +1,12 @@
-<a ng-class="{active:notification.open}" ng-click="openNotifications()">
+<a ng-click="openNotifications()">
     <i class="notification-icon" style="-webkit-mask-image: url(widgets/{{notification.id}}/icon.png)"></i>
     <span ng-cloak ng-show="notification.unreadCount" class="notification-count">{{notification.unreadCount}}</span>
 </a>
-<div class="notificationsItems" ng-show="notification.open">
+<div class="notificationsItems">
+    <header class="notification-header">
+        <img ng-src="{{notification.user.image}}" ng-show="notification.user.image" />
+        <span ng-bind="notification.user.name || notification.name + ' notifications'"></span>
+    </header>
     <div class="notificationItems-scroll">
         <ul>
             <li ng-repeat="item in notification.items" ng-class="{read:!item.unread}">

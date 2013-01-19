@@ -11,24 +11,39 @@ angular.module("OAuth", ["Storage"]).factory("oauth", ["$q", "$rootScope", "stor
             "&response_type=token";
     }
 
+    function getExistingOauth(apiName){
+        var existingOauth = oauths[apiName] || storage.local.getItem(apiName + "_oauth");
+        if (existingOauth){
+            if (existingOauth.expires > new Date().valueOf()){
+                if (!oauths[apiName])
+                    oauths[apiName] = existingOauth;
+
+                return existingOauth;
+            }
+            else{
+                storage.removeItem(apiName + "_oauth");
+            }
+        }
+
+        return null;
+    }
+
     var methods = {
+        getOauth: getExistingOauth,
+        isLoggedIn: function(apiName){
+            return !!getExistingOauth(apiName);
+        },
         login: function(apiName, options){
             var deferred = $q.defer(),
-                existingOauth = oauths[apiName] || storage.local.getItem(apiName + "_oauth");
+                existingOauth = getExistingOauth(apiName);
 
             if (existingOauth){
-                if (existingOauth.expires > new Date().valueOf()){
-                    if (!oauths[apiName])
-                        oauths[apiName] = existingOauth;
+                setTimeout(function(){
+                    deferred.resolve({ oauth: existingOauth });
+                    $rootScope.$apply()
+                });
 
-                    // I don't understand why the timeout is needed, but the deferred's promise's 'then' method's success callback isn't fired otherwise.
-                    setTimeout(function(){
-                        deferred.resolve({ oauth: existingOauth });
-                        $rootScope.$apply()
-                    });
-
-                    return deferred.promise;
-                }
+                return deferred.promise;
             }
 
             methods.logout(apiName);

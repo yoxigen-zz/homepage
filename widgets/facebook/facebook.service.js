@@ -3,7 +3,6 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "c
         appSecret = "ba840592bd31f05bec737573893f939e",
         graphApiUrl = "https://graph.facebook.com/",
         legacyApiUrl = "https://api.facebook.com/method/",
-        isLogin = false,
         fbOauth,
         currentUser;
 
@@ -35,9 +34,14 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "c
         return "access_token=" + fbOauth.token + "&callback=JSON_CALLBACK";
     }
 
+    function getProfileImage(userId){
+        return "http://graph.facebook.com/" + userId + "/picture";
+    }
+
     var methods = {
         get loggedIn(){
-            return isLogin;
+            fbOauth = oauth.getOauth("facebook");
+            return !!fbOauth;
         },
         login: function(){
             var deferred = $q.defer();
@@ -79,7 +83,7 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "c
             return deferred.promise;
         },
         logout: function(){
-            currentUser = false;
+            currentUser = null;
             oauth.logout("facebook");
         },
         getCurrentUser: function(){
@@ -88,14 +92,22 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "c
                 deferred.resolve(currentUser);
             else{
                 FB.api("me").then(function(me){
-                    deferred.resolve(me.data);
+                    var user = {
+                        id: me.data.id,
+                        name: me.data.name,
+                        link: me.data.link,
+                        locale: me.data.locale,
+                        image: getProfileImage(me.data.id)
+                    };
+
+                    deferred.resolve(user);
+                    currentUser = user;
                 }, function(error){
                     deferred.reject(error);
                 });
             }
 
             return deferred.promise;
-
         },
         getNotifications: function(){
             var deferred = $q.defer();
@@ -118,7 +130,7 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "c
                             link: fbNotification.href,
                             html: tempDiv.innerHTML,
                             from: fbNotification.sender_id,
-                            image: "http://graph.facebook.com/" + fbNotification.sender_id + "/picture",
+                            image: getProfileImage(fbNotification.sender_id),
                             date: new Date(fbNotification.created_time * 1000)
                         });
 
@@ -136,9 +148,10 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "c
             return deferred.promise;
         },
         markAsRead: function(notificationIds){
-            methods.getCurrentUser().then(function(me){
-                FB.method("notifications.markRead", {unread: "0", notification_ids: notificationIds.join(",")});
-            });
+            if (!notificationIds || !notificationIds.length)
+                return false;
+
+            FB.method("notifications.markRead", {unread: "0", notification_ids: notificationIds.join(",")});
         }
     };
 

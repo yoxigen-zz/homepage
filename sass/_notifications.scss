@@ -9,6 +9,7 @@
   width: $headerHeight;
   height: 100%;
   position: relative;
+  outline: none;
 
   & > a{
     display: block;
@@ -21,11 +22,6 @@
       .notification-icon{
         background: White;
       }
-    }
-
-    &.active{
-      background: rgba(0,0,0,.8);
-      .notification-icon{ background: White }
     }
   }
 
@@ -48,6 +44,7 @@
   }
 
   .notificationsItems{
+    display: none;
     position: absolute;
     top: 100%;
     right: 0;
@@ -128,6 +125,17 @@
       margin-top: .5em;
 
       img{ vertical-align: middle }
+    }
+  }
+
+  &:focus {
+    & > a{
+      background: rgba(0,0,0,.8);
+      .notification-icon{ background: White }
+    }
+
+    .notificationsItems{
+      display: block;
     }
   }
 }

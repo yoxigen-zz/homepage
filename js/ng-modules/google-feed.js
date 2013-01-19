@@ -27,7 +27,7 @@ angular.module("GoogleFeed", [])
                     publishDate: new Date(item.publishedDate),
                     title: item.title,
                     text: utils.strings.stripHtml(item.content),
-                    summary: utils.strings.trim(utils.strings.stripHtml(item.content), 150, "..."),
+                    summary: utils.strings.stripHtml(item.content),
                     isRead: false,
                     direction: utils.strings.getDirection(item.content)
                 };
