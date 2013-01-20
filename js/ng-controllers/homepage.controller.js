@@ -22,5 +22,7 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "homepage
             notificationsType.open = true;
             currentNotificationsType = notificationsType;
         }
-    }
+    };
+
+    $scope.thumbnailsIncludeUrl = "partials/thumbnails.html";
 }]);

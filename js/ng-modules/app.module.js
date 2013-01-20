@@ -6,7 +6,8 @@ angular.module("Homepage", [
     "PrettyDate",
     "FavIcon",
     "OAuth",
-    "Notifications"
+    "Notifications",
+    "Instagram"
 ]).run(function($rootScope) {
         if (!$rootScope.safeApply) {
             $rootScope.safeApply = function(fn) {

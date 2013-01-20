@@ -1,0 +1,16 @@
+.thumbnails{
+  padding: 5px;
+
+  &:after{ content: ""; display: block; clear: both; }
+
+  .thumbnail{
+    float: left;
+    margin: 5px;
+    max-width: 23%;
+  }
+  .thumbnail-img{
+    width: 100%;
+    border: solid 1px rgba(255,255,255,.2);
+    display: block;
+  }
+}

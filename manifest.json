@@ -13,7 +13,7 @@
 		"https://graph.facebook.com",
 		"https://api.facebook.com/"
 	],
-    "content_security_policy": "script-src 'self' https://www.google.com https://ajax.googleapis.com https://www.google-analytics.com https://connect.facebook.net https://graph.facebook.com https://api.facebook.com/ https://yoxigen.github.com; object-src 'self'",
+    "content_security_policy": "script-src 'self' https://www.google.com https://ajax.googleapis.com https://www.google-analytics.com https://api.instagram.com https://connect.facebook.net https://graph.facebook.com https://api.facebook.com/ https://yoxigen.github.com; object-src 'self'",
     "app": {
         "launch": {
             "local_path": "index.html"

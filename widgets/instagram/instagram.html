@@ -1,0 +1,9 @@
+<div ng-controller="InstagramController">
+    <h2 class="module-header">
+        <a ng-show="!isLoggedIn" ng-click="login()" class="module-settings-btn" title="Settings"><i class="icon-cog"></i></a>
+        <a href="http://yoxigen.github.com/yoxview/?/instagram/feed" target="_blank"><img src="http://instagram.com/favicon.ico" class="favicon module-icon" /> Instagram</a>
+    </h2>
+    <div class="module-content module-content-with-header" ng-include="thumbnailsIncludeUrl">
+
+    </div>
+</div>

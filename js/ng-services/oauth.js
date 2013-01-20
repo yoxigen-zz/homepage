@@ -14,7 +14,7 @@ angular.module("OAuth", ["Storage"]).factory("oauth", ["$q", "$rootScope", "stor
     function getExistingOauth(apiName){
         var existingOauth = oauths[apiName] || storage.local.getItem(apiName + "_oauth");
         if (existingOauth){
-            if (existingOauth.expires > new Date().valueOf()){
+            if (!existingOauth.expires || existingOauth.expires > new Date().valueOf()){
                 if (!oauths[apiName])
                     oauths[apiName] = existingOauth;
 
@@ -61,10 +61,11 @@ angular.module("OAuth", ["Storage"]).factory("oauth", ["$q", "$rootScope", "stor
 
                     function onUpdated(tabId, changeInfo, tab) {
                         if (tabId === authTab.id && tab.url.indexOf(options.redirectUri || redirectUri) === 0){
-                            var auth = {
-                                token: tab.url.match(/access_token=([^&#]+)/)[1],
-                                expires: new Date().valueOf() + parseInt(tab.url.match(/expires_in=(\d+)/)[1], 10) * 1000
-                            };
+                            var expiresMatch = tab.url.match(/expires_in=(\d+)/),
+                                auth = {
+                                    token: tab.url.match(/access_token=([^&#]+)/)[1],
+                                    expires: expiresMatch ? new Date().valueOf() + parseInt(expiresMatch[1], 10) * 1000 : undefined
+                                };
 
                             chrome.tabs.onRemoved.removeListener(onRemoved);
                             chrome.tabs.onUpdated.removeListener(onUpdated);

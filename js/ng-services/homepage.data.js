@@ -23,7 +23,14 @@ angular.module("Homepage").factory("homepageData", ["$q", function($q){
                             }
                         ]
                     },
-                    {},
+                    {
+                        modules: [
+                            {
+                                htmlPath: "widgets/instagram/instagram.html",
+                                name: "Instagram"
+                            },
+                        ]
+                    },
                     {
                         modules: [
                             {
