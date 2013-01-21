@@ -1,4 +1,4 @@
-angular.module("Instagram", ["OAuth"]).factory("instagram", ["oauth", "$q", "$http", "corsHttp", function(oauth, $q, $http, corsHttp){
+angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsHttp", function(oauth, $q, $http, corsHttp){
     var igOauth,
         clientId = "e8bfed2280ae46439dcdfc4b956b35d3";
 

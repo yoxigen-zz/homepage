@@ -1,0 +1,7 @@
+{
+	"module": "Facebook",
+    "name": "Facebook",
+    "resources": [
+		"facebook.service.js"
+    ]
+}

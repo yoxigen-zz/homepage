@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="Homepage" ng-csp>
+<html ng-csp>
 <head>
     <title>HomePage</title>
     <link href='http://fonts.googleapis.com/css?family=Muli:400,400italic' rel='stylesheet' type='text/css'>
@@ -25,9 +25,10 @@
     </div>
 
     <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/require.js"></script>
     <script src="js/ng-modules/app.module.js"></script>
+    <script src="js/ng-modules/init.module.js"></script>
     <script src="js/ng-modules/notifications.module.js"></script>
-    <script src="js/ng-modules/google-reader.service.js"></script>
     <script src="js/ng-modules/google-feed.js"></script>
     <script src="js/ng-modules/utils.js"></script>
     <script src="js/ng-directives/slideshow.js"></script>
@@ -38,12 +39,9 @@
     <script src="js/ng-services/oauth.js"></script>
     <script src="js/ng-services/storage.js"></script>
     <script src="js/ng-services/cors_http.js"></script>
-    <script src="js/ng-controllers/google-reader.controller.js"></script>
     <script src="js/ng-controllers/rss.controller.js"></script>
     <script src="js/ng-controllers/notification.controller.js"></script>
-    <script src="widgets/facebook/facebook.service.js"></script>
 
-    <script src="widgets/instagram/instagram.service.js"></script>
-    <script src="widgets/instagram/instagram.controller.js"></script>
+    <div ng-app="HomepageInit" ng-csp>  </div>
 </body>
 </html>

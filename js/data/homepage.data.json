@@ -1,0 +1,14 @@
+{
+	"notifications": [
+		{
+			"name": "Facebook",
+			"id": "facebook",
+			"refreshInterval": 15000
+		}
+	],
+	"widgets": [
+		"instagram",
+		"google_reader",
+		"facebook"
+	]
+}

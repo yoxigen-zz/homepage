@@ -1,4 +1,4 @@
-angular.module("Homepage").controller("GoogleReaderController", ["$scope", "googleReader", function($scope, googleReader){
+angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "googleReader", function($scope, googleReader){
     $scope.feed = {
         title: "Google Reader",
         icon: "http://www.google.com/reader/ui/favicon.ico",

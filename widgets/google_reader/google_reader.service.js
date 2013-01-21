@@ -1,5 +1,4 @@
-angular.module("GoogleReader", ["Utils"])
-    .factory("googleReader", ["$http", "$q", "utils", "$rootScope", function($http, $q, utils, $rootScope){
+angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", "$rootScope", function($http, $q, utils, $rootScope){
         var apiBaseUrl = "https://www.google.com/reader/api/0/",
             clientId = "225561981539.apps.googleusercontent.com",
             redirectUri = "https://yoxigen.github.com/homepage",

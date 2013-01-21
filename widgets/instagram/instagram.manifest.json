@@ -1,0 +1,13 @@
+{
+	"module": "Instagram",
+	"moduleDependencies": ["OAuth"],
+    "name": "Instagram",
+    "resources": [
+		"instagram.service.js",
+		"instagram.controller.js"
+    ],
+	"html": {
+		"widget": "instagram.html"
+	}
+
+}

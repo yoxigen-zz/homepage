@@ -1,4 +1,4 @@
-angular.module("Homepage").controller("HomepageController", ["$scope", "homepageData", "facebook", function($scope, homepageData, facebook){
+angular.module("Homepage").controller("HomepageController", ["$scope", "homepageData", function($scope, homepageData){
     homepageData.getData().then(function(data){
         $scope.notifications = data.notifications;
         $scope.widgets = data.widgets;

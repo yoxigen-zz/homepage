@@ -1,4 +1,4 @@
-angular.module("Homepage").factory("homepageData", ["$q", function($q){
+angular.module("Homepage").factory("homepageData", ["$q","$http", function($q, $http){
     return {
         getData: function(){
             var deferred = $q.defer();

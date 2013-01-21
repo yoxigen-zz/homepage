@@ -1,0 +1,13 @@
+{
+	"name": "Google Reader",
+	"module": "GoogleReader",
+	"moduleDependencies": ["Utils"],
+    "resources": [
+		"google_reader.service.js",
+		"google_reader.controller.js"
+    ],
+	"html": {
+		"widget": "google_reader.html"
+	}
+
+}
