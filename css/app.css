@@ -987,6 +987,13 @@ h1, h2, h3, h4, h5 {
 .content-text {
   padding: 15px 25px; }
 
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg); }
+
+  to {
+    -webkit-transform: rotate(360deg); } }
+
 #content {
   position: absolute;
   top: 65px;
@@ -1026,6 +1033,10 @@ h1, h2, h3, h4, h5 {
       margin: 0 4px 0 0; }
     .module .module-header .module-settings-btn {
       float: right; }
+      .module .module-header .module-settings-btn:hover {
+        text-decoration: none; }
+      .module .module-header .module-settings-btn.refreshing .icon-refresh {
+        -webkit-animation: rotating 2s linear infinite; }
     .module .module-header [dir=rtl] .module-settings-btn {
       float: left; }
   .module .module-content {

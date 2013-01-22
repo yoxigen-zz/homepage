@@ -51,6 +51,10 @@ a{
 h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
 .content-text{ padding: $contentPadding; }
+@-webkit-keyframes rotating {
+  from{ -webkit-transform: rotate(0deg); }
+  to{ -webkit-transform: rotate(360deg); }
+}
 
 #content{
   position: absolute;
@@ -100,6 +104,14 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
     .module-settings-btn{
       float: right;
+
+      &:hover{
+        text-decoration: none;
+      }
+
+      &.refreshing .icon-refresh{
+        -webkit-animation: rotating 2s linear infinite;
+      }
     }
     [dir=rtl] .module-settings-btn{ float: left }
   }

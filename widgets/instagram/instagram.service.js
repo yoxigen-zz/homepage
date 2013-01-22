@@ -25,7 +25,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
         image: function(imageData){
             var image = imageData.images.standard_resolution,
                 itemData = {
-                    originalId: imageData.id,
+                    id: imageData.id,
                     thumbnail: convert.thumbnail(imageData.images.low_resolution),
                     url: image.url,
                     width: image.width,
@@ -131,9 +131,11 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
             var deferred = $q.defer(),
                 feedCache;
 
+            params = params || {};
+
             if (forceRefresh)
                 cache.removeItem(feed.id);
-            else if (feed.cache && (!params || !params.paging)){
+            else if (feed.cache && !params.max_id && !params.min_id){
                 feedCache = cache.getItem(feed.id);
                 if (feedCache)
                     deferred.resolve(feedCache)
@@ -144,7 +146,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
                     .then(function(igData){
                         var normalizedData = {
                             paging: { next_max_id: igData.data.pagination.next_max_id },
-                            items: convert.images(igData.data.data)
+                            items: igData.data.data ? convert.images(igData.data.data) : []
                         };
 
                         deferred.resolve(normalizedData);
@@ -155,7 +157,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
                             cache.setItem(feed.id, normalizedData)
                         }
                         else{
-                            cacheData.items = cacheData.items.concat(normalizedData.items);
+                            cacheData.items = params.max_id ? cacheData.items.concat(normalizedData.items) : normalizedData.concat(cachedData.items);
                             if (cacheData.items.length > maxItemsToCache){
                                 cacheData.items = cacheData.items.slice(0, maxItemsToCache);
                                 cacheData.paging = { next_max_id: cacheData.items[cacheData.items.length - 1] };
@@ -169,6 +171,9 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
             }
 
             return deferred.promise;
+        },
+        getNewItems: function(feed, lastItemId){
+            return methods.load(feed, { min_id: lastItemId })
         }
     };
 
