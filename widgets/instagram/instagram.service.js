@@ -136,7 +136,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
             if (forceRefresh)
                 cache.removeItem(feed.id);
             else if (feed.cache && !params.max_id && !params.min_id){
-                feedCache = cache.getItem(feed.id);
+                feedCache = cache.getItem(feed.id, { hold: true });
                 if (feedCache)
                     deferred.resolve(feedCache)
             }
@@ -154,7 +154,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
                         var cacheData = cache.data[feed.id];
 
                         if (!cacheData){
-                            cache.setItem(feed.id, normalizedData)
+                            cache.setItem(feed.id, normalizedData, { hold: true })
                         }
                         else{
                             cacheData.items = params.max_id ? cacheData.items.concat(normalizedData.items) : normalizedData.concat(cachedData.items);
@@ -162,7 +162,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
                                 cacheData.items = cacheData.items.slice(0, maxItemsToCache);
                                 cacheData.paging = { next_max_id: cacheData.items[cacheData.items.length - 1] };
                             }
-                            cache.setItem(feed.id, cacheData);
+                            cache.setItem(feed.id, cacheData, { hold: true });
                         }
 
                     }, function(error){

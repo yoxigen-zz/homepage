@@ -22,6 +22,9 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
     };
 
     $scope.refresh = function(){
+        if ($scope.refreshing)
+            return false;
+
         $timeout.cancel(timeoutPromise);
         $scope.refreshing = true;
         instagram.getNewItems($scope.currentFeed, $scope.items[0].id).then(function(igData){
