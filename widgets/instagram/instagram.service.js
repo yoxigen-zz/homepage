@@ -1,6 +1,12 @@
-angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsHttp", function(oauth, $q, $http, corsHttp){
+angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsHttp", "Cache", function(oauth, $q, $http, corsHttp, Cache){
     var igOauth,
-        clientId = "e8bfed2280ae46439dcdfc4b956b35d3";
+        clientId = "e8bfed2280ae46439dcdfc4b956b35d3",
+        cache = new Cache({
+            id: "instagram",
+            hold: true,
+            itemsExpireIn: 60 * 5 // cache items expire in 5 minutes
+        }),
+        maxItemsToCache = 40;
 
     var convert = {
         comments: function(instagramComments){
@@ -87,7 +93,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
 
     var methods = {
         feeds: [
-            { name: "My feed", endpoint: "users/self/feed", id: "feed" },
+            { name: "My feed", endpoint: "users/self/feed", id: "feed", cache: true },
             { name: "Images I liked", endpoint: "users/self/media/liked", id: "liked" },
             { name: "My Uploads", endpoint: "users/self/media/recent", id: "recent" },
             { name: "Most popular", endpoint: "media/popular", id: "popular" }
@@ -121,18 +127,46 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "corsH
         getCurrentUser: function(){
 
         },
-        load: function(feed, params){
-            var deferred = $q.defer();
+        load: function(feed, params, forceRefresh){
+            var deferred = $q.defer(),
+                feedCache;
 
-            $http.jsonp("https://api.instagram.com/v1/" + feed.endpoint + "?callback=JSON_CALLBACK", { params: angular.extend({ access_token: igOauth.token, count: 20 }, params) })
-                .then(function(igData){
-                    deferred.resolve({
-                        paging: { next_max_id: igData.data.pagination.next_max_id },
-                        items: convert.images(igData.data.data)
+            if (forceRefresh)
+                cache.removeItem(feed.id);
+            else if (feed.cache && (!params || !params.paging)){
+                feedCache = cache.getItem(feed.id);
+                if (feedCache)
+                    deferred.resolve(feedCache)
+            }
+
+            if (!feedCache){
+                $http.jsonp("https://api.instagram.com/v1/" + feed.endpoint + "?callback=JSON_CALLBACK", { params: angular.extend({ access_token: igOauth.token, count: 20 }, params) })
+                    .then(function(igData){
+                        var normalizedData = {
+                            paging: { next_max_id: igData.data.pagination.next_max_id },
+                            items: convert.images(igData.data.data)
+                        };
+
+                        deferred.resolve(normalizedData);
+
+                        var cacheData = cache.data[feed.id];
+
+                        if (!cacheData){
+                            cache.setItem(feed.id, normalizedData)
+                        }
+                        else{
+                            cacheData.items = cacheData.items.concat(normalizedData.items);
+                            if (cacheData.items.length > maxItemsToCache){
+                                cacheData.items = cacheData.items.slice(0, maxItemsToCache);
+                                cacheData.paging = { next_max_id: cacheData.items[cacheData.items.length - 1] };
+                            }
+                            cache.setItem(feed.id, cacheData);
+                        }
+
+                    }, function(error){
+                        deferred.reject(error);
                     });
-                }, function(error){
-                    deferred.reject(error);
-                });
+            }
 
             return deferred.promise;
         }

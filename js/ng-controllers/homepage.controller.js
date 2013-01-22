@@ -24,5 +24,9 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "homepage
         }
     };
 
-    $scope.thumbnailsIncludeUrl = "partials/thumbnails.html";
+    $scope.includes = {
+        itemsList: "partials/items_list.html",
+        notifications: "partials/notifications.html",
+        thumbnails: "partials/thumbnails.html"
+    };
 }]);

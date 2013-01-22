@@ -1,5 +1,8 @@
 angular.module("PrettyDate", []).filter('prettyDate', function () {
     return function (date, isShort) {
+        if (String(date) === date)
+            date = new Date(date);
+
         var diff = (((new Date()).getTime() - date.getTime()) / 1000),
             day_diff = Math.floor(diff / 86400);
 

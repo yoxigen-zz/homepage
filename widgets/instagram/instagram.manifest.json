@@ -1,6 +1,7 @@
 {
-	"module": "Instagram",
-	"moduleDependencies": ["OAuth"],
+	"modules": [
+		{ "name": "Instagram", "dependencies": ["OAuth", "Cache"] }
+	],
     "name": "Instagram",
     "resources": [
 		"instagram.service.js",

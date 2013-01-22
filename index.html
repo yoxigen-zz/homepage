@@ -12,7 +12,7 @@
       ng-init="slideshowImages=['img/backgrounds/YOX_1437.jpg','img/backgrounds/YOX_1091.jpg']">
     <header>
         <menu id="notifications">
-            <div class="notification" ng-repeat="notification in notifications" ng-controller="NotificationsController" ng-include="'partials/notifications.html'" tabindex="1"></div>
+            <div class="notification" ng-repeat="notification in notifications" ng-controller="NotificationsController" ng-include="includes.notifications" tabindex="1"></div>
         </menu>
         HomePage
     </header>
@@ -29,7 +29,6 @@
     <script src="js/ng-modules/app.module.js"></script>
     <script src="js/ng-modules/init.module.js"></script>
     <script src="js/ng-modules/notifications.module.js"></script>
-    <script src="js/ng-modules/google-feed.js"></script>
     <script src="js/ng-modules/utils.js"></script>
     <script src="js/ng-directives/slideshow.js"></script>
     <script src="js/ng-filters/prettydate.js"></script>
@@ -38,10 +37,10 @@
     <script src="js/ng-services/homepage.data.js"></script>
     <script src="js/ng-services/oauth.js"></script>
     <script src="js/ng-services/storage.js"></script>
+    <script src="js/ng-services/cache.js"></script>
     <script src="js/ng-services/cors_http.js"></script>
-    <script src="js/ng-controllers/rss.controller.js"></script>
     <script src="js/ng-controllers/notification.controller.js"></script>
 
-    <div ng-app="HomepageInit" ng-csp>  </div>
+    <div id="appInit" ng-app="HomepageInit" ng-csp></div>
 </body>
 </html>

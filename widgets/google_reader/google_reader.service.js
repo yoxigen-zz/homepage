@@ -1,4 +1,4 @@
-angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", "$rootScope", function($http, $q, utils, $rootScope){
+angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", "$rootScope", "Cache", function($http, $q, utils, $rootScope, Cache){
         var apiBaseUrl = "https://www.google.com/reader/api/0/",
             clientId = "225561981539.apps.googleusercontent.com",
             redirectUri = "https://yoxigen.github.com/homepage",
@@ -7,11 +7,18 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
             },
             readItemCategoryRegExp = /^user\/\d+\/state\/com\.google\/read$/,
             token,
-            currentUser;
+            currentUser,
+            cache = new Cache({
+                id: "google_reader",
+                hold: true,
+                itemsExpireIn: 60 * 5 // cache items expire in 5 minutes
+            }),
+            maxItemsToCache = 30,
+            cacheKey = "posts";
 
         function itemIsRead(item){
             if (item.categories && item.categories.length){
-                for(var i= 0, category; i < item.categories.length; i++){
+                for(var i= 0; i < item.categories.length; i++){
                     if (readItemCategoryRegExp.test(item.categories[i]))
                         return true;
                 }
@@ -150,25 +157,43 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
                 token = null;
                 sessionStorage.removeItem("reader_token");
             },
-            getItems: function(refresh, params){
-                if (Object(refresh) === refresh){
-                    params = refresh;
-                    refresh = false;
+            getItems: function(params, forceRefresh){
+                var deferred = $q.defer(),
+                    cachePosts;
+
+                if (forceRefresh)
+                    cache.removeItem(cacheKey);
+                else if (!params || !params.paging){
+                    cachePosts = cache.getItem(cacheKey);
+                    if (cachePosts)
+                        deferred.resolve(cachePosts)
                 }
-                var deferred = $q.defer();
 
-                $http.get(apiBaseUrl + "stream/contents/user/-/state/com.google/reading-list", { params: angular.extend({}, defaultSettings, params) })
-                    .success(function(readerData){
-                        var returnData = {
-                            paging: { c: readerData.continuation },
-                            items: formatItems(readerData.items)
-                        };
+                if (!cachePosts){
+                    $http.get(apiBaseUrl + "stream/contents/user/-/state/com.google/reading-list", { params: angular.extend({}, defaultSettings, params) })
+                        .success(function(readerData){
+                            var returnData = {
+                                paging: { c: readerData.continuation },
+                                items: formatItems(readerData.items)
+                            };
 
-                        deferred.resolve(returnData);
-                    })
-                    .error(function(e){
-                        deferred.reject(e);
-                    });
+                            deferred.resolve(returnData);
+
+                            var cacheData = cache.data[cacheKey];
+
+                            if (!cacheData){
+                                cache.setItem(cacheKey, returnData)
+                            }
+                            else if (cacheData.items.length + returnData.items.length <= maxItemsToCache){
+                                cacheData.items = cacheData.items.concat(returnData.items);
+                                cacheData.paging = returnData.paging;
+                                cache.setItem(cacheKey, cacheData);
+                            }
+                        })
+                        .error(function(e){
+                            deferred.reject(e);
+                        });
+                }
 
                 return deferred.promise;
             },

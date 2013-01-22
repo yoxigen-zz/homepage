@@ -1,0 +1,14 @@
+{
+	"name": "RSS",
+	"modules": [
+		{ "name": "GoogleFeed", "dependencies": [] },
+		{ "name": "Rss", "dependencies": [] }
+	],
+    "resources": [
+		"google-feed.js",
+		"rss.controller.js"
+    ],
+	"html": {
+		"widget": "rss_reader.html"
+	}
+}

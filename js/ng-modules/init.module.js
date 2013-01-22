@@ -23,8 +23,10 @@ angular.module("HomepageInit", [])
                     widgetManifestData = widgetResults.data;
                     widgetName = widgetResults.config.url.match(/([\w\d_-]+)\.manifest\.json$/i)[1];
 
-                    if (widgetManifestData.module){
-                        angular.module(widgetManifestData.module, widgetManifestData.moduleDependencies || []);
+                    if (widgetManifestData.modules){
+                        widgetManifestData.modules.forEach(function(module){
+                            angular.module(module.name, module.dependencies || []);
+                        });
                     }
 
                     if (widgetManifestData.resources){
@@ -34,6 +36,7 @@ angular.module("HomepageInit", [])
                     }
                 });
 
+                angular.element(document.getElementById("appInit")).remove();
                 requirejs(requireJsUrls, function() {
                     angular.bootstrap(document, ["Homepage"]);
                 });

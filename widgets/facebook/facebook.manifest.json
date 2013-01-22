@@ -1,6 +1,8 @@
 {
-	"module": "Facebook",
     "name": "Facebook",
+	"modules": [
+		{ "name": "Facebook", "dependencies": [] }
+	],
     "resources": [
 		"facebook.service.js"
     ]

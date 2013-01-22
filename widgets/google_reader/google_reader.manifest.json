@@ -1,7 +1,8 @@
 {
 	"name": "Google Reader",
-	"module": "GoogleReader",
-	"moduleDependencies": ["Utils"],
+	"modules": [
+		{ "name": "GoogleReader", "dependencies": ["Utils", "Cache"] }
+	],
     "resources": [
 		"google_reader.service.js",
 		"google_reader.controller.js"
