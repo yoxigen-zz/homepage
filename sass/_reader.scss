@@ -13,19 +13,22 @@ $itemDetailsWidth: 120px;
     .icon{
       position: relative;
       top: 5px;
+    }
+
+    .item-header-btn{
       display: none;
       float: right;
     }
-    .icon-external-link{ top: 8px; }
-    &:hover{
-      .icon{ display: inline; text-decoration: none}
+    .icon-double-angle-right{
+      display: block;
     }
   }
+
+  .active .item-header-btn, .item-header:hover .item-header-btn{ display: block; text-decoration: none; }
 
   h4{
     font-size: 16pt;
     font-weight: normal;
-    float: left;
   }
 
   h5{ font-size: 12pt; font-weight: normal; margin-left: 20px; }
@@ -61,7 +64,6 @@ $itemDetailsWidth: 120px;
       .item-text{ margin: 0 !important }
       .item-header .icon-double-angle-right{
         -webkit-transform: rotateZ(90deg);
-        display: inline;
       }
     }
     &:after{
@@ -162,9 +164,8 @@ $itemDetailsWidth: 120px;
 
   [dir=rtl]{
     text-align: right;
-    .item-header .icon{ float: left; }
+    .item-header .item-header-btn{ float: left; }
     .item-header .icon-double-angle-right{ -webkit-transform: scaleX(-1) }
-    .item-header h4{ float: right }
     .item-details{
       float: right;
       .icon, .favicon{ margin-right: 0; margin-left: 6px; }

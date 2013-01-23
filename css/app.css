@@ -1026,15 +1026,18 @@ h1, h2, h3, h4, h5 {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 5px 5px 0 0; }
     .module .module-header a {
-      color: white; }
+      color: white;
+      margin-left: 10px; }
       .module .module-header a:hover {
         text-decoration: underline; }
     .module .module-header .module-icon {
       margin: 0 4px 0 0; }
     .module .module-header .module-settings-btn {
-      float: right; }
+      float: right;
+      color: rgba(255, 255, 255, 0.3); }
       .module .module-header .module-settings-btn:hover {
-        text-decoration: none; }
+        text-decoration: none;
+        color: white; }
       .module .module-header .module-settings-btn.refreshing .icon-refresh {
         -webkit-animation: rotating 2s linear infinite; }
     .module .module-header [dir=rtl] .module-settings-btn {
@@ -1220,18 +1223,18 @@ h1, h2, h3, h4, h5 {
     margin: 0 0 12px; }
     .items-list .item-header .icon {
       position: relative;
-      top: 5px;
+      top: 5px; }
+    .items-list .item-header .item-header-btn {
       display: none;
       float: right; }
-    .items-list .item-header .icon-external-link {
-      top: 8px; }
-    .items-list .item-header:hover .icon {
-      display: inline;
-      text-decoration: none; }
+    .items-list .item-header .icon-double-angle-right {
+      display: block; }
+  .items-list .active .item-header-btn, .items-list .item-header:hover .item-header-btn {
+    display: block;
+    text-decoration: none; }
   .items-list h4 {
     font-size: 16pt;
-    font-weight: normal;
-    float: left; }
+    font-weight: normal; }
   .items-list h5 {
     font-size: 12pt;
     font-weight: normal;
@@ -1264,8 +1267,7 @@ h1, h2, h3, h4, h5 {
       .items-list > li.active .item-text {
         margin: 0 !important; }
       .items-list > li.active .item-header .icon-double-angle-right {
-        -webkit-transform: rotateZ(90deg);
-        display: inline; }
+        -webkit-transform: rotateZ(90deg); }
     .items-list > li:after {
       content: "";
       clear: both;
@@ -1338,12 +1340,10 @@ h1, h2, h3, h4, h5 {
     margin-right: 3px; }
   .items-list [dir=rtl] {
     text-align: right; }
-    .items-list [dir=rtl] .item-header .icon {
+    .items-list [dir=rtl] .item-header .item-header-btn {
       float: left; }
     .items-list [dir=rtl] .item-header .icon-double-angle-right {
       -webkit-transform: scaleX(-1); }
-    .items-list [dir=rtl] .item-header h4 {
-      float: right; }
     .items-list [dir=rtl] .item-details {
       float: right; }
       .items-list [dir=rtl] .item-details .icon, .items-list [dir=rtl] .item-details .favicon {

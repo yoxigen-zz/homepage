@@ -94,7 +94,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
     a{
       color: $moduleHeaderLinkColor;
-
+      margin-left: 10px;
       &:hover{ text-decoration: underline }
     }
 
@@ -104,9 +104,11 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
     .module-settings-btn{
       float: right;
+      color: $headerBtnColor;
 
       &:hover{
         text-decoration: none;
+        color: $headerBtnColorHover;
       }
 
       &.refreshing .icon-refresh{

@@ -1,6 +1,9 @@
 <div>
     <h2 class="module-header">
         <a ng-click="login()" class="module-settings-btn" title="Settings"><i class="icon-cog"></i></a>
+        <a ng-click="loadFeed()" ng-disabled="refreshing" class="module-settings-btn" ng-class="{refreshing:loading}" title="Refresh">
+            <i class="icon-refresh"></i>
+        </a>
         <a href="{{feed.link}}" target="_blank"><img src="{{feed.icon || (feed.link | favicon)}}" class="favicon module-icon" /> {{feed.title}}</a>
     </h2>
     <ul class="module-content module-content-with-header items-list items-list-{{module.settings.display}}">
@@ -11,14 +14,11 @@
             ng-switch on="module.settings.display">
             <div ng-switch-when="full">
                 <div class="item-header clearfix">
-                    <a ng-click="setCurrentItem(item)" class="clearfix">
-                        <h4 ng-bind-html-unsafe="item.title"></h4>
-                    </a>
-                    <a ng-click="setCurrentItem(item)" class="clearfix" title="Expand">
+                    <a class="item-header-btn" ng-click="setCurrentItem(item)" class="clearfix" title="Expand">
                         <i class="icon icon-double-angle-right icon-large"></i>
                     </a>
-                    <a href="{{item.link}}" target="_blank" title="View original post">
-                        <i class="icon icon-external-link"></i>
+                    <a href="{{item.link}}" target="_blank" title="View original post" class="clearfix">
+                        <h4 ng-bind-html-unsafe="item.title"></h4>
                     </a>
                 </div>
                 <div class="item-details">
