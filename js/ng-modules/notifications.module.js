@@ -1,1 +1,1 @@
-angular.module("Notifications", ["OAuth", "CORS"]);
+angular.module("Notifications", ["OAuth"]);

@@ -1,4 +1,4 @@
-angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "corsHttp", function(oauth, $q, $http, corsHttp){
+angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", function(oauth, $q, $http){
     var apiKey = "132603783569142",
         appSecret = "ba840592bd31f05bec737573893f939e",
         graphApiUrl = "https://graph.facebook.com/",
@@ -57,24 +57,30 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", "c
 
                 if (oauthResult.isNew){
                     // Get a long-lived token:
-                    corsHttp.get({
-                        url: graphApiUrl + "oauth/access_token",
+                    $http.get(graphApiUrl + "oauth/access_token", {
                         params: {
                             client_id: apiKey,
                             client_secret: appSecret,
                             grant_type: "fb_exchange_token",
                             fb_exchange_token: fbOauth.token
-                        },
-                        parseResponse: true,
-                        success: function(data){
-                            fbOauth = {
-                                token: data.access_token,
-                                expires: new Date().valueOf() + parseInt(data.expires, 10) * 1000
-                            };
-
-                            oauth.setOauth("facebook", fbOauth);
                         }
-                    });
+                    }).success(function(data){
+                            var responseParams = data.split("&"),
+                                responseData = {},
+                                paramParts;
+
+                            responseParams.forEach(function(param){
+                                paramParts = param.split("=");
+                                responseData[paramParts[0]] = paramParts[1];
+                            });
+
+                        fbOauth = {
+                            token: responseData.access_token,
+                            expires: new Date().valueOf() + parseInt(responseData.expires, 10) * 1000
+                        };
+
+                        oauth.setOauth("facebook", fbOauth);
+                    })
                 }
             }, function(error){
                 console.error("Can't login to Facebook: ", error);

@@ -1,29 +1,32 @@
-<a ng-click="openNotifications()">
-    <i class="notification-icon" style="-webkit-mask-image: url(widgets/{{notification.id}}/icon.png)"></i>
-    <span ng-cloak ng-show="notification.unreadCount" class="notification-count">{{notification.unreadCount}}</span>
-</a>
-<div class="notificationsItems">
-    <header class="notifications-header">
-        <a href="{{notification.user.link}}">
-            <img class="notifications-user-image" ng-src="{{notification.user.image}}" ng-show="notification.user.image" />
-            <span ng-bind="notification.user.name || notification.name + ' notifications'"></span>
-        </a>
-    </header>
-    <div class="notificationItems-scroll">
-        <ul>
-            <li ng-repeat="item in notification.items" ng-class="{read:!item.unread}">
-                <a href="{{item.link}}" target="_blank" class="notification-item-link"></a>
-                <div class="notification-item-content clearfix">
-                    <img ng-src="{{item.image}}" class="notification-item-image" ng-show="item.image" />
-                    <div class="notification-item-text">
-                        <div ng-bind-html-unsafe="item.html"></div>
-                        <div class="notification-item-details">
-                            <img ng-src="{{item.icon}}" ng-show="item.icon" />
-                            <span>{{item.date | prettyDate}}</span>
+<div class="notification" ng-controller="NotificationsController" tabindex="1">
+    <a ng-mousedown="openNotifications()">
+        <i class="notification-icon" style="-webkit-mask-image: url(widgets/{{notification.id}}/icon.png)"></i>
+        <span ng-cloak ng-show="notification.unreadCount" class="notification-count">{{notification.unreadCount}}</span>
+        <span class="notification-close" tabindex="-1"></span>
+    </a>
+    <div class="notificationsItems">
+        <header class="notifications-header">
+            <a href="{{notification.user.link}}">
+                <img class="notifications-user-image" ng-src="{{notification.user.image}}" ng-show="notification.user.image" />
+                <span ng-bind="notification.user.name || notification.name + ' notifications'"></span>
+            </a>
+        </header>
+        <div class="notificationItems-scroll">
+            <ul>
+                <li ng-repeat="item in notification.items" ng-class="{read:!item.unread}">
+                    <a href="{{item.link}}" target="_blank" class="notification-item-link"></a>
+                    <div class="notification-item-content clearfix">
+                        <img ng-src="{{item.image}}" class="notification-item-image" ng-show="item.image" />
+                        <div class="notification-item-text">
+                            <div ng-bind-html-unsafe="item.html"></div>
+                            <div class="notification-item-details">
+                                <img ng-src="{{item.icon}}" ng-show="item.icon" />
+                                <span>{{item.date | prettyDate}}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

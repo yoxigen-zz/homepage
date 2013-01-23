@@ -12,7 +12,7 @@
       ng-init="slideshowImages=['img/backgrounds/YOX_1437.jpg','img/backgrounds/YOX_1091.jpg']">
     <header>
         <menu id="notifications">
-            <div class="notification" ng-repeat="notification in notifications" ng-controller="NotificationsController" ng-include="includes.notifications" tabindex="1"></div>
+            <ng-include src="includes.notifications" ng-repeat="notification in notifications"></ng-include>
         </menu>
         HomePage
     </header>
@@ -38,7 +38,6 @@
     <script src="js/ng-services/oauth.js"></script>
     <script src="js/ng-services/storage.js"></script>
     <script src="js/ng-services/cache.js"></script>
-    <script src="js/ng-services/cors_http.js"></script>
     <script src="js/ng-controllers/notification.controller.js"></script>
 
     <div id="appInit" ng-app="HomepageInit" ng-csp></div>

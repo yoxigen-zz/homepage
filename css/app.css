@@ -1075,11 +1075,21 @@ h1, h2, h3, h4, h5 {
     display: block;
     height: 100%;
     text-align: center;
-    line-height: 45px; }
+    line-height: 45px;
+    position: relative; }
     .notification > a:hover {
       background: rgba(255, 255, 255, 0.2); }
       .notification > a:hover .notification-icon {
         background: White; }
+    .notification > a .notification-close {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      outline: none;
+      display: none; }
   .notification .notification-count {
     display: block;
     position: absolute;
@@ -1172,6 +1182,8 @@ h1, h2, h3, h4, h5 {
     background: rgba(0, 0, 0, 0.8); }
     .notification:focus > a .notification-icon {
       background: White; }
+    .notification:focus > a .notification-close {
+      display: block; }
   .notification:focus .notificationsItems {
     display: block; }
 
