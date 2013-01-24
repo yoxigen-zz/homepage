@@ -1,10 +1,18 @@
-angular.module("Homepage").controller("NotificationsController", ["$scope", function($scope){
-    var notificationsService = angular.injector(["ng", 'Notifications']).get($scope.notification.id);
+angular.module("Homepage").controller("NotificationsController", ["$scope", "$timeout", function($scope, $timeout){
+    var notificationsService = angular.injector(["ng", 'Notifications']).get($scope.notification.id),
+        timeoutPromise;
 
-    function setNotifications(){
-        notificationsService.getNotifications().then(function(notifications){
+    function setNotifications(options){
+        $timeout.cancel(timeoutPromise);
+        $scope.loading = true;
+        notificationsService.getNotifications(options).then(function(notifications){
             $scope.notification.items = notifications.items;
             $scope.notification.unreadCount = notifications.unreadCount;
+            $scope.loading = false;
+
+            if ($scope.notification.refreshRate && angular.isNumber($scope.notification.refreshRate))
+                timeoutPromise = $timeout(setNotifications, $scope.notification.refreshRate * 1000);
+
             $scope.safeApply();
         });
     }
@@ -47,5 +55,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", func
             notificationsService.markAsRead(unreadItems);
             $scope.toggleNotifications($scope.notification);
         }
-    }
+    };
+
+    $scope.refresh = setNotifications;
 }]);

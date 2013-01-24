@@ -3,7 +3,7 @@
 		{
 			"name": "Facebook",
 			"id": "facebook",
-			"refreshInterval": 15000
+			"refreshRate": 15
 		}
 	],
 	"widgets": [

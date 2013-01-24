@@ -19,5 +19,7 @@ angular.module("Homepage").controller("RssController", ["$scope", "rss", "$timeo
         });
     }
 
+    $scope.refresh = $scope.loadFeed; // All items list use 'refresh', this is for consistency.
+
     $scope.loadFeed();
 }]);

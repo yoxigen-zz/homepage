@@ -43,6 +43,7 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
                     author: item.author && item.author.replace("noreply@blogger.com", ""),
                     link: item.alternate[0].href,
                     publishDate: new Date(item.published * 1000),
+                    creationDate: item.crawlTimeMsec,
                     feed: {
                         id: item.origin.streamId,
                         url: item.origin.htmlUrl,
@@ -163,8 +164,8 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
 
                 if (forceRefresh)
                     cache.removeItem(cacheKey);
-                else if (!params || !params.paging){
-                    cachePosts = cache.getItem(cacheKey);
+                else if (!params){
+                    cachePosts = cache.getItem(cacheKey, { hold: true });
                     if (cachePosts)
                         deferred.resolve(cachePosts)
                 }
@@ -182,12 +183,17 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
                             var cacheData = cache.data[cacheKey];
 
                             if (!cacheData){
-                                cache.setItem(cacheKey, returnData)
+                                cache.setItem(cacheKey, returnData, { hold: true })
+                            }
+                            else if (params.ot){ // newer items
+                                cacheData.items = returnData.items.concat(cacheData.items);
+                                cacheData.items = cacheData.items.slice(0, maxItemsToCache);
+                                cache.setItem(cacheKey, cacheData, { hold: true });
                             }
                             else if (cacheData.items.length + returnData.items.length <= maxItemsToCache){
                                 cacheData.items = cacheData.items.concat(returnData.items);
                                 cacheData.paging = returnData.paging;
-                                cache.setItem(cacheKey, cacheData);
+                                cache.setItem(cacheKey, cacheData, { hold: true });
                             }
                         })
                         .error(function(e){
@@ -212,6 +218,14 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
                             item.isRead = true;
                         });
                 });
+            },
+            refresh: function(options){
+                if (!options || !options.lastItem)
+                    return methods.getItems();
+
+                var lastItemDate = Number(options.lastItem.creationDate);
+                lastItemDate = Math.round(lastItemDate / 1000);
+                return methods.getItems({ ot: lastItemDate });
             }
         };
 

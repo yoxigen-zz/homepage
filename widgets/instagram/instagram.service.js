@@ -157,7 +157,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "Cache
                             cache.setItem(feed.id, normalizedData, { hold: true })
                         }
                         else{
-                            cacheData.items = params.max_id ? cacheData.items.concat(normalizedData.items) : normalizedData.concat(cacheData.items);
+                            cacheData.items = params.max_id ? cacheData.items.concat(normalizedData.items) : normalizedData.items.concat(cacheData.items);
                             if (cacheData.items.length > maxItemsToCache){
                                 cacheData.items = cacheData.items.slice(0, maxItemsToCache);
                                 cacheData.paging = { next_max_id: cacheData.items[cacheData.items.length - 1] };

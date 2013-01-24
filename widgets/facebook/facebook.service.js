@@ -115,9 +115,15 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", fu
 
             return deferred.promise;
         },
-        getNotifications: function(){
-            var deferred = $q.defer();
-            FB.fql("SELECT notification_id, created_time, icon_url, object_id, object_type, is_unread, sender_id, title_html, body_html, href FROM notification WHERE recipient_id=me()").then(
+        getNotifications: function(options){
+            var deferred = $q.defer(),
+                fqlQuery = "SELECT notification_id, created_time, icon_url, object_id, object_type, is_unread, sender_id, title_html, body_html, href FROM notification WHERE recipient_id=me()";
+
+            if (options && options.lastId){
+                fqlQuery += " AND notification_id > " + options.lastId;
+            }
+
+            FB.fql(fqlQuery).then(
                 function(response){
                     var notifications = { items: [], unreadCount: 0 };
                     angular.forEach(response.data.data, function(fbNotification){

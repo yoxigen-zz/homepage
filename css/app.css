@@ -994,6 +994,9 @@ h1, h2, h3, h4, h5 {
   to {
     -webkit-transform: rotate(360deg); } }
 
+.rotating {
+  -webkit-animation: rotating 2s linear infinite; }
+
 #content {
   position: absolute;
   top: 65px;
@@ -1026,15 +1029,15 @@ h1, h2, h3, h4, h5 {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 5px 5px 0 0; }
     .module .module-header a {
-      color: white;
-      margin-left: 10px; }
+      color: white; }
       .module .module-header a:hover {
         text-decoration: underline; }
     .module .module-header .module-icon {
       margin: 0 4px 0 0; }
     .module .module-header .module-settings-btn {
       float: right;
-      color: rgba(255, 255, 255, 0.3); }
+      color: rgba(255, 255, 255, 0.3);
+      margin-left: 10px; }
       .module .module-header .module-settings-btn:hover {
         text-decoration: none;
         color: white; }
@@ -1177,6 +1180,13 @@ h1, h2, h3, h4, h5 {
     padding: 3px;
     background: rgba(87, 198, 255, 0.2);
     margin-bottom: 3px; }
+  .notification .notifications-header-btn {
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+    color: rgba(255, 255, 255, 0.3); }
+    .notification .notifications-header-btn:hover {
+      color: white; }
   .notification .notifications-user-image {
     max-height: 30px;
     vertical-align: middle;

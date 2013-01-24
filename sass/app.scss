@@ -56,6 +56,10 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   to{ -webkit-transform: rotate(360deg); }
 }
 
+.rotating{
+  -webkit-animation: rotating 2s linear infinite;
+}
+
 #content{
   position: absolute;
   top: $headerHeight + $contentsPadding;
@@ -94,7 +98,6 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
     a{
       color: $moduleHeaderLinkColor;
-      margin-left: 10px;
       &:hover{ text-decoration: underline }
     }
 
@@ -105,6 +108,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     .module-settings-btn{
       float: right;
       color: $headerBtnColor;
+      margin-left: 10px;
 
       &:hover{
         text-decoration: none;

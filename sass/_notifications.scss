@@ -144,6 +144,16 @@
     background: rgba(87, 198, 255, .2);
     margin-bottom: 3px;
   }
+  .notifications-header-btn{
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+    color: $headerBtnColor;
+
+    &:hover{
+      color: $headerBtnColorHover;
+    }
+  }
   .notifications-user-image{
     max-height: 30px;
     vertical-align: middle;

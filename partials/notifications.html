@@ -7,6 +7,9 @@
     <div class="notificationsItems">
         <header class="notifications-header">
             <a href="{{notification.user.link}}">
+                <a class="notifications-header-btn" title="Refresh" ng-click="refresh()">
+                    <i class="icon-refresh" ng-class="{rotating:loading}"></i>
+                </a>
                 <img class="notifications-user-image" ng-src="{{notification.user.image}}" ng-show="notification.user.image" />
                 <span ng-bind="notification.user.name || notification.name + ' notifications'"></span>
             </a>

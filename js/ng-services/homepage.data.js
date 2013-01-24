@@ -8,7 +8,7 @@ angular.module("Homepage").factory("homepageData", ["$q","$http", function($q, $
                     {
                         name: "Facebook",
                         id: "facebook",
-                        refreshInterval: 15000
+                        refreshRate: 30
                     }
                 ],
                 widgets: [
