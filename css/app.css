@@ -967,6 +967,14 @@ body {
     padding: 0 15px;
     background: rgba(0, 0, 0, 0.5);
     color: white; }
+    body > header .logo {
+      position: relative;
+      top: 4px;
+      vertical-align: top;
+      margin-right: 5px; }
+    body > header h1 {
+      display: inline;
+      font-size: 14pt; }
 
 .clearfix::after {
   content: "";

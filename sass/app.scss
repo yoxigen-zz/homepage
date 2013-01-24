@@ -33,6 +33,18 @@ body{
     padding: $headerPadding;
     background: $headerBackgroundColor;
     color: $headerColor;
+
+    .logo{
+      position: relative;
+      top: 4px;
+      vertical-align: top;
+      margin-right: 5px;
+    }
+
+    h1{
+      display: inline;
+      font-size: 14pt;
+    }
   }
 }
 .clearfix::after{

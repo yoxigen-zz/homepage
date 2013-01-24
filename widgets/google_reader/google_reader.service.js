@@ -224,7 +224,7 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
                     return methods.getItems();
 
                 var lastItemDate = Number(options.lastItem.creationDate);
-                lastItemDate = Math.round(lastItemDate / 1000);
+                lastItemDate = Math.round(lastItemDate / 1000) + 1;
                 return methods.getItems({ ot: lastItemDate });
             }
         };
