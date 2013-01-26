@@ -1,6 +1,6 @@
 {
 	"modules": [
-		{ "name": "Instagram", "dependencies": ["OAuth", "Cache"] }
+		{ "name": "Instagram" }
 	],
     "name": "Instagram",
     "resources": [
@@ -10,5 +10,4 @@
 	"html": {
 		"widget": "instagram.html"
 	}
-
 }

@@ -1,4 +1,4 @@
-angular.module("Homepage").controller("RssController", ["$scope", "rss", "$timeout", function($scope, rss, $timeout){
+angular.module("Rss").controller("RssController", ["$scope", "rss", "$timeout", function($scope, rss, $timeout){
     var refreshRate = 300,
         timeoutPromise;
 

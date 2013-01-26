@@ -20,7 +20,6 @@ angular.module("Notifications").factory("gmail_notifications", ["oauth", "$q", "
             };
 
         entryData.html = "<strong>" + entryData.from.name + "</strong> &ndash; " + title;
-        console.log(entryData.from.name+ ": ", entry);
         return entryData;
     }
 

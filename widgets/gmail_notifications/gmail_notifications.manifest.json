@@ -1,7 +1,7 @@
 {
     "name": "Gmail Notifications",
 	"modules": [
-		{ "name": "GmailNotifications", "dependencies": ["Utils"] }
+		{ "name": "GmailNotifications", "dependencies": [] }
 	],
     "resources": [
 		"gmail_notifications.service.js"

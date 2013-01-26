@@ -1,4 +1,4 @@
-angular.module("Slideshow", []).directive("slideshow", function(){
+angular.module("Slideshow").directive("slideshow", function(){
     return {
         restrict: "A",
         require: '?ngModel',

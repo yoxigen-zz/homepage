@@ -1,4 +1,4 @@
-angular.module("Homepage").factory("homepageData", ["$q","$http", function($q, $http){
+angular.module("HomepageData", []).factory("homepageData", ["$q","$http", function($q){
     return {
         getData: function(){
             var deferred = $q.defer();
@@ -33,7 +33,7 @@ angular.module("Homepage").factory("homepageData", ["$q","$http", function($q, $
                             {
                                 htmlPath: "widgets/instagram/instagram.html",
                                 name: "Instagram"
-                            },
+                            }
                         ]
                     },
                     {

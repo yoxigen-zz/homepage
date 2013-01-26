@@ -1,0 +1,9 @@
+{
+	"name": "Slideshow",
+	"modules": [
+		{ "name": "Slideshow", "dependencies": [] }
+	],
+    "resources": [
+		"slideshow.directive.js"
+    ]
+}
