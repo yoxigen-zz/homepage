@@ -1151,7 +1151,7 @@ h1, h2, h3, h4, h5 {
     top: 100%;
     right: 0;
     width: 360px;
-    background: white;
+    background: #ebedee;
     color: #222222;
     z-index: 99999;
     line-height: 1.2em;
@@ -1169,7 +1169,7 @@ h1, h2, h3, h4, h5 {
     .notification .notificationsItems li {
       border-bottom: solid 1px rgba(0, 0, 0, 0.1);
       position: relative;
-      background: rgba(0, 159, 240, 0.2);
+      background: #9cb4bf;
       -webkit-transition: background 1s ease-out;
       -webkit-transition-delay: 5s; }
       .notification .notificationsItems li:last-child {
@@ -1185,7 +1185,7 @@ h1, h2, h3, h4, h5 {
       left: 0;
       width: 100%; }
       .notification .notificationsItems .notification-item-link:hover {
-        background: rgba(87, 198, 255, 0.2); }
+        background: #dae3e7; }
     .notification .notificationsItems .notification-item-image {
       float: left;
       margin: 0 8px 0px 0;
@@ -1201,11 +1201,12 @@ h1, h2, h3, h4, h5 {
       pointer-events: none;
       padding: 10px; }
       .notification .notificationsItems .notification-item-content:hover {
-        background: rgba(87, 198, 255, 0.2); }
+        background: #dae3e7; }
       .notification .notificationsItems .notification-item-content a {
-        color: #1786be; }
+        color: #015a86; }
         .notification .notificationsItems .notification-item-content a:hover {
-          color: black; }
+          color: #1786be;
+          text-decoration: underline; }
       .notification .notificationsItems .notification-item-content a, .notification .notificationsItems .notification-item-content .item-expand {
         pointer-events: auto; }
       .notification .notificationsItems .notification-item-content[dir=rtl] {
@@ -1240,7 +1241,7 @@ h1, h2, h3, h4, h5 {
     vertical-align: middle;
     margin-right: 3px; }
   .notification:focus > a {
-    background: white; }
+    background: #ebedee; }
     .notification:focus > a .notification-close {
       display: block; }
   .notification:focus .notificationsItems {
