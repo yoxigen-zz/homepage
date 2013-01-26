@@ -1,15 +1,15 @@
 <div class="notification" ng-controller="NotificationsController" tabindex="1">
     <a ng-mousedown="openNotifications()">
-        <i class="notification-icon" style="-webkit-mask-image: url(widgets/{{notification.id}}/icon.png)"></i>
+        <img class="notification-icon" ng-src="widgets/{{notification.id}}/icon.png" />
         <span ng-cloak ng-show="notification.unreadCount" class="notification-count">{{notification.unreadCount}}</span>
         <span class="notification-close" tabindex="-1"></span>
     </a>
     <div class="notificationsItems">
         <header class="notifications-header">
-            <a href="{{notification.user.link}}">
-                <a class="notifications-header-btn" title="Refresh" ng-click="refresh()">
-                    <i class="icon-refresh" ng-class="{rotating:loading}"></i>
-                </a>
+            <a class="notifications-header-btn" title="Refresh" ng-click="refresh()">
+                <i class="icon-refresh" ng-class="{rotating:loading}"></i>
+            </a>
+            <a class="notifications-user-link" href="{{notification.user.link}}" target="_blank">
                 <img class="notifications-user-image" ng-src="{{notification.user.image}}" ng-show="notification.user.image" />
                 <span ng-bind="notification.user.name || notification.name + ' notifications'"></span>
             </a>
@@ -18,10 +18,12 @@
             <ul>
                 <li ng-repeat="item in notification.items" ng-class="{read:!item.unread}">
                     <a href="{{item.link}}" target="_blank" class="notification-item-link"></a>
-                    <div class="notification-item-content clearfix">
+                    <div class="notification-item-content clearfix" dir="{{item.direction}}">
                         <img ng-src="{{item.image}}" class="notification-item-image" ng-show="item.image" />
-                        <div class="notification-item-text">
+                        <i class="icon-play item-expand" ng-class="{'item-expand-collapse':item==maximizedItem}" ng-click="toggleItem(item)" ng-show="item.summary"></i>
+                        <div class="notification-item-text" ng-class="{'notification-item-text-with-image':item.image}">
                             <div ng-bind-html-unsafe="item.html"></div>
+                            <p class="notification-item-summary" ng-show="item==maximizedItem" ng-bind-html-unsafe="item.summary"></p>
                             <div class="notification-item-details">
                                 <img ng-src="{{item.icon}}" ng-show="item.icon" />
                                 <span>{{item.date | prettyDate}}</span>
@@ -30,6 +32,9 @@
                     </div>
                 </li>
             </ul>
+        </div>
+        <div class="notifications-empty" ng-show="!notification.items.length">
+            No new notifications
         </div>
     </div>
 </div>

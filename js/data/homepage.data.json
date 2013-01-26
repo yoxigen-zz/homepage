@@ -4,12 +4,18 @@
 			"name": "Facebook",
 			"id": "facebook",
 			"refreshRate": 15
+		},
+		{
+			"name": "Gmail",
+			"id": "gmail_notifications",
+			"refreshRate": 150
 		}
 	],
 	"widgets": [
 		"instagram",
 		"google_reader",
 		"facebook",
+		"gmail_notifications",
 		"rss"
 	]
 }

@@ -1,13 +1,5 @@
 angular.module("HomepageInit", [])
     .run(function($http, $q){
-        function addScript(src){
-            var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = src;  console.log("apend chodl ", src);
-            document.body.appendChild(s);
-        }
-
         $http.get("js/data/homepage.data.json").then(function(initData){
             var widgetPromises = [];
             initData.data.widgets.forEach(function(widgetName){
@@ -31,7 +23,7 @@ angular.module("HomepageInit", [])
 
                     if (widgetManifestData.resources){
                         widgetManifestData.resources.forEach(function(resourceUrl){
-                            requireJsUrls.push("widgets/" + widgetName + "/" + resourceUrl);
+                            requireJsUrls.push("widgets/" + widgetName + "/" + resourceUrl + "?d=" + new Date().valueOf());
                         });
                     }
                 });

@@ -72,6 +72,40 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   -webkit-animation: rotating 2s linear infinite;
 }
 
+.item-expand{
+  float: left;
+  cursor: pointer;
+  width: .8em;
+  text-align: left;
+  color: rgba(255,255,255,.5);
+  -webkit-transform: translateX(0px) translateY(2px) scaleX(.55) scaleY(.9);
+  transform: translateX(0px) translateY(2px) scaleX(.55) scaleY(.9);
+  -webkit-transition: -webkit-transform 200ms ease-out;
+  transition: -webkit-transform 200ms ease-out;
+  margin: 0 0 0 -6px;
+
+  &.item-expand-collapse{
+    -webkit-transform: translateX(0px) translateY(1px) scaleX(.9) scaleY(.55) rotateZ(90deg);
+    transform: translateX(0px) translateY(1px) scaleX(.9) scaleY(.55) rotateZ(90deg);
+  }
+
+  &:hover{ color: White }
+}
+[dir=rtl]{
+  .item-expand{
+    float: right;
+    text-align: right;
+    -webkit-transform: translateX(0px) translateY(2px) scaleX(-.55) scaleY(.9);
+    transform: translateX(0px) translateY(2px) scaleX(-.55) scaleY(.9);
+    margin: 0 -6px 0 0;
+
+    &.item-expand-collapse{
+      -webkit-transform: translateX(0px) translateY(3px) scaleX(-.9) scaleY(.55) rotateZ(90deg);
+      transform: translateX(0px) translateY(3px) scaleX(-.9) scaleY(.55) rotateZ(90deg);
+    }
+  }
+}
+
 #content{
   position: absolute;
   top: $headerHeight + $contentsPadding;

@@ -101,7 +101,8 @@ angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", fu
                     var user = {
                         id: me.data.id,
                         name: me.data.name,
-                        link: me.data.link,
+                        //link: me.data.link,
+                        link: "http://www.facebook.com", // For the current user, the news feed makes more sense than the user's own page.
                         locale: me.data.locale,
                         image: getProfileImage(me.data.id)
                     };

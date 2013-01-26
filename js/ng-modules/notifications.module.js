@@ -1,1 +1,1 @@
-angular.module("Notifications", ["OAuth"]);
+angular.module("Notifications", ["OAuth", "Utils"]);

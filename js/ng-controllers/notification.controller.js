@@ -57,5 +57,12 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
         }
     };
 
+    $scope.toggleItem = function(item){
+        if ($scope.maximizedItem === item)
+            $scope.maximizedItem = null;
+        else
+            $scope.maximizedItem = item;
+    };
+
     $scope.refresh = setNotifications;
 }]);

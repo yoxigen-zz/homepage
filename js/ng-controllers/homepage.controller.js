@@ -25,8 +25,8 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "homepage
     };
 
     $scope.includes = {
-        itemsList: "partials/items_list.html",
-        notifications: "partials/notifications.html",
-        thumbnails: "partials/thumbnails.html"
+        itemsList: "partials/items_list.html?d=" + new Date().valueOf(),
+        notifications: "partials/notifications.html?d=" + new Date().valueOf(),
+        thumbnails: "partials/thumbnails.html?d=" + new Date().valueOf()
     };
 }]);

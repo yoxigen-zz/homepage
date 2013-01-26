@@ -40,7 +40,7 @@
                     <div class="item-details">
                         <span><i class="icon icon-time"></i>{{item.publishDate | prettyDate:true}}</span>
                     </div>
-                    <i class="icon-play item-headline-expand" ng-class="{'item-headline-collapse':item.isOpen}" ng-click="item.isOpen=!item.isOpen"></i>
+                    <i class="icon-play item-expand" ng-class="{'item-expand-collapse':item.isOpen}" ng-click="item.isOpen=!item.isOpen"></i>
                     <a href="{{item.link}}" target="_blank"><h5 ng-bind-html-unsafe="item.title"></h5></a>
                     <p class="item-text-summary" ng-bind="item.summary" ng-show="item.isOpen"></p>
                 </div>

@@ -9,6 +9,11 @@ angular.module("Homepage").factory("homepageData", ["$q","$http", function($q, $
                         name: "Facebook",
                         id: "facebook",
                         refreshRate: 30
+                    },
+                    {
+                        name: "Gmail",
+                        id: "gmail_notifications",
+                        refreshRate: 30
                     }
                 ],
                 widgets: [
