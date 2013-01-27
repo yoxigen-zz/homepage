@@ -9,5 +9,16 @@
     ],
 	"html": {
 		"widget": "instagram.html"
+	},
+	"settingsOptions": [
+		{
+			"display": "Refresh rate",
+			"name": "refreshRate",
+			"type": "number",
+			"appendix": " seconds"
+		}
+	],
+	"settings": {
+		"refreshRate": 300
 	}
 }

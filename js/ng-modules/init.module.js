@@ -1,5 +1,5 @@
-angular.module("HomepageInit", [])
-    .run(function($http, $q, $rootScope){
+angular.module("HomepageInit", ["HomepageModel"])
+    .run(function($http, $q, $rootScope, model){
         if (!$rootScope.safeApply) {
             $rootScope.safeApply = function(fn) {
                 var phase = this.$root.$$phase;
@@ -13,49 +13,18 @@ angular.module("HomepageInit", [])
             };
         }
 
-        function loadWidgets(moduleType){
-            var deferred = $q.defer();
-
-            var widgetPromises = [];
-            moduleType.widgets.forEach(function(module){
-                widgetPromises.push($http.get("widgets/" + module.name + "/" + module.name + ".manifest.json"));
-            });
-
-            $q.all(widgetPromises).then(function(widgetsResults){
-                var widgetName,
-                    widgetManifestData,
-                    resources = [],
-                    dependencies = moduleType.module.dependencies || [];
-
-                widgetsResults.forEach(function(widgetResults){
-                    widgetManifestData = widgetResults.data;
-                    widgetName = widgetResults.config.url.match(/([\w\d_-]+)\.manifest\.json$/i)[1];
-
-                    if (widgetManifestData.modules){
-                        widgetManifestData.modules.forEach(function(module){
-                            if (module.dependencies && angular.isArray(module.dependencies)){
-                                module.dependencies.forEach(function(dependency){
-                                    if (!~dependencies.indexOf(dependency))
-                                        dependencies.push(dependency);
-                                });
-                            }
-                            dependencies.push(module.name);
-                            angular.module(module.name, module.dependencies || []);
-                        });
-                    }
-
-                    if (widgetManifestData.resources){
-                        widgetManifestData.resources.forEach(function(resourceUrl){
-                            resources.push("widgets/" + widgetName + "/" + resourceUrl + "?d=" + new Date().valueOf());
-                        });
-                    }
-                });
-
-                deferred.resolve({ resources: resources, dependencies: dependencies, moduleType: moduleType });
-            });
-
-            return deferred.promise;
-        }
+        var appDependencies = [
+                "Utils",
+                "PrettyDate",
+                "FavIcon",
+                "OAuth",
+                "Cache",
+                "HomepageModel"
+            ],
+            appResources = [
+                "js/ng-controllers/homepage.controller.js?d=" + new Date().valueOf(),
+                "js/ng-controllers/notification.controller.js?d=" + new Date().valueOf()
+            ];
 
         function loadResources(urls){
             var deferred = $q.defer();
@@ -67,50 +36,63 @@ angular.module("HomepageInit", [])
             return deferred.promise;
         }
 
-        $http.get("js/data/homepage.data.json").then(function(initData){
-            var modulePromises = [],
-                mainResourcesPromises = [];
+        model.getModel().then(function(model){
+            var dependencies = [],
+                resources = [],
+                ngModule;
 
-            initData.data.modules.forEach(function(module){
-                if (module.module || module.widgets)
-                    modulePromises.push(loadWidgets(module));
+            function getDependenciesAndResources(module){
+                if (module.modules){
+                    module.modules.forEach(function(module){
+                        if (module.dependencies && angular.isArray(module.dependencies)){
+                            module.dependencies.forEach(function(dependency){
+                                if (!~dependencies.indexOf(dependency))
+                                    dependencies.push(dependency);
+                            });
+                        }
 
-                if (module.resources)
-                    mainResourcesPromises.push(loadResources(module.resources));
+                        if (!~dependencies.indexOf(module.name))
+                            dependencies.push(module.name);
+
+                        angular.module(module.name, module.dependencies || []);
+                    });
+                }
+
+                if (module.resources){
+                    module.resources.forEach(function(resourceUrl){
+                        resources.push("widgets/" + module.id + "/" + resourceUrl + "?d=" + new Date().valueOf());
+                    });
+                }
+            }
+
+            angular.forEach(model, function(type, typeName){
+                angular.forEach(type, function(module){
+                    if (angular.isArray(module))
+                        angular.forEach(module, getDependenciesAndResources);
+                    else
+                        getDependenciesAndResources(module);
+                });
             });
 
-            $q.all(mainResourcesPromises).then(function(){
-                $q.all(modulePromises).then(function(widgetsResults){
-                    var requireJsUrls = [
-                            "js/ng-controllers/homepage.controller.js",
-                            "js/ng-controllers/notification.controller.js"
-                        ],
-                        ngModule;
-
-                    widgetsResults.forEach(function(widgetResults){
-                        requireJsUrls = requireJsUrls.concat(widgetResults.resources);
-                        ngModule = angular.module(widgetResults.moduleType.module.name, widgetResults.dependencies);
-                        ngModule.run(function($rootScope){
-                            if (!$rootScope.safeApply) {
-                                $rootScope.safeApply = function(fn) {
-                                    var phase = this.$root.$$phase;
-                                    if(phase == '$apply' || phase == '$digest') {
-                                        if(fn && (typeof(fn) === 'function')) {
-                                            fn();
-                                        }
-                                    } else {
-                                        this.$apply(fn);
-                                    }
-                                };
+            ngModule = angular.module("Homepage", appDependencies.concat(dependencies));
+            ngModule.run(function($rootScope){
+                if (!$rootScope.safeApply) {
+                    $rootScope.safeApply = function(fn) {
+                        var phase = this.$root.$$phase;
+                        if(phase == '$apply' || phase == '$digest') {
+                            if(fn && (typeof(fn) === 'function')) {
+                                fn();
                             }
-                        })
-                    });
+                        } else {
+                            this.$apply(fn);
+                        }
+                    };
+                }
+            });
 
-                    angular.element(document.getElementById("appInit")).remove();
-                    requirejs(requireJsUrls, function() {
-                        angular.bootstrap(document, ["Homepage"]);
-                    });
-                });
+            angular.element(document.getElementById("appInit")).remove();
+            requirejs(appResources.concat(resources), function() {
+                angular.bootstrap(document, ["Homepage"]);
             });
         });
     });

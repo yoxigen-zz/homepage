@@ -1,7 +1,7 @@
-angular.module("Homepage").controller("HomepageController", ["$scope", "homepageData", function($scope, homepageData){
-    homepageData.getData().then(function(data){
-        $scope.notifications = data.notifications;
-        $scope.widgets = data.widgets;
+angular.module("Homepage").controller("HomepageController", ["$scope", "model", function($scope, model){
+    model.getModel().then(function(modelData){
+        $scope.notifications = modelData.notifications;
+        $scope.widgets = modelData.widgets;
     });
 
     var currentNotificationsType;

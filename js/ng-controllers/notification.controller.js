@@ -1,5 +1,5 @@
 angular.module("Homepage").controller("NotificationsController", ["$scope", "$timeout", function($scope, $timeout){
-    var notificationsService = angular.injector(["ng", 'Notifications']).get($scope.notification.id),
+    var notificationsService = angular.injector(["ng", 'Homepage']).get($scope.notification.id),
         timeoutPromise;
 
     function setNotifications(options){
@@ -10,8 +10,8 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
             $scope.notification.unreadCount = notifications.unreadCount;
             $scope.loading = false;
 
-            if ($scope.notification.refreshRate && angular.isNumber($scope.notification.refreshRate))
-                timeoutPromise = $timeout(setNotifications, $scope.notification.refreshRate * 1000);
+            if ($scope.notification.refreshRate && angular.isNumber($scope.notification.settings.refreshRate))
+                timeoutPromise = $timeout(setNotifications, $scope.notification.settings.refreshRate * 1000);
 
             $scope.safeApply();
         });

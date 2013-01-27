@@ -114,7 +114,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "Cache
                     clientId: clientId,
                     scope: "basic likes comments relationships"
                 }).then(function(oauthResult){
-                    igOauth = oauthResult;
+                    igOauth = oauthResult.oauth;
                     deferred.resolve(igOauth);
                 });
             }
@@ -142,7 +142,7 @@ angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "Cache
             }
 
             if (!feedCache){
-                $http.jsonp("https://api.instagram.com/v1/" + feed.endpoint + "?callback=JSON_CALLBACK", { params: angular.extend({ access_token: igOauth.token, count: 20 }, params) })
+                $http.jsonp("https://api.instagram.com/v1/" + feed.endpoint + "?callback=JSON_CALLBACK", { params: angular.extend(params, { access_token: igOauth.token, count: 20 }) })
                     .then(function(igData){
                         var normalizedData = {
                             paging: { next_max_id: igData.data.pagination.next_max_id },

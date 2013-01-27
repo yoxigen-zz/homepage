@@ -5,5 +5,16 @@
 	],
     "resources": [
 		"facebook.service.js"
-    ]
+    ],
+	"settingsOptions": [
+		{
+			"display": "Refresh rate",
+			"name": "refreshRate",
+			"type": "number",
+			"appendix": " seconds"
+		}
+	],
+	"settings": {
+		"refreshRate": 30
+	}
 }

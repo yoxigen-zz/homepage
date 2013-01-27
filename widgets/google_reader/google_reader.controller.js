@@ -1,5 +1,5 @@
 angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "$timeout", "googleReader", function($scope, $timeout, googleReader){
-    var refreshRate = 300,
+    var refreshRate = $scope.module.settings.refreshRate,
         timeoutPromise;
 
     $scope.feed = {

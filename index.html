@@ -19,15 +19,23 @@
     </header>
     <div id="content">
         <div ng-repeat="column in widgets" class="column" ng-style="{ width: (100 / widgets.length) + '%' }">
-            <div ng-repeat="module in column.modules" class="module-wrapper" ng-style="{ height: (100 / column.modules.length) + '%' }">
-                <div ng-include="module.htmlPath" class="module"></div>
+            <div ng-repeat="module in column" class="module-wrapper" ng-style="{ height: (100 / column.length) + '%' }">
+                <div ng-include="module.html.widget" class="module"></div>
             </div>
         </div>
     </div>
 
     <script src="js/lib/angular.min.js"></script>
     <script src="js/lib/require.js"></script>
+    <script src="js/ng-services/storage.js"></script>
+    <script src="js/ng-services/model.service.js"></script>
+
     <script src="js/ng-modules/init.module.js"></script>
+    <script src="js/ng-modules/utils.js"></script>
+    <script src="js/ng-filters/prettydate.js"></script>
+    <script src="js/ng-filters/favicon.filter.js"></script>
+    <script src="js/ng-services/oauth.js"></script>
+    <script src="js/ng-services/cache.js"></script>
 
     <div id="appInit" ng-app="HomepageInit" ng-csp></div>
 </body>

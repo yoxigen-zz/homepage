@@ -1,4 +1,4 @@
-angular.module("Notifications").factory("facebook", [ "oauth", "$q", "$http", function(oauth, $q, $http){
+angular.module("Facebook").factory("facebook", [ "oauth", "$q", "$http", function(oauth, $q, $http){
     var apiKey = "132603783569142",
         appSecret = "ba840592bd31f05bec737573893f939e",
         graphApiUrl = "https://graph.facebook.com/",

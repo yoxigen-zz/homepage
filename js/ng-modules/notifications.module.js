@@ -1,1 +1,0 @@
-angular.module("Notifications", ["OAuth", "Utils"]);

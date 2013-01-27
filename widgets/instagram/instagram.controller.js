@@ -1,6 +1,6 @@
 angular.module("Instagram").controller("InstagramController", ["$scope", "instagram", "$timeout", function($scope, instagram, $timeout){
     var nextPage,
-        refreshRate = 300,
+        refreshRate = $scope.module.settings.refreshRate,
         timeoutPromise;
 
     $scope.currentFeed = instagram.feeds[0];
@@ -9,7 +9,6 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
     $scope.login = function(){
         instagram.login().then(function(oauth){
             $scope.isLoggedIn = true;
-            $scope.loadFeed($scope.currentFeed);
             getItems();
         });
     };

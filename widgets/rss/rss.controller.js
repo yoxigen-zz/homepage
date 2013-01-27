@@ -1,5 +1,5 @@
 angular.module("Rss").controller("RssController", ["$scope", "rss", "$timeout", function($scope, rss, $timeout){
-    var refreshRate = 300,
+    var refreshRate = $scope.module.settings.refreshRate,
         timeoutPromise;
 
     $scope.loadFeed = function(){

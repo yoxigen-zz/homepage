@@ -10,5 +10,28 @@
     ],
 	"html": {
 		"widget": "rss_reader.html"
+	},
+	"settingsOptions": [
+		{
+			"display": "Display mode",
+			"name": "display",
+			"type": "select",
+			"options": [ { "value": "headlines", "display": "Headlines" }, { "value": "full", "display": "Full" } ]
+		},
+		{
+			"display": "Refresh rate",
+			"name": "refreshRate",
+			"type": "number",
+			"appendix": " seconds"
+		},
+		{
+			"display": "Feed URL",
+			"name": "feed",
+			"type": "text"
+		}
+	],
+	"settings": {
+		"display": "headlines",
+		"refreshRate": 300
 	}
 }

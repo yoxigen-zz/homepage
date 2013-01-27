@@ -9,5 +9,23 @@
     ],
 	"html": {
 		"widget": "google_reader.html"
+	},
+	"settingsOptions": [
+		{
+			"display": "Display mode",
+			"name": "display",
+			"type": "select",
+			"options": [ { "value": "headlines", "display": "Headlines" }, { "value": "full", "display": "Full" } ]
+		},
+		{
+			"display": "Refresh rate",
+			"name": "refreshRate",
+			"type": "number",
+			"appendix": " seconds"
+		}
+	],
+	"settings": {
+		"display": "full",
+		"refreshRate": 300
 	}
 }
