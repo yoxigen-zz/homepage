@@ -17,7 +17,7 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
         instagram.load(feed).then(function(igData){
             $scope.items = igData.items;
             nextPage = igData.paging;
-        });
+        }, handleError);
     };
 
     $scope.refresh = function(){
@@ -30,8 +30,14 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
             $scope.items = igData.items.concat($scope.items);
             $scope.refreshing = false;
             timeoutPromise = $timeout($scope.refresh, refreshRate * 1000);
-        });
+        }, handleError);
     };
+
+    function handleError(error){
+        console.error("Can't get Instagram items. Error: ", error);
+        $scope.refreshing = false;
+        timeoutPromise = $timeout($scope.refresh, refreshRate * 1000);
+    }
 
     function getItems(){
         $scope.loadFeed($scope.currentFeed);
