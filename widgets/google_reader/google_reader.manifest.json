@@ -1,5 +1,7 @@
 {
 	"name": "Google Reader",
+	"link": "http://www.google.com/reader",
+	"icon": "http://www.google.com/reader/ui/favicon.ico",
 	"modules": [
 		{ "name": "GoogleReader", "dependencies": ["Utils", "Cache"] }
 	],

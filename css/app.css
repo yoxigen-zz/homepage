@@ -1134,7 +1134,7 @@ h1, h2, h3, h4, h5 {
     position: absolute;
     bottom: 4px;
     right: 4px;
-    background: Red;
+    background: #ec0000;
     border-radius: 3px;
     color: white;
     font-size: 11px;
@@ -1165,7 +1165,7 @@ h1, h2, h3, h4, h5 {
     .notification .notificationsItems ul {
       list-style: none;
       margin: 0;
-      padding: 0; }
+      padding: 0 0 0 6px; }
     .notification .notificationsItems li {
       border-bottom: solid 1px rgba(0, 0, 0, 0.1);
       position: relative;

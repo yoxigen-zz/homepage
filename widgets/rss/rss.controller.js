@@ -1,25 +1,24 @@
-angular.module("Rss").controller("RssController", ["$scope", "rss", "$timeout", function($scope, rss, $timeout){
-    var refreshRate = $scope.module.settings.refreshRate,
-        timeoutPromise;
-
+angular.module("Rss").controller("RssController", ["$scope", "rss", function($scope, rss){
     $scope.loadFeed = function(){
-        $scope.loading = true;
-        $timeout.cancel(timeoutPromise);
-
         rss.load($scope.module.settings.feed).then(function(feeds){
             $scope.feed = feeds[0];
             $scope.moduleStyle = {
                 height: (100 / feeds.length) + "%"
             };
 
-            $scope.loading = false;
-            timeoutPromise = $timeout($scope.loadFeed, refreshRate * 1000);
-        }, function(error){
-            $scope.loading = false;
-        });
+            $scope.module.name = $scope.feed.title;
+            $scope.module.link = $scope.feed.link;
+
+            $scope.$emit("load", { module: $scope.module.name, count: $scope.feed.items.length });
+        }, handleError);
     }
 
-    $scope.refresh = $scope.loadFeed; // All items list use 'refresh', this is for consistency.
+    $scope.$on("refresh", $scope.loadFeed);
+
+    function handleError(error){
+        console.error("Can't get Google Reader items. Error: ", error);
+        $scope.$emit("loadError", { module: $scope.module.name, error: error });
+    }
 
     $scope.loadFeed();
 }]);

@@ -1,7 +1,5 @@
-angular.module("Instagram").controller("InstagramController", ["$scope", "instagram", "$timeout", function($scope, instagram, $timeout){
-    var nextPage,
-        refreshRate = $scope.module.settings.refreshRate,
-        timeoutPromise;
+angular.module("Instagram").controller("InstagramController", ["$scope", "instagram", function($scope, instagram){
+    var nextPage;
 
     $scope.currentFeed = instagram.feeds[0];
 
@@ -17,31 +15,24 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
         instagram.load(feed).then(function(igData){
             $scope.items = igData.items;
             nextPage = igData.paging;
+            $scope.$emit("load", { module: $scope.module.name, count: igData.items.length });
         }, handleError);
     };
 
-    $scope.refresh = function(){
-        if ($scope.refreshing)
-            return false;
-
-        $timeout.cancel(timeoutPromise);
-        $scope.refreshing = true;
+    $scope.$on("refresh", function(){
         instagram.getNewItems($scope.currentFeed, $scope.items[0].id).then(function(igData){
             $scope.items = igData.items.concat($scope.items);
-            $scope.refreshing = false;
-            timeoutPromise = $timeout($scope.refresh, refreshRate * 1000);
+            $scope.$emit("load", { module: $scope.module.name, count: igData.items.length });
         }, handleError);
-    };
+    });
 
     function handleError(error){
         console.error("Can't get Instagram items. Error: ", error);
-        $scope.refreshing = false;
-        timeoutPromise = $timeout($scope.refresh, refreshRate * 1000);
+        $scope.$emit("loadError", { module: $scope.module.name, error: error });
     }
 
     function getItems(){
         $scope.loadFeed($scope.currentFeed);
-        timeoutPromise = $timeout($scope.refresh, refreshRate * 1000);
     }
     if (instagram.loggedIn){
         getItems();

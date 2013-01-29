@@ -10,7 +10,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
             $scope.notification.unreadCount = notifications.unreadCount;
             $scope.loading = false;
 
-            if ($scope.notification.refreshRate && angular.isNumber($scope.notification.settings.refreshRate))
+            if ($scope.notification.settings.refreshRate && angular.isNumber($scope.notification.settings.refreshRate))
                 timeoutPromise = $timeout(setNotifications, $scope.notification.settings.refreshRate * 1000);
 
             $scope.safeApply();

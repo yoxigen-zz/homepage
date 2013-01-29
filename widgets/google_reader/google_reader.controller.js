@@ -1,7 +1,4 @@
-angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "$timeout", "googleReader", function($scope, $timeout, googleReader){
-    var refreshRate = $scope.module.settings.refreshRate,
-        timeoutPromise;
-
+angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "googleReader", function($scope, googleReader){
     $scope.feed = {
         title: "Google Reader",
         icon: "http://www.google.com/reader/ui/favicon.ico",
@@ -12,8 +9,8 @@ angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "
 
     googleReader.getItems().then(function(readerData){
         $scope.feed.items = readerData.items;
-        timeoutPromise = $timeout($scope.refresh, refreshRate * 1000);
-    });
+        $scope.$emit("load", { module: $scope.module.name, count: readerData.items.length });
+    }, handleError);
 
     $scope.setCurrentItem = function(item){
         $scope.currentItem = item === $scope.currentItem ? null : item;
@@ -35,23 +32,21 @@ angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "
         }
     };
 
-    $scope.refresh = function(){
-        if ($scope.refreshing)
-            return false;
-
-        $scope.loading = true;
-        $timeout.cancel(timeoutPromise);
-
+    $scope.$on("refresh", function(){
         googleReader.refresh({ lastItem: $scope.feed.items[0] }).then(function(readerData){
             if (readerData.items && readerData.items.length){
                 $scope.feed.items = readerData.items.concat($scope.feed.items);
                 $scope.safeApply();
             }
 
-            $scope.loading = false;
-            timeoutPromise = $timeout($scope.refresh, refreshRate * 1000);
-        });
-    };
+            $scope.$emit("load", { module: $scope.module.name, count: readerData.items.length });
+        }, handleError);
+    });
+
+    function handleError(error){
+        console.error("Can't get Google Reader items. Error: ", error);
+        $scope.$emit("loadError", { module: $scope.module.name, error: error });
+    }
 
     if (googleReader.isAuthorized)
         $scope.currentUser = googleReader.getCurrentUser();

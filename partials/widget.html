@@ -1,0 +1,10 @@
+<div class="module" ng-controller="WidgetController">
+    <h2 class="module-header">
+        <a class="module-settings-btn" title="Settings"><i class="icon-cog"></i></a>
+        <a ng-show="module.settings.refreshRate" ng-click="refresh()" ng-disabled="refreshing" class="module-settings-btn" ng-class="{refreshing:loading}" title="Refresh">
+            <i class="icon-refresh"></i>
+        </a>
+        <a href="{{module.link}}" target="_blank"><img src="{{module.icon || (module.link | favicon)}}" class="favicon module-icon" /> {{module.name}}</a>
+    </h2>
+    <div class="module-content module-content-with-header" ng-include="module.html.widget"></div>
+</div>

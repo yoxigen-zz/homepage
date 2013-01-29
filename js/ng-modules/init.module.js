@@ -23,7 +23,8 @@ angular.module("HomepageInit", ["HomepageModel"])
             ],
             appResources = [
                 "js/ng-controllers/homepage.controller.js?d=" + new Date().valueOf(),
-                "js/ng-controllers/notification.controller.js?d=" + new Date().valueOf()
+                "js/ng-controllers/notification.controller.js?d=" + new Date().valueOf(),
+                "js/ng-controllers/widget.controller.js?d=" + new Date().valueOf()
             ];
 
         function loadResources(urls){
