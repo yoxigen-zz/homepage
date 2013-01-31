@@ -61,7 +61,7 @@ angular.module("HomepageInit", ["HomepageModel"])
 
                 if (module.resources){
                     module.resources.forEach(function(resourceUrl){
-                        resources.push("widgets/" + module.id + "/" + resourceUrl + "?d=" + new Date().valueOf());
+                        resources.push("widgets/" + module.id + "/" + resourceUrl);
                     });
                 }
             }

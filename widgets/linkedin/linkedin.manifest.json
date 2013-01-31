@@ -1,0 +1,22 @@
+{
+    "name": "LinkedIn",
+	"modules": [
+		{ "name": "LinkedIn", "dependencies": ["OAuth1"] }
+	],
+    "resources": [
+		"linkedin.js",
+		"sha1.js",
+		"oauth1.js"
+    ],
+	"settingsOptions": [
+		{
+			"label": "Refresh rate",
+			"name": "refreshRate",
+			"type": "number",
+			"appendix": " seconds"
+		}
+	],
+	"settings": {
+		"refreshRate": 60
+	}
+}

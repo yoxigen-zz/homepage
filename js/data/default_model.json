@@ -1,6 +1,7 @@
 {
 	"notifications": [
 		{ "id": "facebook" },
+		{ "id": "linkedin" },
 		{ "id": "gmail_notifications" }
 	],
 	"widgets": [
