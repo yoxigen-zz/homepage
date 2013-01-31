@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html ng-csp>
+<html ng-csp ng-controller="HomepageController">
 <head>
-    <title>Homepage</title>
+    <title ng-bind="pageTitle">Homepage</title>
     <link href='http://fonts.googleapis.com/css?family=Muli:400,400italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/app.css" />
     <link rel="icon" href="img/icon128.png" type="image/x-icon">
 </head>
-<body ng-controller="HomepageController"
+<body
       slideshow
       slideshow-interval="60"
       ng-model="slideshowImages"

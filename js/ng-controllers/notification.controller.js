@@ -6,6 +6,8 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
         $timeout.cancel(timeoutPromise);
         $scope.loading = true;
         notificationsService.getNotifications(options).then(function(notifications){
+            $scope.$emit("notificationsChange", { countChange: notifications.unreadCount - ($scope.notification.unreadCount || 0) });
+
             $scope.notification.items = notifications.items;
             $scope.notification.unreadCount = notifications.unreadCount;
             $scope.loading = false;
@@ -39,7 +41,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
                 setCurrentUser();
             });
         }
-        else{
+        else {
             if ($scope.notification.unreadCount){
                 var unreadItems = [];
                 angular.forEach($scope.notification.items, function(item){
@@ -49,11 +51,11 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
                     }
                 });
 
+                $scope.$emit("notificationsChange", { countChange: -1 * $scope.notification.unreadCount });
                 $scope.notification.unreadCount = 0;
             }
 
             notificationsService.markAsRead(unreadItems);
-            $scope.toggleNotifications($scope.notification);
         }
     };
 
