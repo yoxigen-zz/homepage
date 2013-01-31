@@ -7,11 +7,19 @@ $headerColor: White;
 $headerBackgroundColor: rgba(0,0,0,.5);
 $headerBtnColor: rgba(255,255,255,.3);
 $headerBtnColorHover: rgba(255,255,255,1);
+$headerBtnColorActive: rgb(87, 198, 255);
 
 $moduleBackground: rgba(0,0,0,.7);
 $moduleHeaderBackground: rgba(0,0,0,.2);
 $moduleHeaderPadding: 0 15px;
 $moduleHeaderLinkColor: White;
+
+$moduleSettingsBackground: rgba(0,0,0,.85);
+$moduleSettingsColor: White;
+$moduleSettingsBorderColor: rgba(35, 57, 68, .6);
+$moduleSettingsInputBorderColor: #ddd;
+$moduleSettingsInputBackground: rgba(255,255,255,.9);
+$moduleSettingsInputColor: Black;
 
 $contentPaddingSidesOnly: 0 25px;
 $contentPadding: 15px 25px;

@@ -6,6 +6,12 @@ angular.module("Homepage").controller("WidgetController", ["$scope", "$timeout",
         $scope.$broadcast(eventName);
     };
 
+    $scope.settings = {
+        getSettingTemplateId: function(setting){
+            return "setting." + setting.type;
+        }
+    };
+
     if ($scope.module.settings && $scope.module.settings.refreshRate){
         $scope.refresh = function(){
             $scope.loading = true;

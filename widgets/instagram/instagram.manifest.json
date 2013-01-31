@@ -14,7 +14,7 @@
 	},
 	"settingsOptions": [
 		{
-			"display": "Refresh rate",
+			"label": "Refresh rate",
 			"name": "refreshRate",
 			"type": "number",
 			"appendix": " seconds"

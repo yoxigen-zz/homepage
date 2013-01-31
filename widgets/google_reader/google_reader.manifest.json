@@ -14,13 +14,13 @@
 	},
 	"settingsOptions": [
 		{
-			"display": "Display mode",
+			"label": "Display mode",
 			"name": "display",
 			"type": "select",
 			"options": [ { "value": "headlines", "display": "Headlines" }, { "value": "full", "display": "Full" } ]
 		},
 		{
-			"display": "Refresh rate",
+			"label": "Refresh rate",
 			"name": "refreshRate",
 			"type": "number",
 			"appendix": " seconds"

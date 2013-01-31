@@ -8,6 +8,8 @@ $column1: 650px;
 $column2: 650px;
 $contentsPadding: 20px;
 $moduleRadius: 5px;
+$invertTransitionTime: 400ms;
+$moduleSettingsLabelWidth: 120px;
 
 @font-face{
   font-family: 'Alef';
@@ -26,6 +28,7 @@ body{
   background: $background;
   color: $color;
   font-family: 'Calibri', 'Muli', 'Alef', Arial, sans-serif;
+  -webkit-perspective: 800px;
 
   & > header{
     height: $headerHeight;
@@ -70,6 +73,9 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
 .rotating{
   -webkit-animation: rotating 2s linear infinite;
+}
+.inverted{
+  -webkit-transform: rotateY(180deg);
 }
 
 .item-expand{
@@ -133,6 +139,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   top: 0;
   width: 100%;
   bottom: $contentsPadding;
+  -webkit-transition: -webkit-transform $invertTransitionTime ease-out;
 
   .module-header{
     height: $moduleHeaderHeight;
@@ -148,7 +155,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     }
 
     .module-icon{
-      margin: 0 4px 0 0;
+      margin: -3px 4px 0 0;
     }
 
     .module-settings-btn{
@@ -160,7 +167,9 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
         text-decoration: none;
         color: $headerBtnColorHover;
       }
-
+      &.active{
+        color: $headerBtnColorActive;
+      }
       &.refreshing .icon-refresh{
         -webkit-animation: rotating 2s linear infinite;
       }
@@ -173,16 +182,88 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     top: 0;
     bottom: 0;
     left: 0;
-    right: 4px;
+    right: 0;
     padding-bottom: 30px;
+    overflow: hidden;
+  }
+
+  .module-content-scroll{
+    position: absolute;
+    top: 4px;
+    bottom: 0;
+    left: 0;
+    right: 4px;
+    padding-bottom: 1.5em;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
+    z-index: 1;
+  }
+  .module-content-with-header{
+    top: $moduleHeaderHeight;
   }
 
-  .module-content-with-header{
-    top: $moduleHeaderHeight + 4;
+  .module-settings{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    background: $moduleSettingsBackground;
+    color: $moduleSettingsColor;
+    bottom: auto;
+    -webkit-mask-image: none;
+    z-index: 2;
+    border-bottom: solid 1px $moduleSettingsBorderColor;
+    padding: $contentPadding;
+
+    -webkit-transform: translateY(-100%);
+    -webkit-transition: -webkit-transform 300ms ease-out;
+
+    h3{
+      height: 28px;
+      margin-bottom: 1em;
+      border-bottom: solid 1px darken($moduleSettingsColor, 65%);
+    }
+    label{
+      display: block;
+      width: $moduleSettingsLabelWidth;
+      position: absolute;
+      top: 4px;
+      left: 0;
+      margin-right: 10px;
+    }
+    .module-settings-options{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      & > li{
+        margin-bottom: .5em;
+        position: relative;
+      }
+    }
+    .setting-inputs{
+      padding-left: $moduleSettingsLabelWidth + 15;
+    }
+
+    input[type=text], input[type=number], select{
+      border: solid 1px $moduleSettingsInputBorderColor;
+      color: $moduleSettingsInputColor;
+      background: $moduleSettingsInputBackground;
+      padding: 3px 8px;
+      outline: none;
+      margin: 0;
+    }
+
+    input[type=text]:focus, input[type=number]:focus{
+      background: rgb(126, 211, 255);
+    }
+
+    .long-text{ width: 90% }
   }
+
+  .settings-enabled .module-settings{ -webkit-transform: translateY(0); box-shadow: 0 3px 12px rgba(0,0,0,.8); }
 }
 
 [dir=rtl]{
@@ -199,6 +280,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 @import "sass/thumbnails";
 @import "sass/reader";
 @import "sass/responsive";
+@import "sass/popup";
 
 /* Scrollbars */
 *::-webkit-scrollbar {
