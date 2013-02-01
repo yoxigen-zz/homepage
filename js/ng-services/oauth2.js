@@ -1,4 +1,4 @@
-angular.module("OAuth", ["Storage"]).factory("oauth", ["$q", "$rootScope", "storage", function($q, $rootScope, storage){
+angular.module("OAuth2", ["Storage"]).factory("oauth2", ["$q", "$rootScope", "storage", function($q, $rootScope, storage){
     var redirectUri = "https://yoxigen.github.com/homepage",
         oauths = {};
 

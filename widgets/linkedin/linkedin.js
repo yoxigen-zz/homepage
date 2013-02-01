@@ -3,11 +3,12 @@ angular.module("LinkedIn").factory("linkedin", [ "OAuth1", "$q", "$http", functi
         currentUser,
         oauth = new OAuth1({
             consumerKey: "m7g9bvv3ymvi",
-            url: "https://api.linkedin.com/uas/oauth/requestToken",
+            consumerSecret: "cZHJgvuHrNKSYkX1",
+            requestTokenUrl: "https://api.linkedin.com/uas/oauth/requestToken",
             accessTokenUrl: "https://api.linkedin.com/uas/oauth/accessToken",
-            key: "cZHJgvuHrNKSYkX1&",
             method: "POST",
-            name: "linkedin"
+            name: "linkedin",
+            scope: "w_messages r_basicprofile"
         });
 
     var methods = {
@@ -28,15 +29,14 @@ angular.module("LinkedIn").factory("linkedin", [ "OAuth1", "$q", "$http", functi
             currentUser = null;
             oauth.logout("linkedin");
         },
-        getCurrentUser: function(){  console.log("get user");
+        getCurrentUser: function(){
             var deferred = $q.defer();
             if (currentUser)
                 deferred.resolve(currentUser);
             else{
-                oauth.makeSignedRequest({ url: "https://api.linkedin.com/v1/people/~", method: "GET", params: { format: "json" } }).then(function(me){
-                    console.log("LINKEEDIN USER: ", me)
-
+                oauth.makeSignedRequest({ url: "https://api.linkedin.com/v1/people/~:(first-name,id,last-name,picture-url)", method: "GET", params: { format: "json" } }).then(function(me){
                     var user = {
+                        image: me.pictureUrl,
                         name: me.firstName + " " + me.lastName,
                         link: "http://www.linkedin.com" // For the current user, the news feed makes more sense than the user's own page.
                     };
@@ -50,8 +50,15 @@ angular.module("LinkedIn").factory("linkedin", [ "OAuth1", "$q", "$http", functi
 
             return deferred.promise;
         },
-        getNotifications: function(options){                 console.log("get not");
-            return oauth.makeSignedRequest({ url: "https://api.linkedin.com/v1/people/~", method: "GET", params: { format: "json" } });
+        getNotifications: function(options){
+            var deferred = $q.defer();
+            oauth.makeSignedRequest({ url: "https://api.linkedin.com/v1/people/~/mailbox", method: "GET", params: { format: "json" } }).then(function(result){
+                console.log("RESULT: ", result);
+                deferred.resolve({items: [], unreadCount: 0 });
+            }, function(error){
+                deferred.reject(error);
+            });
+            return deferred.promise;
         },
         markAsRead: function(notificationIds){
             if (!notificationIds || !notificationIds.length)

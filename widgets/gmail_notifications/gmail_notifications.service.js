@@ -1,4 +1,4 @@
-angular.module("GmailNotifications").factory("gmail_notifications", ["oauth", "$q", "$http", "utils", function(oauth, $q, $http, utils){
+angular.module("GmailNotifications").factory("gmail_notifications", ["oauth2", "$q", "$http", "utils", function(oauth, $q, $http, utils){
     var currentUser,
         apiUrl = "https://mail.google.com/mail/feed/atom",
         clientId = "225561981539.apps.googleusercontent.com",

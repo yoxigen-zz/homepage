@@ -1,4 +1,4 @@
-angular.module("Instagram").factory("instagram", ["oauth", "$q", "$http", "Cache", function(oauth, $q, $http, Cache){
+angular.module("Instagram").factory("instagram", ["oauth2", "$q", "$http", "Cache", function(oauth, $q, $http, Cache){
     var igOauth,
         clientId = "e8bfed2280ae46439dcdfc4b956b35d3",
         cache = new Cache({

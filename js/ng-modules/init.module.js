@@ -17,7 +17,8 @@ angular.module("HomepageInit", ["HomepageModel"])
                 "Utils",
                 "PrettyDate",
                 "FavIcon",
-                "OAuth",
+                "OAuth1",
+                "OAuth2",
                 "Cache",
                 "HomepageModel"
             ],

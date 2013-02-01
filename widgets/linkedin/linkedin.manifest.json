@@ -4,9 +4,7 @@
 		{ "name": "LinkedIn", "dependencies": ["OAuth1"] }
 	],
     "resources": [
-		"linkedin.js",
-		"sha1.js",
-		"oauth1.js"
+		"linkedin.js"
     ],
 	"settingsOptions": [
 		{
