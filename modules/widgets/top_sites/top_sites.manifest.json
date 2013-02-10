@@ -1,0 +1,26 @@
+{
+	"name": "Top Sites",
+	"modules": [
+		{ "name": "TopSites", "dependencies": [] }
+	],
+    "resources": [
+		"top_sites.controller.js",
+		"top_sites.js"
+    ],
+	"html": {
+		"widget": "top_sites.html"
+	},
+	"settingsOptions": [
+		{
+			"label": "Max items",
+			"name": "maxItems",
+			"type": "number",
+			"min": 3,
+			"max": 20,
+			"step": 1
+		}
+	],
+	"settings": {
+		"maxItems": 10
+	}
+}

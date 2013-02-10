@@ -1,5 +1,6 @@
 {
     "name": "Gmail Notifications",
+	"icon": "icon.png",
 	"modules": [
 		{ "name": "GmailNotifications", "dependencies": [] }
 	],

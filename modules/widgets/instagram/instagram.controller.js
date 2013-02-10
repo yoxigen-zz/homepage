@@ -19,6 +19,13 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
         }, handleError);
     };
 
+    $scope.selectItem = function(item, index){
+        $scope.callService("viewer", "open", {
+            items: $scope.items,
+            currentItem: index
+        });
+    };
+
     $scope.$on("refresh", function(){
         instagram.getNewItems($scope.currentFeed, $scope.items[0].id).then(function(igData){
             $scope.items = igData.items.concat($scope.items);

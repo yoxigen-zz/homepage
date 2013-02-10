@@ -1,0 +1,11 @@
+{
+	"rows": [
+		{
+			"columns": [
+				{ "widgets": [ { "index": 0 } ] },
+				{ "widgets": [ { "index": 1 } ] },
+				{ "widgets": [ { "index": 2 }, { "index": 3 }, { "index": 4 } ] }
+			]
+		}
+	]
+}

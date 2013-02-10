@@ -193,6 +193,14 @@
       display: block;
     }
   }
+
+  .item-expand{
+    color: rgb(139, 155, 163);
+
+    &:hover{
+      color: rgb(98, 169, 204);
+    }
+  }
 }
 
 .notification-icon{

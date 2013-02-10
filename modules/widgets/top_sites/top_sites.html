@@ -1,0 +1,6 @@
+<div ng-controller="TopSitesController">
+    <a ng-repeat="topSite in topSites" href="{{topSite.url}}" target="_blank">
+        <img ng-src="{{getItemThumbnail(topSite)}}" />
+        {{topSite.title}}
+    </a>
+</div>

@@ -1042,25 +1042,23 @@ h1, h2, h3, h4, h5 {
   left: 0;
   bottom: 0;
   right: 0; }
-  #content .column {
+  #content .layout-column {
     position: relative;
-    top: 0;
-    bottom: 0;
     float: left;
     height: 100%; }
 
 .module-wrapper {
-  position: relative;
-  margin: 0 20px; }
+  position: relative; }
 
 .module {
-  position: absolute;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 5px;
+  margin: 0 20px;
+  position: absolute;
   top: 0;
-  width: 100%;
   bottom: 20px;
-  -webkit-transition: -webkit-transform 400ms ease-out; }
+  left: 0;
+  right: 0; }
   .module .module-header {
     height: 40px;
     line-height: 40px;
@@ -1089,25 +1087,24 @@ h1, h2, h3, h4, h5 {
       float: left; }
   .module .module-content {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    overflow: hidden;
     left: 0;
     right: 0;
-    padding-bottom: 30px;
-    overflow: hidden; }
+    top: 0;
+    bottom: 0; }
   .module .module-content-scroll {
-    position: absolute;
-    top: 4px;
-    bottom: 0;
-    left: 0;
-    right: 4px;
     padding-bottom: 1.5em;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
-    z-index: 1; }
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 4px;
+    bottom: 0; }
   .module .module-content-with-header {
-    top: 40px; }
+    top: 44px; }
   .module .module-settings {
     position: absolute;
     top: 0;
@@ -1164,6 +1161,39 @@ h1, h2, h3, h4, h5 {
   width: 16px;
   height: 16px;
   vertical-align: middle; }
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+  .modal > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+
+.modal-background {
+  background: rgba(0, 0, 0, 0.9);
+  color: white; }
+
+.modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 46px;
+  height: 46px;
+  text-align: center;
+  line-height: 46px;
+  z-index: 10; }
+
+.modal-btn {
+  color: rgba(255, 255, 255, 0.3); }
+  .modal-btn:hover {
+    color: white; }
 
 #notifications {
   float: right;
@@ -1310,6 +1340,10 @@ h1, h2, h3, h4, h5 {
       display: block; }
   .notification:focus .notificationsItems {
     display: block; }
+  .notification .item-expand {
+    color: #8b9ba3; }
+    .notification .item-expand:hover {
+      color: #62a9cc; }
 
 .notification-icon {
   width: 24px;
@@ -1319,19 +1353,23 @@ h1, h2, h3, h4, h5 {
   top: 7px; }
 
 .thumbnails {
-  padding: 5px; }
+  -webkit-column-width: 120px;
+  -webkit-column-gap: 10px;
+  padding: 5px 10px; }
   .thumbnails:after {
     content: "";
     display: block;
     clear: both; }
   .thumbnails .thumbnail {
-    float: left;
-    margin: 5px;
-    max-width: 23%; }
+    display: block;
+    margin-bottom: 8px; }
+    .thumbnails .thumbnail:hover .thumbnail-img {
+      border-color: #57c6ff; }
   .thumbnails .thumbnail-img {
     width: 100%;
-    border: solid 1px rgba(255, 255, 255, 0.2);
-    display: block; }
+    border: solid 1px #666;
+    display: block;
+    box-sizing: border-box; }
 
 .items-list {
   list-style: none;
@@ -1472,17 +1510,6 @@ h1, h2, h3, h4, h5 {
   .items-list .item-feed {
     margin-bottom: 10px; }
 
-@media only screen and (max-width: 800px) {
-  #content {
-    bottom: 0; }
-    #content .column {
-      width: 100% !important;
-      border-radius: 0;
-      top: 0;
-      left: 0 !important;
-      display: none; }
-      #content .column:nth-child(1) {
-        display: block; } }
 .popup {
   position: relative;
   outline: none; }

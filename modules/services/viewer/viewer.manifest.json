@@ -1,0 +1,15 @@
+{
+	"name": "Viewer",
+	"modules": [
+		{ "name": "Viewer", "dependencies": [] }
+	],
+    "resources": [
+		"viewer.controller.js"
+    ],
+	"html": {
+		"widget": "viewer.html"
+	},
+	"css": [ "viewer.css" ],
+	"settingsOptions": [],
+	"settings": {}
+}

@@ -1,16 +1,22 @@
 .thumbnails{
-  padding: 5px;
+  -webkit-column-width: 120px;
+  -webkit-column-gap: 10px;
+  padding: 5px 10px;
 
   &:after{ content: ""; display: block; clear: both; }
 
   .thumbnail{
-    float: left;
-    margin: 5px;
-    max-width: 23%;
+    display: block;
+    margin-bottom: 8px;
+
+    &:hover .thumbnail-img{
+      border-color: $linkColor;
+    }
   }
   .thumbnail-img{
     width: 100%;
-    border: solid 1px rgba(255,255,255,.2);
+    border: solid 1px #666;
     display: block;
+    box-sizing: border-box;
   }
 }

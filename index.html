@@ -10,7 +10,7 @@
       slideshow
       slideshow-interval="60"
       ng-model="slideshowImages"
-      ng-init="slideshowImages=['img/backgrounds/YOX_1437.jpg','img/backgrounds/YOX_1091.jpg']">
+      ng-init="slideshowImages=['img/backgrounds/1.webp','img/backgrounds/2.webp','img/backgrounds/3.webp']">
     <header>
         <menu id="notifications">
             <ng-include src="includes.notifications" ng-repeat="notification in notifications"></ng-include>
@@ -19,12 +19,14 @@
         <h1>Homepage</h1>
     </header>
     <div id="content">
-        <div ng-repeat="column in widgets" class="column" ng-style="{ width: (100 / widgets.length) + '%' }">
-            <div ng-repeat="module in column" class="module-wrapper" ng-style="{ height: (100 / column.length) + '%' }" ng-include="includes.widget">
+        <div ng-repeat="row in layout.rows" class="layout-row" ng-style="{ height: row.height }">
+            <div ng-repeat="column in row.columns" class="layout-column" ng-style="{ width: column.width }">
+                <div ng-repeat="module in column.widgets" class="module-wrapper" ng-style="{ height: module.height }" ng-include="includes.widget">
+                </div>
             </div>
         </div>
     </div>
-
+    <ng-include ng-repeat="service in services" src="service.html.widget"></ng-include>
     <script type="text/ng-template" id="setting.text">
         <input type="text" ng-class="{'long-text':setting.style=='long'}" ng-model="module.settings[setting.name]" id="setting_{{module.id}}_$index" />
         <span ng-bind="setting.appendix"></span>

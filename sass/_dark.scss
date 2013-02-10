@@ -28,6 +28,7 @@ $smallContentPadding: 5px 25px;
 $itemsListActive: rgba(66,66,66,.5);
 $itemsListActiveRead: darken($linkColor, 30%);
 
+$scrollbarMargin: 4px;
 $scrollbarWidth: 6px;
 $scrollbarThumbColor: darken($linkColor, 30%);
 $scrollbarThumbColorHover: $linkColor;
@@ -41,6 +42,11 @@ $notificationBorderBottom: solid 1px rgba(0, 0, 0, 0.1);
 $notificationsLinkColor: rgb(1, 90, 134);
 $notificationsLinkColorHover: rgb(23, 134, 190);
 $notificationsThumbnailBorderColor: rgba(0,0,0,.3);
+
+$modalBackground: rgba(0,0,0,.9);
+$modalColor: White;
+$modalBtnColor: rgba(255,255,255, .3);
+$modalBtnHoverColor: White;
 
 @mixin firstColumn{
   color: White;

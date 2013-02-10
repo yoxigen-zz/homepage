@@ -28,22 +28,13 @@ angular.module("HomepageInit", ["HomepageModel"])
                 "js/ng-controllers/widget.controller.js?d=" + new Date().valueOf()
             ];
 
-        function loadResources(urls){
-            var deferred = $q.defer();
-            requirejs(urls, function() {
-                deferred.resolve();
-                $rootScope.safeApply();
-            });
-
-            return deferred.promise;
-        }
-
         model.getModel().then(function(model){
             var dependencies = [],
                 resources = [],
+                styles = [],
                 ngModule;
 
-            function getDependenciesAndResources(module){
+            function getDependenciesAndResources(module, moduleType){
                 if (module.modules){
                     module.modules.forEach(function(module){
                         if (module.dependencies && angular.isArray(module.dependencies)){
@@ -62,17 +53,35 @@ angular.module("HomepageInit", ["HomepageModel"])
 
                 if (module.resources){
                     module.resources.forEach(function(resourceUrl){
-                        resources.push("widgets/" + module.id + "/" + resourceUrl);
+                        resources.push(["modules", moduleType, module.id, resourceUrl].join("/"));
                     });
                 }
+
+                if (module.css){
+                    module.css.forEach(function(cssUrl){
+                        styles.push(["modules", moduleType, module.id, cssUrl].join("/"));
+                    });
+                }
+            }
+
+            function loadStyles(styles){
+                styles.forEach(function(styleHref){
+                    var link = document.createElement("link");
+                    link.type = "text/css";
+                    link.setAttribute("href",styleHref);
+                    link.setAttribute("rel", "Stylesheet");
+                    document.head.appendChild(link);
+                });
             }
 
             angular.forEach(model, function(type, typeName){
                 angular.forEach(type, function(module){
                     if (angular.isArray(module))
-                        angular.forEach(module, getDependenciesAndResources);
+                        angular.forEach(module, function(module){
+                            getDependenciesAndResources(module, typeName);
+                        });
                     else
-                        getDependenciesAndResources(module);
+                        getDependenciesAndResources(module, typeName);
                 });
             });
 
@@ -93,6 +102,7 @@ angular.module("HomepageInit", ["HomepageModel"])
             });
 
             angular.element(document.getElementById("appInit")).remove();
+            styles.length && loadStyles(styles);
             requirejs(appResources.concat(resources), function() {
                 angular.bootstrap(document, ["Homepage"]);
             });

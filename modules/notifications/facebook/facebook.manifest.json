@@ -1,5 +1,6 @@
 {
     "name": "Facebook",
+	"icon": "icon.png",
 	"modules": [
 		{ "name": "Facebook", "dependencies": [] }
 	],

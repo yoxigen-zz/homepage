@@ -6,6 +6,7 @@
 	"permissions":[
 		"tabs",
 		"storage",
+		"topSites",
 		"chrome://favicon/*",
 		"https://*.google.com/*",
 		"https://*.googleapis.com/*",

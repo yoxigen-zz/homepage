@@ -21,20 +21,36 @@ angular.module("HomepageModel", ["Storage"]).factory("model", ["$q", "$http", "s
     }
 
     return {
+        getLayout: function(){
+            var deferred = $q.defer();
+
+            $http.get("js/data/layout.json")
+                .success(function(data){
+                    deferred.resolve(data);
+                })
+                .error(function(error){
+                    deferred.reject(error);
+                });
+
+            return deferred.promise;
+        },
         getModel: function(){
             var deferred = $q.defer(),
                 manifestsPromises = [];
 
-            function loadManifest(module){
+            function loadManifest(module, moduleType){
                 var deferred = $q.defer();
 
-                $http.get("widgets/" + module.id + "/" + module.id + ".manifest.json")
+                $http.get("modules/" + moduleType + "/" + module.id + "/" + module.id + ".manifest.json")
                     .success(function(manifest){
                         if (manifest.html){
                             angular.forEach(manifest.html, function(html, key){
-                                manifest.html[key] = "widgets/" + module.id + "/" + html;
+                                manifest.html[key] = ["modules", moduleType, module.id, html].join("/");
                             });
                         }
+
+                        if (manifest.icon && !/^https?:\/\//.test(manifest.icon))
+                            manifest.icon = ["modules", moduleType, module.id, manifest.icon].join("/");
 
                         if (module.settings)
                             angular.extend(manifest.settings, module.settings);
@@ -51,12 +67,15 @@ angular.module("HomepageModel", ["Storage"]).factory("model", ["$q", "$http", "s
             }
 
             getModelData().then(function(modelData){
-                angular.forEach(modelData, function(type){
+                angular.forEach(modelData, function(type, typeName){
                     angular.forEach(type, function(module){
-                        if (angular.isArray(module))
-                            angular.forEach(module, loadManifest);
+                        if (angular.isArray(module)){
+                            angular.forEach(module, function(module){
+                                loadManifest(module, typeName);
+                            });
+                        }
                         else
-                            loadManifest(module);
+                            loadManifest(module, typeName);
                     });
                 });
 

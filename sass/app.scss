@@ -119,10 +119,8 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   bottom: 0;
   right: 0;
 
-  .column{
+  .layout-column{
     position: relative;
-    top: 0;
-    bottom: 0;
     float: left;
     height: 100%;
   }
@@ -130,16 +128,16 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
 .module-wrapper{
   position: relative;
-  margin: 0 $contentsPadding;
 }
 .module{
-  position: absolute;
   background: $moduleBackground;
   border-radius: $moduleRadius;
+  margin: 0 $contentsPadding;
+  position: absolute;
   top: 0;
-  width: 100%;
   bottom: $contentsPadding;
-  -webkit-transition: -webkit-transform $invertTransitionTime ease-out;
+  left: 0;
+  right: 0;
 
   .module-header{
     height: $moduleHeaderHeight;
@@ -179,28 +177,27 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
   .module-content{
     position: absolute;
-    top: 0;
-    bottom: 0;
+    overflow: hidden;
     left: 0;
     right: 0;
-    padding-bottom: 30px;
-    overflow: hidden;
+    top: 0;
+    bottom: 0;
   }
 
   .module-content-scroll{
-    position: absolute;
-    top: 4px;
-    bottom: 0;
-    left: 0;
-    right: 4px;
     padding-bottom: 1.5em;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
     z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: $scrollbarMargin;
+    bottom: 0;
   }
   .module-content-with-header{
-    top: $moduleHeaderHeight;
+    top: $moduleHeaderHeight + $scrollbarMargin;
   }
 
   .module-settings{
@@ -275,11 +272,46 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   vertical-align: middle;
 }
 
+.modal{
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  & > div{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+.modal-background{
+  background: $modalBackground;
+  color: $modalColor;
+}
+.modal-close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 46px;
+  height: 46px;
+  text-align: center;
+  line-height: 46px;
+  z-index: 10;
+}
+.modal-btn{
+  color: $modalBtnColor;
+  &:hover{
+    color: $modalBtnHoverColor;
+  }
+}
 
 @import "sass/notifications";
 @import "sass/thumbnails";
 @import "sass/reader";
-@import "sass/responsive";
 @import "sass/popup";
 
 /* Scrollbars */
