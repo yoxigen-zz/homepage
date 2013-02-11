@@ -59,7 +59,7 @@ angular.module("HomepageInit", ["HomepageModel"])
 
                 if (module.css){
                     module.css.forEach(function(cssUrl){
-                        styles.push(["modules", moduleType, module.id, cssUrl].join("/"));
+                        styles.push(["modules", moduleType, module.id, cssUrl + "?d=" + new Date().valueOf()].join("/"));
                     });
                 }
             }

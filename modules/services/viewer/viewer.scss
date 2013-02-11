@@ -1,13 +1,37 @@
+$viewerNavBtnWidth: 80px;
+
 .viewer-contents{
   display: -webkit-box;
   -webkit-box-pack: center;
   -webkit-box-align: center;
 }
 
+.viewer-media{
+  position: relative;
+  margin: 0 auto;
+
+  .modal-btn{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: $viewerNavBtnWidth;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+
+    &[disabled]{
+      display: none
+    }
+
+    &.nav-btn-prev{ left: -$viewerNavBtnWidth; }
+    &.nav-btn-next{ right: -$viewerNavBtnWidth; }
+  }
+}
 .viewer-image{
   border: solid 1px #555;
   vertical-align: middle;
-  margin: 0 2em;
+  text-align: center;
 }
 
 .viewer-description{

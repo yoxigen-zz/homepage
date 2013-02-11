@@ -3,10 +3,29 @@
   -webkit-box-pack: center;
   -webkit-box-align: center; }
 
+.viewer-media {
+  position: relative;
+  margin: 0 auto; }
+  .viewer-media .modal-btn {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 80px;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center; }
+    .viewer-media .modal-btn[disabled] {
+      display: none; }
+    .viewer-media .modal-btn.nav-btn-prev {
+      left: -80px; }
+    .viewer-media .modal-btn.nav-btn-next {
+      right: -80px; }
+
 .viewer-image {
   border: solid 1px #555;
   vertical-align: middle;
-  margin: 0 2em; }
+  text-align: center; }
 
 .viewer-description {
   text-align: center; }

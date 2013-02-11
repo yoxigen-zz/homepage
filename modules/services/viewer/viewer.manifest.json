@@ -4,6 +4,7 @@
 		{ "name": "Viewer", "dependencies": [] }
 	],
     "resources": [
+		"image.cache.js",
 		"viewer.controller.js"
     ],
 	"html": {

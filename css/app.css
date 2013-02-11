@@ -1195,6 +1195,21 @@ h1, h2, h3, h4, h5 {
   .modal-btn:hover {
     color: white; }
 
+.loading-indicator {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  display: none;
+  top: 50%;
+  left: 50%;
+  margin-top: -22px;
+  margin-left: -22px;
+  z-index: 1000;
+  background: url(../img/loader.png) no-repeat 0 0; }
+  .loading-indicator.active {
+    display: block;
+    -webkit-animation: rotating 2s linear infinite; }
+
 #notifications {
   float: right;
   height: 100%;

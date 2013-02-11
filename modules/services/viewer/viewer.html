@@ -1,14 +1,23 @@
 <div class="modal" ng-controller="ViewerController" ng-show="viewerOpen" ng-cloak>
     <div class="modal-background"></div>
-    <a class="modal-btn modal-close" ng-click="viewerOpen = false">
+    <a class="modal-btn modal-close" ng-click="closeViewer()">
         <i class="icon-remove icon-large"></i>
     </a>
-    <div class="modal-contents viewer-contents" ng-style="{ width: currentItem.width}">
+    <div class="modal-contents viewer-contents" ng-click="closeViewer()">
         <div>
-            <div>
-                <a class="modal-btn" ng-click="prev()"><i class="icon-chevron-left icon-large"></i></a>
-                <img class="viewer-image" ng-src="{{currentItem.url}}" />
-                <a class="modal-btn" ng-click="next()"><i class="icon-chevron-right icon-large"></i></a>
+            <div class="viewer-media" ng-style="{ width: currentItem.width + 'px'}">
+                <a class="modal-btn nav-btn-prev"
+                   ng-click="prev($event)"
+                   ng-disabled="currentItemIsFirst"
+                   ng-show="currentItem">
+                    <i class="icon-chevron-left icon-large"></i></a>
+                <img class="viewer-image" ng-src="{{currentItem.url}}" ng-show="currentItem" />
+                <a class="modal-btn nav-btn-next"
+                   ng-click="next($event)"
+                   ng-disabled="currentItemIsLast"
+                   ng-show="currentItem">
+                    <i class="icon-chevron-right icon-large"></i></a>
+                <div class="loading-indicator" ng-class="{active:loading}"></div>
             </div>
             <p class="viewer-description" ng-bind-html-unsafe="currentItem.title"></p>
         </div>
