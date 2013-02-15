@@ -1,6 +1,5 @@
-<div class="modal" ng-controller="ViewerController" ng-show="viewerOpen" ng-cloak>
-    <div class="modal-background"></div>
-    <div class="modal-contents viewer-contents" ng-click="closeViewer()">
+<div ng-controller="ViewerController">
+    <modal ng-model="viewerOpen" visible="viewerOpen" class="viewer-modal">
         <div>
             <div class="viewer-media" ng-style="{ width: currentItem.width + 'px'}">
                 <a class="modal-btn nav-btn-prev"
@@ -16,7 +15,11 @@
                     <i class="icon-chevron-right icon-large"></i></a>
                 <div class="loading-indicator" ng-class="{active:loading}"></div>
             </div>
-            <p class="viewer-description" ng-bind-html-unsafe="currentItem.title"></p>
+            <p class="viewer-description" ng-show="currentItem.title || currentItem.author">
+                <span ng-bind-html-unsafe="currentItem.title"></span>
+                <span class="dimmed" ng-show="currentItem.author && currentItem.title">|</span>
+                <a class="viewer-author" href="{{currentItem.author.url}}" target="_blank">{{currentItem.author.username || currentItem.author.name}}</a></span>
+            </p>
         </div>
-    </div>
+    </modal>
 </div>

@@ -25,7 +25,8 @@ angular.module("HomepageInit", ["HomepageModel"])
             appResources = [
                 "js/ng-controllers/homepage.controller.js",
                 "js/ng-controllers/notification.controller.js",
-                "js/ng-controllers/widget.controller.js?d=" + new Date().valueOf()
+                "js/ng-controllers/widget.controller.js?d=" + new Date().valueOf(),
+                "js/ng-directives/modal.js?d=" + new Date().valueOf()
             ];
 
         model.getModel().then(function(model){

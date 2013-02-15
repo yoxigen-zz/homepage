@@ -1,9 +1,12 @@
 $viewerNavBtnWidth: 80px;
 
-.viewer-contents{
+.viewer-modal .modal-contents{
   display: -webkit-box;
   -webkit-box-pack: center;
   -webkit-box-align: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 .viewer-media{

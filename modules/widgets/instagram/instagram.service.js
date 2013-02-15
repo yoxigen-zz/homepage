@@ -63,7 +63,8 @@ angular.module("Instagram").factory("instagram", ["oauth2", "$q", "$http", "Cach
                 avatar: instagramUser.profile_picture,
                 username: instagramUser.username,
                 website: instagramUser.website,
-                source: "instagram"
+                source: "instagram",
+                url: "http://yoxigen.github.com/yoxview?/instagram/user/" + instagramUser.id
             };
         },
         users: function(users){

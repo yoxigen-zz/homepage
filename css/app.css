@@ -1009,6 +1009,9 @@ h1, h2, h3, h4, h5 {
 .inverted {
   -webkit-transform: rotateY(180deg); }
 
+.dimmed {
+  opacity: .3; }
+
 .item-expand {
   float: left;
   cursor: pointer;
