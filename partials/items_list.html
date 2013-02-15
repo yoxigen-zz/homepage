@@ -34,7 +34,7 @@
                 </div>
                 <i class="icon-play item-expand" ng-class="{'item-expand-collapse':item.isOpen}" ng-click="toggleItem(item)"></i>
                 <a href="{{item.link}}" target="_blank"><h5 ng-bind-html-unsafe="item.title"></h5></a>
-                <p class="item-text-summary" ng-bind="item.summary" ng-show="item.isOpen"></p>
+                <p class="item-text-summary" ng-bind-html-unsafe="item.summary" ng-show="item.isOpen"></p>
             </div>
         </div>
     </li>

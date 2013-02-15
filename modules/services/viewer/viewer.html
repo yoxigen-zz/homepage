@@ -1,7 +1,7 @@
 <div ng-controller="ViewerController">
     <modal ng-model="viewerOpen" class="viewer-modal">
-        <div>
-            <div class="viewer-media" ng-style="{ width: currentItem.width + 'px'}">
+        <div class="closes-modal">
+            <div class="viewer-media closes-modal" ng-style="{ width: currentItem.width + 'px'}">
                 <a class="modal-btn nav-btn-prev"
                    ng-click="prev($event)"
                    ng-disabled="currentItemIsFirst"
