@@ -2,7 +2,7 @@
 @import "sass/font-awesome";
 
 $headerHeight: 45px;
-$headerPadding: 0 15px;
+$headerPadding: 0 0 0 15px;
 $moduleHeaderHeight: 40px;
 $column1: 650px;
 $column2: 650px;
@@ -10,6 +10,7 @@ $contentsPadding: 20px;
 $moduleRadius: 5px;
 $invertTransitionTime: 400ms;
 $moduleSettingsLabelWidth: 120px;
+$modalHeaderHeight: 60px;
 
 @font-face{
   font-family: 'Alef';
@@ -29,26 +30,6 @@ body{
   color: $color;
   font-family: 'Calibri', 'Muli', 'Alef', Arial, sans-serif;
   -webkit-perspective: 800px;
-
-  & > header{
-    height: $headerHeight;
-    line-height: $headerHeight;
-    padding: $headerPadding;
-    background: $headerBackgroundColor;
-    color: $headerColor;
-
-    .logo{
-      position: relative;
-      top: 4px;
-      vertical-align: top;
-      margin-right: 5px;
-    }
-
-    h1{
-      display: inline;
-      font-size: 14pt;
-    }
-  }
 }
 .clearfix::after{
   content: "";
@@ -185,7 +166,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   }
 
   .module-content-scroll{
-    padding-bottom: 1.5em;
+    padding-bottom: .5em;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
@@ -272,43 +253,6 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   vertical-align: middle;
 }
 
-.modal{
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  & > div{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-.modal-background{
-  background: $modalBackground;
-  color: $modalColor;
-}
-.modal-close{
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 46px;
-  height: 46px;
-  text-align: center;
-  line-height: 46px;
-  z-index: 10;
-}
-.modal-btn{
-  color: $modalBtnColor;
-  &:hover{
-    color: $modalBtnHoverColor;
-  }
-}
-
 .loading-indicator{
   position: absolute;
   width: 44px;
@@ -323,19 +267,21 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   &.active{ display: block; -webkit-animation: rotating 2s linear infinite; }
 }
 
+@import "sass/header";
 @import "sass/notifications";
+@import "sass/modal";
 @import "sass/thumbnails";
 @import "sass/reader";
 @import "sass/popup";
 
 /* Scrollbars */
 *::-webkit-scrollbar {
-  width: 6px;
+  width: $scrollbarWidth;
 }
 *::-webkit-scrollbar-thumb {
   background: $scrollbarThumbColor;
   min-height: 10px;
-  border-radius: 3px;
+  border-radius: $scrollbarWidth / 2;
 }
 *::-webkit-scrollbar-thumb:hover{
   background: $scrollbarThumbColorHover;

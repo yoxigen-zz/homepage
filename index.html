@@ -11,8 +11,11 @@
       slideshow-interval="60"
       ng-model="slideshowImages"
       ng-init="slideshowImages=['img/backgrounds/1.webp','img/backgrounds/2.webp','img/backgrounds/3.webp']">
-    <header>
-        <menu id="notifications">
+    <header id="header">
+        <menu id="settings-menu" class="header-menu">
+            <a ng-click="openModuleSettings()" title="Modules" class="menu-link"><i class="icon-cogs"></i></a>
+        </menu>
+        <menu id="notifications" class="header-menu">
             <ng-include src="includes.notifications" ng-repeat="notification in notifications"></ng-include>
         </menu>
         <img class="logo" src="img/logo.png" />

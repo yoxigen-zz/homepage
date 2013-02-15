@@ -8,10 +8,12 @@
 		{ "id": "instagram" },
 		{ "id": "rss", "settings": { "feed": "http://www.ynet.co.il/Integration/StoryRss2.xml" }},
 		{ "id": "rss", "settings": { "feed": "http://feeds.wired.com/wired/index" }},
-		{ "id": "rss", "settings": { "feed": "https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=SeinfeldToday" }}
+		{ "id": "rss", "settings": { "feed": "https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=SeinfeldToday", "count": 4 }},
+		{ "id": "rss", "settings": { "feed": "http://feeds.feedburner.com/SputnikmusicNews", "count": 10 } }
 	],
 	"services": [
-		{ "id": "viewer" }
+		{ "id": "viewer" },
+		{ "id": "module_settings" }
 	],
 	"background": [
 		{ "id": "slideshow" }

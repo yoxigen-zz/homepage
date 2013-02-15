@@ -1,10 +1,13 @@
 angular.module("GoogleFeed", []).factory("rss", ["$http", "$q", "utils", "Cache", function($http, $q, utils, Cache){
     var cache = new Cache({
-        id: "rss",
-        itemsExpireIn: 60 * 5 // cache items expire in 5 minutes
-    });
+            id: "rss",
+            itemsExpireIn: 60 * 5 // cache items expire in 5 minutes
+        }),
+        defaultOptions = {
+            count: 5
+        };
 
-    function loadFeed(feedUrl, forceRefresh){
+    function loadFeed(feedUrl, forceRefresh, options){
         var deferred = $q.defer(),
             cachedData;
 
@@ -14,9 +17,9 @@ angular.module("GoogleFeed", []).factory("rss", ["$http", "$q", "utils", "Cache"
         if (cachedData){
             deferred.resolve(cachedData);
         }
-        else{
-            $http.get("https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=5&q=" + encodeURIComponent(feedUrl))
-                .success(function(response){
+        else{ console.log("count: ", options.count)
+            $http.get("https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + (options.count || defaultOptions.count) +"&q=" + encodeURIComponent(feedUrl))
+                .success(function(response){ console.log("RES: ", response);
                     response.responseData.feed.items = formatItems(response.responseData.feed.entries);
                     delete response.responseData.feed.entries;
                     deferred.resolve(response.responseData.feed);
@@ -68,12 +71,12 @@ angular.module("GoogleFeed", []).factory("rss", ["$http", "$q", "utils", "Cache"
     }
 
     var methods = {
-        load: function(feedUrls, forceRefresh){
+        load: function(feedUrls, forceRefresh, options){
             var feeds = angular.isArray(feedUrls) ? feedUrls : [feedUrls],
                 promises = [];
 
             angular.forEach(feeds, function(feed){
-                promises.push(loadFeed(feed, forceRefresh));
+                promises.push(loadFeed(feed, forceRefresh, options));
             });
 
             return $q.all(promises);

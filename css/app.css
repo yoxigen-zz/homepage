@@ -962,20 +962,6 @@ body {
   color: white;
   font-family: 'Calibri', 'Muli', 'Alef', Arial, sans-serif;
   -webkit-perspective: 800px; }
-  body > header {
-    height: 45px;
-    line-height: 45px;
-    padding: 0 15px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white; }
-    body > header .logo {
-      position: relative;
-      top: 4px;
-      vertical-align: top;
-      margin-right: 5px; }
-    body > header h1 {
-      display: inline;
-      font-size: 14pt; }
 
 .clearfix::after {
   content: "";
@@ -1096,7 +1082,7 @@ h1, h2, h3, h4, h5 {
     top: 0;
     bottom: 0; }
   .module .module-content-scroll {
-    padding-bottom: 1.5em;
+    padding-bottom: .5em;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
@@ -1165,39 +1151,6 @@ h1, h2, h3, h4, h5 {
   height: 16px;
   vertical-align: middle; }
 
-.modal {
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; }
-  .modal > div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; }
-
-.modal-background {
-  background: rgba(0, 0, 0, 0.9);
-  color: white; }
-
-.modal-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 46px;
-  height: 46px;
-  text-align: center;
-  line-height: 46px;
-  z-index: 10; }
-
-.modal-btn {
-  color: rgba(255, 255, 255, 0.3); }
-  .modal-btn:hover {
-    color: white; }
-
 .loading-indicator {
   position: absolute;
   width: 44px;
@@ -1213,10 +1166,36 @@ h1, h2, h3, h4, h5 {
     display: block;
     -webkit-animation: rotating 2s linear infinite; }
 
-#notifications {
-  float: right;
-  height: 100%;
-  margin: 0; }
+#header {
+  height: 45px;
+  line-height: 45px;
+  padding: 0 0 0 15px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white; }
+  #header .logo {
+    position: relative;
+    top: 4px;
+    vertical-align: top;
+    margin-right: 5px; }
+  #header h1 {
+    display: inline;
+    font-size: 14pt; }
+  #header .header-menu {
+    float: right;
+    height: 100%;
+    margin: 0;
+    padding: 0; }
+    #header .header-menu .menu-link {
+      display: block;
+      height: 100%;
+      width: 45px;
+      text-align: center;
+      line-height: 45px;
+      position: relative;
+      color: white; }
+      #header .header-menu .menu-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: white; }
 
 .notification {
   float: right;
@@ -1224,23 +1203,15 @@ h1, h2, h3, h4, h5 {
   height: 100%;
   position: relative;
   outline: none; }
-  .notification > a {
-    display: block;
+  .notification > a .notification-close {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-    text-align: center;
-    line-height: 45px;
-    position: relative; }
-    .notification > a:hover {
-      background: rgba(255, 255, 255, 0.2); }
-    .notification > a .notification-close {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      outline: none;
-      display: none; }
+    z-index: 2;
+    outline: none;
+    display: none; }
   .notification .notification-count {
     display: block;
     position: absolute;
@@ -1369,6 +1340,45 @@ h1, h2, h3, h4, h5 {
   display: inline-block;
   position: relative;
   top: 7px; }
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+  .modal > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+
+.modal-header {
+  height: 60px;
+  line-height: 60px;
+  font-size: 1.6em;
+  border-bottom: solid 1px #57c6ff; }
+
+.modal-background {
+  background: rgba(0, 0, 0, 0.9);
+  color: white; }
+
+.modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 46px;
+  height: 46px;
+  text-align: center;
+  line-height: 46px;
+  z-index: 10; }
+
+.modal-btn {
+  color: rgba(255, 255, 255, 0.3); }
+  .modal-btn:hover {
+    color: white; }
 
 .thumbnails {
   -webkit-column-width: 120px;

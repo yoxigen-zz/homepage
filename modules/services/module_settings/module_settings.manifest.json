@@ -1,0 +1,16 @@
+{
+	"name": "Module Settings",
+	"modules": [
+		{ "name": "ModuleSettings", "dependencies": ["Storage"] }
+	],
+    "resources": [
+		"module_settings.controller.js",
+		"module_settings.service.js"
+    ],
+	"html": {
+		"widget": "module_settings.html"
+	},
+	"css": [ "module_settings.css" ],
+	"settingsOptions": [],
+	"settings": {}
+}

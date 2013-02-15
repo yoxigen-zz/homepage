@@ -1,0 +1,56 @@
+@import "sass/dark";
+
+$moduleSettingsListWidth: 400px;
+$moduleSettingsListIconWidth: 32px;
+$moduleSettingsListIconMargin: 15px;
+
+.module-settings-modules{
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+  position:relative;
+  height: 100%;
+  padding: 0;
+}
+
+.module-settings-modules-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 80px;
+  bottom: 20px;
+  width: $moduleSettingsListWidth;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  li{
+    padding: 15px $moduleSettingsListIconMargin;
+    cursor: pointer;
+
+    &:hover{
+      background-color: $linkColorBackgroundHover;
+    }
+  }
+}
+
+.module-settings-name{
+  margin-bottom: .5em;
+  color: $linkColor;
+}
+.module-settings-description{
+  margin: 0;
+}
+
+.module-settings-icon{
+  width: $moduleSettingsListIconWidth;
+  float: left;
+  margin-right: 1em;
+  position: relative;
+  top: 2px;
+}
+.module-settings-details{
+  float: left;
+  width: $moduleSettingsListWidth - $moduleSettingsListIconWidth - 3 * $moduleSettingsListIconMargin - 1 - $scrollbarWidth;
+}

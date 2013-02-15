@@ -1,0 +1,42 @@
+.module-settings-modules {
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  height: 100%;
+  padding: 0; }
+
+.module-settings-modules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 80px;
+  bottom: 20px;
+  width: 400px;
+  overflow-y: auto;
+  overflow-x: hidden; }
+  .module-settings-modules-list li {
+    padding: 15px 15px;
+    cursor: pointer; }
+    .module-settings-modules-list li:hover {
+      background-color: rgba(87, 198, 255, 0.2); }
+
+.module-settings-name {
+  margin-bottom: .5em;
+  color: #57c6ff; }
+
+.module-settings-description {
+  margin: 0; }
+
+.module-settings-icon {
+  width: 32px;
+  float: left;
+  margin-right: 1em;
+  position: relative;
+  top: 2px; }
+
+.module-settings-details {
+  float: left;
+  width: 316px; }

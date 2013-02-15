@@ -86,6 +86,24 @@ angular.module("HomepageModel", ["Storage"]).factory("model", ["$q", "$http", "s
             });
 
             return deferred.promise;
+        },
+        getUsedModulesIds: function(){
+            var deferred = $q.defer();
+
+            this.getModel().then(function(modelData){
+                var usedModulesIds = [];
+                for(var moduleType in modelData){
+                    modelData[moduleType].forEach(function(module){
+                        usedModulesIds.push(module.id);
+                    });
+                }
+
+                deferred.resolve(usedModulesIds);
+            }, function(error){
+                deferred.reject(error);
+            });
+
+            return deferred.promise;
         }
     }
 }]);

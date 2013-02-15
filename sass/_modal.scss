@@ -1,0 +1,44 @@
+
+.modal{
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  & > div{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.modal-header{
+  height: $modalHeaderHeight;
+  line-height: $modalHeaderHeight;
+  font-size: 1.6em;
+  border-bottom: solid 1px $linkColor;
+}
+.modal-background{
+  background: $modalBackground;
+  color: $modalColor;
+}
+.modal-close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 46px;
+  height: 46px;
+  text-align: center;
+  line-height: 46px;
+  z-index: 10;
+}
+.modal-btn{
+  color: $modalBtnColor;
+  &:hover{
+    color: $modalBtnHoverColor;
+  }
+}

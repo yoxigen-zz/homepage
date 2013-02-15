@@ -1,0 +1,41 @@
+#header{
+  height: $headerHeight;
+  line-height: $headerHeight;
+  padding: $headerPadding;
+  background: $headerBackgroundColor;
+  color: $headerColor;
+
+  .logo{
+    position: relative;
+    top: 4px;
+    vertical-align: top;
+    margin-right: 5px;
+  }
+
+  h1{
+    display: inline;
+    font-size: 14pt;
+  }
+
+  .header-menu{
+    float: right;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    .menu-link{
+      display: block;
+      height: 100%;
+      width: $headerHeight;
+      text-align: center;
+      line-height: $headerHeight;
+      position: relative;
+      color: $headerColor;
+
+      &:hover{
+        background: rgba(255,255,255,.2);
+        color: $headerBtnColorHover;
+      }
+    }
+  }
+}

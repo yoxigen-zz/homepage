@@ -1,6 +1,6 @@
 angular.module("Rss").controller("RssController", ["$scope", "rss", function($scope, rss){
     $scope.loadFeed = function(){
-        rss.load($scope.module.settings.feed).then(function(feeds){
+        rss.load($scope.module.settings.feed, false, { count: $scope.module.settings.count }).then(function(feeds){
             $scope.feed = feeds[0];
             $scope.moduleStyle = {
                 height: (100 / feeds.length) + "%"

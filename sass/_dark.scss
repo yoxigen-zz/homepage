@@ -1,6 +1,8 @@
 $background: White;
 $color: White;
 $linkColor: rgb(87, 198, 255);
+$linkColorBackgroundHover: rgba(87, 198, 255, .2);
+$linkColorBackgroundActive: rgba(87, 198, 255, .4);
 $linkColorHover: White;
 
 $headerColor: White;
@@ -47,6 +49,8 @@ $modalBackground: rgba(0,0,0,.9);
 $modalColor: White;
 $modalBtnColor: rgba(255,255,255, .3);
 $modalBtnHoverColor: White;
+
+$scrollbarWidth: 6px;
 
 @mixin firstColumn{
   color: White;
