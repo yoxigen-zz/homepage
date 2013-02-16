@@ -17,9 +17,9 @@ angular.module("GoogleFeed", []).factory("rss", ["$http", "$q", "utils", "Cache"
         if (cachedData){
             deferred.resolve(cachedData);
         }
-        else{ console.log("count: ", options.count)
+        else{
             $http.get("https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + (options.count || defaultOptions.count) +"&q=" + encodeURIComponent(feedUrl))
-                .success(function(response){ console.log("RES: ", response);
+                .success(function(response){
                     response.responseData.feed.items = formatItems(response.responseData.feed.entries);
                     delete response.responseData.feed.entries;
                     deferred.resolve(response.responseData.feed);

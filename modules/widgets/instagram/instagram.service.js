@@ -1,10 +1,16 @@
-angular.module("Instagram").factory("instagram", ["oauth2", "$q", "$http", "Cache", function(oauth, $q, $http, Cache){
-    var igOauth,
-        clientId = "e8bfed2280ae46439dcdfc4b956b35d3",
+angular.module("Instagram").factory("instagram", ["OAuth2", "$q", "$http", "Cache", function(OAuth2, $q, $http, Cache){
+    var clientId = "e8bfed2280ae46439dcdfc4b956b35d3",
         cache = new Cache({
             id: "instagram",
             hold: true,
             itemsExpireIn: 60 * 5 // cache items expire in 5 minutes
+        }),
+        igOauth = new OAuth2({
+            apiName: "instagram",
+            baseUrl: "https://instagram.com/oauth/authorize/",
+            redirectUri: "https://github.com/yoxigen/homepage",
+            clientId: clientId,
+            scope: "basic likes comments relationships"
         }),
         maxItemsToCache = 40;
 
@@ -100,23 +106,18 @@ angular.module("Instagram").factory("instagram", ["oauth2", "$q", "$http", "Cach
             { name: "Most popular", endpoint: "media/popular", id: "popular" }
         ],
         get loggedIn(){
-            igOauth = oauth.getOauth("instagram");
-            return !!igOauth;
+            return igOauth.isLoggedIn;
         },
         login: function(){
             var deferred = $q.defer();
 
-            if (igOauth)
-                deferred.resolve(igOauth);
+            if (igOauth.isLoggedIn)
+                deferred.resolve(igOauth.authData);
             else{
-                oauth.login("instagram", {
-                    baseUrl: "https://instagram.com/oauth/authorize/",
-                    redirectUri: "https://github.com/yoxigen/homepage",
-                    clientId: clientId,
-                    scope: "basic likes comments relationships"
-                }).then(function(oauthResult){
-                    igOauth = oauthResult.oauth;
-                    deferred.resolve(igOauth);
+                igOauth.login().then(function(){
+                    deferred.resolve(igOauth.authData);
+                }, function(error){
+                    deferred.reject(error);
                 });
             }
 
@@ -143,7 +144,8 @@ angular.module("Instagram").factory("instagram", ["oauth2", "$q", "$http", "Cach
             }
 
             if (!feedCache){
-                $http.jsonp("https://api.instagram.com/v1/" + feed.endpoint + "?callback=JSON_CALLBACK", { params: angular.extend(params, { access_token: igOauth.token, count: 20 }) })
+                $http.jsonp("https://api.instagram.com/v1/" + feed.endpoint + "?callback=JSON_CALLBACK", {
+                    params: angular.extend(params, { access_token: igOauth.oauthData.token, count: 20 }) })
                     .then(function(igData){
                         var normalizedData = {
                             paging: { next_max_id: igData.data.pagination.next_max_id },

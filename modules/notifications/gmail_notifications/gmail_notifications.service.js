@@ -1,4 +1,4 @@
-angular.module("GmailNotifications").factory("gmail_notifications", ["oauth2", "$q", "$http", "utils", function(oauth, $q, $http, utils){
+angular.module("GmailNotifications").factory("gmail_notifications", ["$q", "$http", "utils", function($q, $http, utils){
     var currentUser,
         apiUrl = "https://mail.google.com/mail/feed/atom",
         clientId = "225561981539.apps.googleusercontent.com",
@@ -36,7 +36,6 @@ angular.module("GmailNotifications").factory("gmail_notifications", ["oauth2", "
         },
         logout: function(){
             currentUser = null;
-            oauth.logout("gmail_notifications");
         },
         getCurrentUser: function(){
             var deferred = $q.defer();

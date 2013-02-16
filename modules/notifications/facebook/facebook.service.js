@@ -1,9 +1,15 @@
-angular.module("Facebook").factory("facebook", [ "oauth2", "$q", "$http", function(oauth, $q, $http){
+angular.module("Facebook").factory("facebook", [ "OAuth2", "$q", "$http", function(OAuth2, $q, $http){
     var apiKey = "132603783569142",
         appSecret = "ba840592bd31f05bec737573893f939e",
         graphApiUrl = "https://graph.facebook.com/",
         legacyApiUrl = "https://api.facebook.com/method/",
-        fbOauth,
+        fbOauth = new OAuth2({
+            apiName: "facebook",
+            baseUrl: "http://www.facebook.com/dialog/oauth/",
+            redirectUri: "https://apps.facebook.com/yox-homepage",
+            clientId: apiKey,
+            scope: "manage_notifications"
+        }),
         currentUser;
 
     var FB = {
@@ -31,7 +37,7 @@ angular.module("Facebook").factory("facebook", [ "oauth2", "$q", "$http", functi
     };
 
     function getFbUrlCommons(){
-        return "access_token=" + fbOauth.token + "&callback=JSON_CALLBACK";
+        return "access_token=" + fbOauth.oauthData.token + "&callback=JSON_CALLBACK";
     }
 
     function getProfileImage(userId){
@@ -40,20 +46,13 @@ angular.module("Facebook").factory("facebook", [ "oauth2", "$q", "$http", functi
 
     var methods = {
         get loggedIn(){
-            fbOauth = oauth.getOauth("facebook");
-            return !!fbOauth;
+            return fbOauth.isLoggedIn;
         },
         login: function(){
             var deferred = $q.defer();
 
-            oauth.login("facebook", {
-                baseUrl: "http://www.facebook.com/dialog/oauth/",
-                redirectUri: "https://apps.facebook.com/yox-homepage",
-                clientId: apiKey,
-                scope: "manage_notifications"
-            }).then(function(oauthResult){
-                fbOauth = oauthResult.oauth;
-                deferred.resolve(fbOauth);
+            fbOauth.login().then(function(oauthResult){
+                deferred.resolve(fbOauth.oauthData);
 
                 if (oauthResult.isNew){
                     // Get a long-lived token:
@@ -62,7 +61,7 @@ angular.module("Facebook").factory("facebook", [ "oauth2", "$q", "$http", functi
                             client_id: apiKey,
                             client_secret: appSecret,
                             grant_type: "fb_exchange_token",
-                            fb_exchange_token: fbOauth.token
+                            fb_exchange_token: fbOauth.oauthData.token
                         }
                     }).success(function(data){
                             var responseParams = data.split("&"),
@@ -74,16 +73,15 @@ angular.module("Facebook").factory("facebook", [ "oauth2", "$q", "$http", functi
                                 responseData[paramParts[0]] = paramParts[1];
                             });
 
-                        fbOauth = {
+                        fbOauth.setOauth({
                             token: responseData.access_token,
                             expires: new Date().valueOf() + parseInt(responseData.expires, 10) * 1000
-                        };
-
-                        oauth.setOauth("facebook", fbOauth);
+                        });
                     })
                 }
             }, function(error){
                 console.error("Can't login to Facebook: ", error);
+                deferred.reject(error);
             });
 
             return deferred.promise;

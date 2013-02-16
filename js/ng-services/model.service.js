@@ -1,6 +1,7 @@
-angular.module("HomepageModel", ["Storage"]).factory("model", ["$q", "$http", "storage", function($q, $http, storage){
+angular.module("HomepageModel", ["Storage"]).factory("model", ["$q", "$http", "Storage", function($q, $http, Storage){
     var defaultModelUrl = "js/data/default_model.json",
-        model;
+        model,
+        storage = new Storage("homepageModel");
 
     function getModelData (){
         var deferred = $q.defer(),
@@ -21,6 +22,11 @@ angular.module("HomepageModel", ["Storage"]).factory("model", ["$q", "$http", "s
     }
 
     return {
+        destroy: function(){
+            storage.destroy();
+            storage = null;
+            model = null;
+        },
         getLayout: function(){
             var deferred = $q.defer();
 

@@ -30,7 +30,7 @@ angular.module("HomepageInit", ["HomepageModel"])
                 "js/ng-directives/modal.js?d=" + new Date().valueOf()
             ];
 
-        model.getModel().then(function(model){
+        model.getModel().then(function(modelData){
             var dependencies = [],
                 resources = [],
                 styles = [],
@@ -76,7 +76,7 @@ angular.module("HomepageInit", ["HomepageModel"])
                 });
             }
 
-            angular.forEach(model, function(type, typeName){
+            angular.forEach(modelData, function(type, typeName){
                 angular.forEach(type, function(module){
                     if (angular.isArray(module))
                         angular.forEach(module, function(module){
@@ -106,6 +106,7 @@ angular.module("HomepageInit", ["HomepageModel"])
             angular.element(document.getElementById("appInit")).remove();
             styles.length && loadStyles(styles);
             requirejs(appResources.concat(resources), function() {
+                model.destroy();
                 angular.bootstrap(document, ["Homepage"]);
             });
         });

@@ -1,1 +1,6 @@
-<div ng-include="includes.thumbnails" ng-controller="InstagramController"></div>
+<div ng-controller="InstagramController">
+    <div ng-include="includes.thumbnails" ></div>
+    <div class="centered instagram-login" ng-show="!isLoggedIn">
+        <a ng-click="login()">Login</a>
+    </div>
+</div>

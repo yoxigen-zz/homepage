@@ -1,4 +1,4 @@
-angular.module("ModuleSettings").factory("moduleSettings", ["storage", "$q", "$http", "model", function(storage, $q, $http, model){
+angular.module("ModuleSettings").factory("moduleSettings", ["$q", "$http", "model", function($q, $http, model){
     var modulesDataUrl = "js/data/modules.json";
 
     return {
