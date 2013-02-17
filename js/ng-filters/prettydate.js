@@ -1,5 +1,8 @@
 angular.module("PrettyDate", []).filter('prettyDate', function () {
     return function (date, isShort) {
+        if (!date)
+            return "";
+
         if (String(date) === date)
             date = new Date(date);
 

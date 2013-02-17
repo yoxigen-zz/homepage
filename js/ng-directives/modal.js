@@ -14,6 +14,7 @@ angular.module("Homepage").directive("modal", function(){
                     $scope.$apply(function(){
                         $scope.modalOpen = false;
                         ngModel.$setViewValue(false);
+                        $scope.$emit("modalClose")
                     });
                 }
             });

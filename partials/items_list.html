@@ -14,7 +14,10 @@
                 </a>
             </div>
             <div class="item-details">
-                <span class="item-feed"><a href="{{item.link}}" target="_blank" title="Go to the original post on {{item.feed.title}}"><img class="favicon" ng-src="{{item.link | favicon}}" />{{item.feed.title}}</a></span>
+                <span class="item-feed">
+                    <a href="{{item.link}}" target="_blank" title="Go to the original post on {{item.feed.title}}">
+                        <img class="favicon" ng-src="{{item.link | favicon}}" img-alt="img/rss_16x16.png" />{{item.feed.title}}
+                    </a></span>
                 <span><i class="icon icon-time"></i>{{item.publishDate | prettyDate}}</span>
                 <span ng-show="item.author"><i class="icon icon-user"></i>{{item.author}}</span>
             </div>

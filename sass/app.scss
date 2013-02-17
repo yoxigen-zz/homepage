@@ -59,6 +59,18 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   -webkit-transform: rotateY(180deg);
 }
 .dimmed{ opacity: .3 }
+.centered{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.login{
+  font-size: 1.4em;
+  -webkit-transform: translateY(-.5em);
+}
+
 .item-expand{
   float: left;
   cursor: pointer;

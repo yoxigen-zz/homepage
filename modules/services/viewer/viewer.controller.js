@@ -35,6 +35,8 @@ angular.module("Viewer").controller("ViewerController", ["$scope", "imageCache",
         $scope.currentItem = null;
     };
 
+    $scope.$on("modalClose", $scope.closeViewer);
+
     $scope.selectImage = function(index){
         $scope.currentItemIsFirst = $scope.currentItemIsLast = false;
 

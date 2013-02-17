@@ -20,14 +20,16 @@ angular.module("HomepageInit", ["HomepageModel"])
                 "OAuth1",
                 "OAuth2",
                 "Cache",
-                "HomepageModel"
+                "HomepageModel",
+                "ImageDirectives"
             ],
             appResources = [
                 "js/ng-controllers/homepage.controller.js",
                 "js/ng-controllers/notification.controller.js",
                 "js/ng-controllers/items_list.controller.js?d=" + new Date().valueOf(),
                 "js/ng-controllers/widget.controller.js?d=" + new Date().valueOf(),
-                "js/ng-directives/modal.js?d=" + new Date().valueOf()
+                "js/ng-directives/modal.js?d=" + new Date().valueOf(),
+                "js/ng-directives/img_alt.js"
             ];
 
         model.getModel().then(function(modelData){

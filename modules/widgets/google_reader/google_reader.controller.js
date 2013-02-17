@@ -33,7 +33,7 @@ angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "
     };
 
     $scope.$on("refresh", function(){
-        googleReader.refresh({ lastItem: $scope.feed.items[0] }).then(function(readerData){
+        googleReader.refresh({ lastItem: $scope.feed && $scope.feed.items && $scope.feed.items[0] }).then(function(readerData){
             if (readerData.items && readerData.items.length){
                 $scope.feed.items = readerData.items.concat($scope.feed.items);
                 $scope.safeApply();
