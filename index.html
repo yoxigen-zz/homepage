@@ -10,7 +10,10 @@
       slideshow
       slideshow-interval="60"
       ng-model="slideshowImages"
-      ng-init="slideshowImages=['img/backgrounds/1.webp','img/backgrounds/2.webp','img/backgrounds/3.webp']">
+      ng-class="{ 'background-enabled': background.enabled }"
+      ng-init="slideshowImages=['img/backgrounds/1.webp','img/backgrounds/2.webp','img/backgrounds/3.webp']"
+      toggle-keys="{{ {'27': 'background.disable' } }}"
+      toggle-keys-enabled="background.enabled">
     <header id="header">
         <menu id="settings-menu" class="header-menu">
             <a ng-click="openModuleSettings()" title="Modules" class="menu-link"><i class="icon-cogs"></i></a>
@@ -21,7 +24,8 @@
         <img class="logo" src="img/logo.png" />
         <h1>Homepage</h1>
     </header>
-    <div id="content">
+    <div id="backgroundOvelay" class="fill" ng-click="background.enable()" ng-show="!background.enabled"></div>
+    <div id="content" class="fill">
         <div ng-repeat="row in layout.rows" class="layout-row" ng-style="{ height: row.height }">
             <div ng-repeat="column in row.columns" class="layout-column" ng-style="{ width: column.width }">
                 <div ng-repeat="module in column.widgets" class="module-wrapper" ng-style="{ height: module.height }" ng-include="includes.widget">

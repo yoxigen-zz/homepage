@@ -29,7 +29,8 @@ angular.module("HomepageInit", ["HomepageModel"])
                 "js/ng-controllers/items_list.controller.js?d=" + new Date().valueOf(),
                 "js/ng-controllers/widget.controller.js?d=" + new Date().valueOf(),
                 "js/ng-directives/modal.js?d=" + new Date().valueOf(),
-                "js/ng-directives/img_alt.js"
+                "js/ng-directives/img_alt.js",
+                "js/ng-directives/toggle_keys.js"
             ];
 
         model.getModel().then(function(modelData){

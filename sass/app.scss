@@ -105,32 +105,51 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   }
 }
 
-#content{
+.fill{
   position: absolute;
-  top: $headerHeight + $contentsPadding;
+  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+}
+#backgroundOverlay{
+  z-index: 5;
+}
+
+#content{
+  top: $headerHeight + $contentsPadding;
+  z-index: 10;
+  -webkit-transition: all 800ms ease-out;
+  left: $contentsPadding;
+  right: $contentsPadding;
+  bottom: $contentsPadding;
 
   .layout-column{
     position: relative;
     float: left;
     height: 100%;
+
+    &:first-child .module{ margin-left: 0 }
+    &:last-child .module{ margin-right: 0 }
   }
 }
 
+.background-enabled #content{
+  -webkit-transform: translateZ(820px);
+  opacity: 0;
+}
 .module-wrapper{
   position: relative;
+
+  &:last-child .module{
+    bottom: 0;
+  }
 }
 .module{
   background: $moduleBackground;
   border-radius: $moduleRadius;
-  margin: 0 $contentsPadding;
-  position: absolute;
-  top: 0;
+  margin: 0 $contentsPadding / 2;
   bottom: $contentsPadding;
-  left: 0;
-  right: 0;
 
   .module-header{
     height: $moduleHeaderHeight;

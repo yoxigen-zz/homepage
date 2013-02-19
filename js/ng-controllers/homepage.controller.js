@@ -57,4 +57,14 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     $scope.openModuleSettings = function(){
         $scope.callService("module_settings", "open");
     };
+
+    $scope.background = {
+        enabled: false,
+        enable: function(){
+            $scope.background.enabled = true;
+        },
+        disable: function(){
+            $scope.background.enabled = false;
+        }
+    }
 }]);

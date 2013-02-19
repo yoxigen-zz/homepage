@@ -4,6 +4,7 @@
   padding: $headerPadding;
   background: $headerBackgroundColor;
   color: $headerColor;
+  -webkit-transition: opacity 600ms ease-out;
 
   .logo{
     position: relative;
@@ -38,4 +39,10 @@
       }
     }
   }
+}
+
+.background-enabled #header{
+  opacity: .2;
+
+  &:hover{ opacity: 1 }
 }
