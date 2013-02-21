@@ -38,6 +38,7 @@ angular.module("Viewer").controller("ViewerController", ["$scope", "imageCache",
     $scope.$on("modalClose", $scope.closeViewer);
 
     $scope.selectImage = function(index){
+        $timeout.cancel(loadingTimeoutPromise);
         $scope.currentItemIsFirst = $scope.currentItemIsLast = false;
 
         if (index <= 0){
@@ -50,7 +51,11 @@ angular.module("Viewer").controller("ViewerController", ["$scope", "imageCache",
         }
 
         var item = $scope.items[currentIndex = index];
-        $timeout.cancel(loadingTimeoutPromise);
+
+        $scope.currentItem = item;
+        $scope.currentImageUrl = item.thumbnail.src;
+        $scope.currentImageWidth = item.width || (item.thumbnail && item.thumbnail.width);
+
         loadingTimeoutPromise = $timeout(function(){
             $scope.loading = true;
         }, 140);
@@ -58,7 +63,8 @@ angular.module("Viewer").controller("ViewerController", ["$scope", "imageCache",
         imageCache.cacheImage(item.url).then(function(imageData){
             item.width = imageData.width;
             item.height = imageData.height;
-            $scope.currentItem = item;
+            $scope.currentImageUrl = item.url;
+            $scope.currentImageWidth = item.width;
             $timeout.cancel(loadingTimeoutPromise);
             $scope.loading = false;
         }, function(){

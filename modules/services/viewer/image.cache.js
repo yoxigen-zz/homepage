@@ -1,12 +1,26 @@
 angular.module("Viewer").factory("imageCache", ["$q", "$rootScope", function($q, $rootScope){
+    var currentCacheDeferred,
+        img,
+        currentImageUrl;
+
     var methods = {
         cacheImage: function(imageUrl){
-            var deferred = $q.defer(),
-                img = new Image();
+            if (!imageUrl)
+                throw new Error("No image URL specified for cacheImage.");
+
+            if (currentCacheDeferred){
+                if (imageUrl === currentImageUrl)
+                    return currentCacheDeferred.promise;
+
+                currentCacheDeferred.reject();
+                img.src = "";
+            }
+
+            currentCacheDeferred = $q.defer();
+            img = img || new Image();
 
             img.onload = function(){
-                console.log("loaded image: %dx%d", this.width, this.height);
-                deferred.resolve({
+                currentCacheDeferred.resolve({
                     width: this.width,
                     height: this.height
                 });
@@ -15,19 +29,19 @@ angular.module("Viewer").factory("imageCache", ["$q", "$rootScope", function($q,
 
             img.onerror = function(error){
                 console.error("can't load: ", error);
-                deferred.reject(error);
+                currentCacheDeferred.reject(error);
                 $rootScope.$apply();
             };
 
-            img.src = imageUrl;
+            img.src = currentImageUrl = imageUrl;
             if (img.complete){
-                deferred.resolve({
+                currentCacheDeferred.resolve({
                     width: img.width,
                     height: img.height
                 });
             }
 
-            return deferred.promise;
+            return currentCacheDeferred.promise;
         }
     };
 

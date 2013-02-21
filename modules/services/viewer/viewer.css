@@ -28,7 +28,8 @@
 .viewer-image {
   border: solid 1px #555;
   vertical-align: middle;
-  text-align: center; }
+  text-align: center;
+  width: 100%; }
 
 .viewer-description {
   text-align: center;

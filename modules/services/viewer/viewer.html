@@ -1,13 +1,13 @@
 <div ng-controller="ViewerController">
     <modal ng-model="viewerOpen" class="viewer-modal">
         <div class="closes-modal">
-            <div class="viewer-media closes-modal" ng-style="{ width: currentItem.width + 'px'}">
+            <div class="viewer-media closes-modal" ng-style="{ width: currentImageWidth + 'px'}">
                 <a class="modal-btn nav-btn-prev"
                    ng-click="prev($event)"
                    ng-disabled="currentItemIsFirst"
                    ng-show="currentItem">
                     <i class="icon-chevron-left icon-large"></i></a>
-                <img class="viewer-image" ng-src="{{currentItem.url}}" ng-show="currentItem.url" />
+                <img class="viewer-image" ng-src="{{currentImageUrl}}" ng-show="currentImageUrl" />
                 <a class="modal-btn nav-btn-next"
                    ng-click="next($event)"
                    ng-disabled="currentItemIsLast"
