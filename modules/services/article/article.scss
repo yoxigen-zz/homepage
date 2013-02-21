@@ -6,8 +6,6 @@ $articlePadding: 1em 2em;
 $articleBorderRadius: 5px;
 
 .article-modal{
-  color: Black;
-
   .modal-background{
     background: rgba(255,255,255,.8);
   }
@@ -27,9 +25,10 @@ $articleBorderRadius: 5px;
     box-shadow: 1px 1px 8px rgba(0,0,0,.3);
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    background: rgba(255,255,255,.6);
+    background: White;
     box-sizing: border-box;
     border-radius: $articleBorderRadius;
+    color: #333;
   }
 
   .article-header{
@@ -57,6 +56,10 @@ $articleBorderRadius: 5px;
 
     p{
       margin: 0 0 1em;
+    }
+
+    h1,h2,h3,h4,h5{
+      margin: 1em 0;
     }
   }
 }
