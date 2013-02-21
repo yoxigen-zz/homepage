@@ -1,6 +1,7 @@
 $background: White;
 $color: White;
 $linkColor: rgb(87, 198, 255);
+$linkColorOnLightBackground: rgb(0, 144, 218);
 $linkColorBackgroundHover: rgba(87, 198, 255, .2);
 $linkColorBackgroundActive: rgba(87, 198, 255, .4);
 $linkColorHover: White;
@@ -40,6 +41,7 @@ $notificationsBackground: rgb(235, 237, 238);
 $notificationsColor: #222;
 $notificationsHoverBackground: rgb(218, 227, 231);
 $notificationsHeaderBackground: rgba(12, 161, 240, 1);
+$notificationsHeaderColor: White;
 $notificationBorderBottom: solid 1px rgba(0, 0, 0, 0.1);
 $notificationsLinkColor: rgb(1, 90, 134);
 $notificationsLinkColorHover: rgb(23, 134, 190);

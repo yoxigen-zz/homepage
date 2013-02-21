@@ -67,10 +67,12 @@ angular.module("Viewer").controller("ViewerController", ["$scope", "imageCache",
             $scope.currentImageWidth = item.width;
             $timeout.cancel(loadingTimeoutPromise);
             $scope.loading = false;
-        }, function(){
-            $scope.currentItem = { url: null, title: "<i class='icon-warning-sign'></i> Can't load image from <a href='" + item.url + "' target='_blank'>" + item.url + "</a>"};
-            $timeout.cancel(loadingTimeoutPromise);
-            $scope.loading = false;
+        }, function(error){
+            if (error){
+                $scope.currentItem = { url: null, title: "<i class='icon-warning-sign'></i> Can't load image from <a href='" + item.url + "' target='_blank'>" + item.url + "</a>"};
+                $timeout.cancel(loadingTimeoutPromise);
+                $scope.loading = false;
+            }
         });
     };
 }]);

@@ -1,0 +1,39 @@
+.article-modal {
+  color: Black; }
+  .article-modal .modal-background {
+    background: rgba(255, 255, 255, 0.8); }
+  .article-modal .article-main-wrapper {
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    right: 2em;
+    bottom: 2em; }
+  .article-modal .article-main {
+    max-width: 1000px;
+    margin: 0 auto;
+    height: 100%;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    background: rgba(255, 255, 255, 0.6);
+    box-sizing: border-box;
+    border-radius: 5px; }
+  .article-modal .article-header {
+    max-height: 6em;
+    padding: 1em 2em;
+    -webkit-box-flex: 0;
+    border-bottom: solid 1px #eee;
+    background: #0ca1f0;
+    color: white;
+    border-radius: 5px 5px 0 0; }
+  .article-modal .article-body {
+    -webkit-box-flex: 1;
+    overflow: auto;
+    padding: 1em 2em;
+    margin: 3px; }
+    .article-modal .article-body a {
+      color: #0090da; }
+      .article-modal .article-body a:hover {
+        text-decoration: underline; }
+    .article-modal .article-body p {
+      margin: 0 0 1em; }

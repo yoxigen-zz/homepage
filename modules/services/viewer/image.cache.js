@@ -13,7 +13,7 @@ angular.module("Viewer").factory("imageCache", ["$q", "$rootScope", function($q,
                     return currentCacheDeferred.promise;
 
                 currentCacheDeferred.reject();
-                img.src = "";
+                //img.src = "";
             }
 
             currentCacheDeferred = $q.defer();
@@ -24,13 +24,13 @@ angular.module("Viewer").factory("imageCache", ["$q", "$rootScope", function($q,
                     width: this.width,
                     height: this.height
                 });
-                $rootScope.$apply();
+                $rootScope.safeApply();
             };
 
             img.onerror = function(error){
                 console.error("can't load: ", error);
                 currentCacheDeferred.reject(error);
-                $rootScope.$apply();
+                $rootScope.safeApply();
             };
 
             img.src = currentImageUrl = imageUrl;

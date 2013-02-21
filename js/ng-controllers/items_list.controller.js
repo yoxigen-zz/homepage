@@ -11,4 +11,15 @@ angular.module("Homepage").controller("ItemsListController", ["$scope", function
         else
             currentOpenItem = null;
     };
+
+    $scope.openItem = function(item){
+        if (item.text){
+            $scope.callService("article", "open", {
+                article: item
+            });
+        }
+        else{
+            chrome.tabs.create({ url: item.link });
+        }
+    }
 }]);

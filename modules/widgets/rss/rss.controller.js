@@ -1,6 +1,6 @@
 angular.module("Rss").controller("RssController", ["$scope", "rss", function($scope, rss){
-    $scope.loadFeed = function(){
-        rss.load($scope.module.settings.feed, false, { count: $scope.module.settings.count }).then(function(feeds){
+    $scope.loadFeed = function(forceRefresh){
+        rss.load($scope.module.settings.feed, forceRefresh, { count: $scope.module.settings.count }).then(function(feeds){
             $scope.feed = feeds[0];
             $scope.moduleStyle = {
                 height: (100 / feeds.length) + "%"
@@ -13,7 +13,7 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
         }, handleError);
     }
 
-    $scope.$on("refresh", $scope.loadFeed);
+    $scope.$on("refresh", function(){ $scope.loadFeed(true); });
 
     function handleError(error){
         console.error("Can't get Google Reader items. Error: ", error);

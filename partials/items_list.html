@@ -9,7 +9,7 @@
                 <a class="item-header-btn" ng-click="setCurrentItem(item)" class="clearfix" title="Expand">
                     <i class="icon icon-double-angle-right icon-large"></i>
                 </a>
-                <a href="{{item.link}}" target="_blank" title="View original post" class="clearfix">
+                <a ng-click="openItem(item)" target="_blank" title="View original post" class="clearfix">
                     <h4 ng-bind-html-unsafe="item.title"></h4>
                 </a>
             </div>

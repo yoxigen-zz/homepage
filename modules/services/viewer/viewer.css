@@ -19,7 +19,8 @@
     -webkit-box-pack: center;
     -webkit-box-align: center; }
     .viewer-media .modal-btn[disabled] {
-      display: none; }
+      opacity: 0;
+      cursor: default; }
     .viewer-media .modal-btn.nav-btn-prev {
       left: -80px; }
     .viewer-media .modal-btn.nav-btn-next {

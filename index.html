@@ -12,7 +12,7 @@
       ng-model="slideshowImages"
       ng-class="{ 'background-enabled': background.enabled }"
       ng-init="slideshowImages=['img/backgrounds/1.webp','img/backgrounds/2.webp','img/backgrounds/3.webp']"
-      toggle-keys="{{ {'27': 'background.disable' } }}"
+      toggle-keys="{{ { escape: 'background.disable' } }}"
       toggle-keys-enabled="background.enabled">
     <header id="header">
         <menu id="settings-menu" class="header-menu">

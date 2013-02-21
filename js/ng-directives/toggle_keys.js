@@ -3,9 +3,15 @@ angular.module("Homepage").directive("toggleKeys", function(){
         restrict: "A",
         scope: false,
         link: function($scope, element, attrs){
-            var keysMap;
+            var keysMap,
+                PRESETS = {
+                    escape: "27",
+                    enter: "13",
+                    left: "37",
+                    right: "39"
+                };
 
-            function onEscape(e){
+            function onKeyDown(e){
                 var handler = $scope.$eval(keysMap[String(e.keyCode)]);
                 if (handler){
                     $scope.$apply(function(){
@@ -16,13 +22,18 @@ angular.module("Homepage").directive("toggleKeys", function(){
 
             attrs.$observe("toggleKeys", function(val) {
                 keysMap = angular.fromJson(val);
+                var presetKey;
+                for(var key in keysMap){
+                    if (presetKey = PRESETS[key])
+                        keysMap[presetKey] = keysMap[key];
+                }
             });
 
             $scope.$watch(attrs.toggleKeysEnabled, function(enabled){
                 if (enabled)
-                    window.addEventListener("keydown", onEscape)
+                    window.addEventListener("keydown", onKeyDown)
                 else
-                    window.removeEventListener("keydown", onEscape);
+                    window.removeEventListener("keydown", onKeyDown);
             });
         }
     }

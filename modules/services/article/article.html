@@ -1,0 +1,12 @@
+<div ng-controller="ArticleController">
+    <modal ng-model="articleOpen" class="article-modal">
+        <div class="closes-modal article-main-wrapper">
+            <article class="article-main" dir="{{article.direction || 'ltr'}}">
+                <header class="article-header">
+                    <h3 ng-bind="article.title"></h3>
+                </header>
+                <section class="article-body" ng-bind-html-unsafe="article.text"></section>
+            </article>
+        </div>
+    </modal>
+</div>

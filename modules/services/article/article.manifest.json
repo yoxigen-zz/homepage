@@ -1,0 +1,15 @@
+{
+	"name": "Article",
+	"modules": [
+		{ "name": "Article", "dependencies": [] }
+	],
+    "resources": [
+		"article.controller.js"
+    ],
+	"html": {
+		"widget": "article.html"
+	},
+	"css": [ "article.css" ],
+	"settingsOptions": [],
+	"settings": {}
+}

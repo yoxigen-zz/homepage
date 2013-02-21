@@ -1,0 +1,62 @@
+@import "sass/dark";
+
+$articleMargin: 2em;
+$articleHeaderHeight: 6em;
+$articlePadding: 1em 2em;
+$articleBorderRadius: 5px;
+
+.article-modal{
+  color: Black;
+
+  .modal-background{
+    background: rgba(255,255,255,.8);
+  }
+
+  .article-main-wrapper{
+    position: absolute;
+    top: $articleMargin;
+    left: $articleMargin;
+    right: $articleMargin;
+    bottom: $articleMargin;
+  }
+
+  .article-main{
+    max-width: 1000px;
+    margin: 0 auto;
+    height: 100%;
+    box-shadow: 1px 1px 8px rgba(0,0,0,.3);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    background: rgba(255,255,255,.6);
+    box-sizing: border-box;
+    border-radius: $articleBorderRadius;
+  }
+
+  .article-header{
+    max-height: $articleHeaderHeight;
+    padding: $articlePadding;
+    -webkit-box-flex: 0;
+    border-bottom: solid 1px #eee;
+    background: $notificationsHeaderBackground;
+    color: $notificationsHeaderColor;
+    border-radius: $articleBorderRadius $articleBorderRadius 0 0;
+  }
+  .article-body{
+    -webkit-box-flex: 1;
+    overflow: auto;
+    padding: $articlePadding;
+    margin: 3px;
+
+    a{
+      color: $linkColorOnLightBackground;
+
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+
+    p{
+      margin: 0 0 1em;
+    }
+  }
+}
