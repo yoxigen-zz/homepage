@@ -8,7 +8,7 @@ angular.module("Article").controller("ArticleController", ["$scope", "$timeout",
         }
     };
 
-    $scope.$on($scope.service.id, function(e, eventData){
+    $scope.$on($scope.service.type, function(e, eventData){
         methods[eventData.method] && methods[eventData.method](eventData.data);
     });
 

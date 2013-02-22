@@ -1,5 +1,5 @@
 angular.module("Homepage").controller("NotificationsController", ["$scope", "$timeout", function($scope, $timeout){
-    var notificationsService = angular.injector(["ng", 'Homepage']).get($scope.notification.id),
+    var notificationsService = angular.injector(["ng", 'Homepage']).get($scope.notification.type),
         timeoutPromise;
 
     function setNotifications(options){
@@ -32,7 +32,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
         }
     }
     else
-        console.error("Notification service not found: ", $scope.notification.id);
+        console.error("Notification service not found: ", $scope.notification.type);
 
     $scope.openNotifications = function(){
         if (!notificationsService.loggedIn){

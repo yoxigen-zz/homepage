@@ -35,15 +35,28 @@
     </div>
     <ng-include ng-repeat="service in services" src="service.html.widget"></ng-include>
     <script type="text/ng-template" id="setting.text">
-        <input type="text" ng-class="{'long-text':setting.style=='long'}" ng-model="module.settings[setting.name]" id="setting_{{module.id}}_$index" />
+        <input type="text"
+               ng-class="{'long-text':setting.style=='long'}"
+               ng-model="module.settings[setting.name]"
+               id="setting_{{module.id}}"
+               ng-change="updateModel()" />
         <span ng-bind="setting.appendix"></span>
     </script>
     <script type="text/ng-template" id="setting.number">
-        <input type="number" ng-model="module.settings[setting.name]" id="setting_{{module.id}}_$index" min="{{setting.min}}" max="{{setting.max}}" step="{{setting.step}}" />
+        <input type="number"
+               ng-model="module.settings[setting.name]"
+               id="setting_{{module.id}}"
+               min="{{setting.min}}"
+               max="{{setting.max}}"
+               step="{{setting.step}}"
+               ng-change="updateModel()" />
         <span ng-bind="setting.appendix"></span>
     </script>
     <script type="text/ng-template" id="setting.select">
-        <select ng-model="module.settings[setting.name]" id="setting_{{module.id}}_$index" ng-options="option.value as option.display for option in setting.options"></select>
+        <select ng-model="module.settings[setting.name]"
+                ng-change="updateModel()"
+                id="setting_{{module.id}}"
+                ng-options="option.value as option.display for option in setting.options"></select>
     </script>
 
     <script src="js/lib/angular.min.js"></script>

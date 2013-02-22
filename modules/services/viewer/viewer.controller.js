@@ -14,7 +14,7 @@ angular.module("Viewer").controller("ViewerController", ["$scope", "imageCache",
         }
     };
 
-    $scope.$on($scope.service.id, function(e, eventData){
+    $scope.$on($scope.service.type, function(e, eventData){
         methods[eventData.method] && methods[eventData.method](eventData.data);
     });
 

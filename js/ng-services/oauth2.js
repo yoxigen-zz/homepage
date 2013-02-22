@@ -38,7 +38,6 @@
                 return null;
             },
             get isLoggedIn(){
-                console.log("IS: ", this.options.apiName, this.getOauth())
                 return !!this.getOauth();
             },
             login: function(){

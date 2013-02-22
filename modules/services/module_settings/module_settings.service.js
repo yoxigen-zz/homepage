@@ -14,7 +14,7 @@ angular.module("ModuleSettings").factory("moduleSettings", ["$q", "$http", "mode
                     usedModuleIds = results[1];
 
                 allModules.forEach(function(module){
-                    var found = usedModuleIds.indexOf(module.id);
+                    var found = usedModuleIds.indexOf(module.type);
 
                     if (~found){
                         module.used = true;

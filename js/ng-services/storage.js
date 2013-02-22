@@ -1,9 +1,9 @@
 (function(){
-    angular.module("Storage", []).factory('Storage', ["$injector", function ($injector) {
+    angular.module("Storage", []).factory('Storage', ["$injector", "$q", function ($injector, $q, $rootScope) {
         return function(id) { return $injector.instantiate(Storage, { id: id }); };
     }]);
 
-    function Storage(id){
+    function Storage(id, $q, $rootScope){
         // Make sure this Storage is unique, to avoid conflicts between two storage users:
         this.registerId(id);
         this.id = id;
@@ -22,6 +22,14 @@
 
             this.sessionStorageApi = new StorageApi(id, sessionStorage);
             return this.sessionStorageApi;
+        });
+
+        this.__defineGetter__("cloud", function(){
+            if (this.cloudStorageApi)
+                return this.cloudStorageApi;
+
+            this.cloudStorageApi = new ChromeStorageApi(id, $q, $rootScope);
+            return this.cloudStorageApi;
         });
     }
 
@@ -71,6 +79,81 @@
                 if (storageKeyPrefixRegExp.test(keyName))
                     this.storage.removeItem(keyName);
             }
+        }
+    };
+
+    function ChromeStorageApi(id, $q, $rootScope){
+        this.$q = $q;
+        this.$rootScope = $rootScope;
+
+        this.getStorageKeyName = function(key){
+            return [id, key].join("_");
+        };
+
+        this.getStorageKeyPrefixRegExp = function(){
+            new RegExp("^" + id + "_");
+        };
+    }
+
+    ChromeStorageApi.prototype = {
+        getItem: function(key){
+            return this.getItems([key]);
+        },
+        getItems: function(keys){
+            var deferred = this.$q.defer(),
+                self = this;
+
+            chrome.storage.sync.get(keys, function(data){
+                if (!Object.keys(data).length)
+                    deferred.resolve();
+                else{
+                    if (keys.length === 1)
+                        deferred.resolve(data[keys[0]]);
+                    else
+                        deferred.resolve(data);
+                }
+
+                self.$rootScope.$apply();
+            });
+
+            return deferred.promise;
+        },
+        setItem: function(key, data){
+            var deferred = this.$q.defer(),
+                obj = {},
+                self = this;
+
+            obj[key] = data;
+            console.log("SETTING", obj)
+            chrome.storage.sync.set(obj, function(){
+                console.log("sync set: ", arguments, ", error: ", chrome.runtime.lastError);
+                deferred.resolve();
+                self.$rootScope.$apply();
+            });
+
+            return deferred.promise;
+        },
+        removeItem: function(key){
+            var deferred = this.$q.defer(),
+                self = this;
+
+            chrome.storage.sync.remove(key, function(){
+                deferred.resolve();
+                self.$rootScope.$apply();
+            });
+
+            return deferred.promise;
+        },
+        clear: function(){
+            var deferred = this.$q.defer(),
+                self = this;
+
+            chrome.storage.sync.clear(function(){
+                deferred.resolve();
+                self.$rootScope.$apply();
+            });
+
+            return deferred.promise;
         }
     };
 })();

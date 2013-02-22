@@ -58,13 +58,13 @@ angular.module("HomepageInit", ["HomepageModel"])
 
                 if (module.resources){
                     module.resources.forEach(function(resourceUrl){
-                        resources.push(["modules", moduleType, module.id, resourceUrl].join("/"));
+                        resources.push(["modules", moduleType, module.type, resourceUrl].join("/"));
                     });
                 }
 
                 if (module.css){
                     module.css.forEach(function(cssUrl){
-                        styles.push(["modules", moduleType, module.id, cssUrl + "?d=" + new Date().valueOf()].join("/"));
+                        styles.push(["modules", moduleType, module.type, cssUrl + "?d=" + new Date().valueOf()].join("/"));
                     });
                 }
             }

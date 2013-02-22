@@ -1,10 +1,9 @@
 angular.module("Homepage").controller("HomepageController", ["$scope", "model", "$timeout", "$window", "$q", function($scope, model, $timeout, $window, $q){
     var notificationsCount = 0,
-        widgetMinWidth = 500,
-        columnsCount = 1;
+        modelData;
 
     $q.all([model.getLayout(), model.getModel()]).then(function(data){
-        var modelData = data[1];
+        modelData = data[1];
 
         $scope.notifications = modelData.notifications;
         $scope.widgets = modelData.widgets;
@@ -33,6 +32,10 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
 
     $scope.callService = function(service, method, data){
         $scope.$broadcast(service, { method: method, data: data });
+    };
+
+    $scope.updateModel = function(){
+        model.saveModel(modelData);
     };
 
     $scope.includes = {
