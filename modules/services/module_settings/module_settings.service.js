@@ -2,6 +2,9 @@ angular.module("ModuleSettings").factory("moduleSettings", ["$q", "$http", "mode
     var modulesDataUrl = "js/data/modules.json";
 
     return {
+        addModule: function(module){
+            model.addModule(module.types[0], module.id);
+        },
         /**
          * Returns all the available modules, which can be added to Homepage.
          * @return {*}

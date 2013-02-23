@@ -124,7 +124,7 @@
                 self = this;
 
             obj[key] = data;
-            console.log("SETTING", obj)
+            console.log("SETTING", obj, " - ", JSON.stringify(obj).length)
             chrome.storage.sync.set(obj, function(){
                 console.log("sync set: ", arguments, ", error: ", chrome.runtime.lastError);
                 deferred.resolve();

@@ -3,7 +3,7 @@
         return function(options) { return $injector.instantiate(OAuth2, { options: options }); };
     }]);
 
-    function OAuth2($rootScope, $q, $http, Storage, options){
+    function OAuth2($rootScope, $q, Storage, options){
         this.$rootScope = $rootScope;
         this.$q = $q;
         this.options = options;

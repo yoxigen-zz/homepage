@@ -15,6 +15,7 @@ angular.module("HomepageInit", ["HomepageModel"])
 
         var appDependencies = [
                 "Utils",
+                "EventBus",
                 "PrettyDate",
                 "FavIcon",
                 "OAuth1",
@@ -30,7 +31,8 @@ angular.module("HomepageInit", ["HomepageModel"])
                 "js/ng-controllers/widget.controller.js?d=" + new Date().valueOf(),
                 "js/ng-directives/modal.js?d=" + new Date().valueOf(),
                 "js/ng-directives/img_alt.js",
-                "js/ng-directives/toggle_keys.js"
+                "js/ng-directives/toggle_keys.js",
+                "js/ng-directives/drag.js?d=" + new Date().valueOf()
             ];
 
         model.getModel().then(function(modelData){

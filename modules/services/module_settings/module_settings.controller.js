@@ -11,6 +11,10 @@ angular.module("ModuleSettings").controller("ModuleSettingsController", ["$scope
         }
     };
 
+    $scope.addModule = function(module){
+        moduleSettings.addModule(module);
+    };
+
     $scope.$on($scope.service.type, function(e, eventData){
         methods[eventData.method] && methods[eventData.method](eventData.data);
     });

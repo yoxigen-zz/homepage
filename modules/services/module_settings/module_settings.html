@@ -3,7 +3,7 @@
         <div class="module-settings-modules closes-modal">
             <h3 class="modal-header">Add Modules</h3>
             <ul class="module-settings-modules-list">
-                <li ng-repeat="moduleSettings in modules" class="clearfix" ng-class="{added: moduleSettings.used}">
+                <li ng-repeat="moduleSettings in modules" class="clearfix" ng-class="{added: moduleSettings.used}" ng-click="addModule(moduleSettings)">
                     <img class="module-settings-icon" ng-src="{{moduleSettings.icon}}" />
                     <div class="module-settings-details">
                         <h4 class="module-settings-name">{{moduleSettings.name}} <i class="icon-ok" ng-show="moduleSettings.used"></i></h4>

@@ -2,9 +2,15 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     var notificationsCount = 0,
         modelData;
 
-    $q.all([model.getLayout(), model.getModel()]).then(function(data){
-        modelData = data[1];
+    $q.all([model.getModel(), model.getLayout()]).then(function(data){
+        setModel(data[0], data[1]);
+    });
 
+    model.onModelChange.addListener(function(e){
+        setModel(e.model, e.layout);
+    });
+
+    function setModel(modelData, layoutData){
         $scope.notifications = modelData.notifications;
         $scope.widgets = modelData.widgets;
         $scope.columns = [];
@@ -17,7 +23,7 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
             })
         }
 
-        $scope.layout = data[0];
+        $scope.layout = layoutData;
         $scope.layout.rows.forEach(function(row){
             row.height = row.height || (100 / $scope.layout.rows.length) + "%";
             row.columns.forEach(function(column){
@@ -28,7 +34,7 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
                 });
             });
         });
-    });
+    }
 
     $scope.callService = function(service, method, data){
         $scope.$broadcast(service, { method: method, data: data });

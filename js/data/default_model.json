@@ -4,7 +4,6 @@
 		{ "type": "gmail_notifications", "id": "j7dj43" }
 	],
 	"widgets": [
-		{ "type": "google_reader", "id": "oj578d" },
 		{ "type": "instagram", "id": "3jc8dj" },
 		{ "type": "rss", "id": "m3dk49", "settings": { "feed": "http://www.ynet.co.il/Integration/StoryRss2.xml" }},
 		{ "type": "rss", "id": "ncf35s", "settings": { "feed": "http://feeds.wired.com/wired/index" }},

@@ -19,6 +19,10 @@ angular.module("Homepage").controller("WidgetController", ["$scope", "$timeout",
         }
     };
 
+    $scope.resizeWidget = function(module, event){
+        console.log("RESIZE: ", event);
+    };
+
     if ($scope.module.settings && $scope.module.settings.refreshRate){
         $scope.refresh = function(){
             $scope.loading = true;
