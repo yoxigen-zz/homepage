@@ -15,6 +15,10 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
 
     $scope.$on("refresh", function(){ $scope.loadFeed(true); });
 
+    $scope.$on("updateSettings", function(e, data){
+        $scope.loadFeed(true);
+    });
+
     function handleError(error){
         console.error("Can't get Google Reader items. Error: ", error);
         $scope.$emit("loadError", { module: $scope.module.name, error: error });

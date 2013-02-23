@@ -1,6 +1,6 @@
 angular.module("Homepage").controller("WidgetController", ["$scope", "$timeout", function($scope, $timeout){
-    var timeoutPromise;
-
+    var timeoutPromise,
+        updateSettingsTimeoutPromise;
 
     $scope.trigger = function(eventName){
         $scope.$broadcast(eventName);
@@ -9,6 +9,13 @@ angular.module("Homepage").controller("WidgetController", ["$scope", "$timeout",
     $scope.settings = {
         getSettingTemplateId: function(setting){
             return "setting." + setting.type;
+        },
+        onUpdate: function(setting){
+            $timeout.cancel(updateSettingsTimeoutPromise);
+            updateSettingsTimeoutPromise = $timeout(function(){
+                $scope.updateModel(setting);
+                $scope.$broadcast("updateSettings", { setting: setting, value: $scope.module.settings[setting.name] })
+            }, 500);
         }
     };
 

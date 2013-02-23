@@ -12,7 +12,7 @@ angular.module("GmailNotifications").factory("gmail_notifications", ["$q", "$htt
                 //icon: fbNotification.icon_url,
                 unread: false, // Gmail inbox feed returns only unread emails. I want to show them as regular.
                 link: entry.getElementsByTagName("link")[0].getAttribute("href"),
-                from: { name: author.getElementsByTagName("name")[0].innerText, link: "mailto:" + author.getElementsByTagName("email")[0].innerText },
+                from: { name: author ? author.getElementsByTagName("name")[0].innerText : "Unknown", link: author ? "mailto:" + author.getElementsByTagName("email")[0].innerText : "" },
                 //image: getProfileImage(fbNotification.sender_id),
                 date: new Date(entry.getElementsByTagName("modified")[0].innerText),
                 direction: utils.strings.getDirection(title),

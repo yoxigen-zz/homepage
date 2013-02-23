@@ -1,7 +1,7 @@
 <h3>Settings</h3>
 <ul class="module-settings-options">
     <li ng-repeat="setting in module.settingsOptions">
-        <label for="setting_{{module.id}}">{{setting.label}}</label>
+        <label for="setting_{{module.id}}_{{$index}}">{{setting.label}}</label>
         <div class="setting-inputs" ng-include="settings.getSettingTemplateId(setting)"></div>
     </li>
 </ul>
