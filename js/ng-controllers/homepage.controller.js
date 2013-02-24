@@ -44,6 +44,13 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         model.saveModel(modelData);
     };
 
+    $scope.onColumnLayoutChange = function(column, heights){
+        heights.forEach(function(moduleHeight, i){
+            column.widgets[i].height = moduleHeight;
+        });
+        model.setLayout($scope.layout);
+    };
+
     $scope.includes = {
         itemsList: "partials/items_list.html?d=" + new Date().valueOf(),
         notifications: "partials/notifications.html",

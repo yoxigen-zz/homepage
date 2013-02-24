@@ -274,15 +274,15 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   }
 
   .settings-enabled .module-settings{ -webkit-transform: translateY(0); box-shadow: 0 3px 12px rgba(0,0,0,.8); }
+}
 
-  .module-resize-drag{
-    position: absolute;
-    width: 100%;
-    top: 100%;
-    height: $contentsPadding;
-    left: 0;
-    cursor: ns-resize;
-  }
+.module-resize-drag{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: $contentsPadding;
+  left: 0;
+  cursor: ns-resize;
 }
 
 [dir=rtl]{

@@ -247,6 +247,23 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
             }
 
             return storage.cloud.setItem(storageKeys.SETTINGS_STORAGE_KEY, settings);
+        },
+        setLayout: function(layout){
+            var newStorageLayout = { rows: [] };
+            layout.rows.forEach(function(row, rowIndex){
+                var rowData = { columns: [] };
+                row.columns.forEach(function(column, columnIndex){
+                    var columnData = { widgets: [] };
+                    column.widgets.forEach(function(widget, widgetIndex){
+                        var widgetData = { index: storageLayout.rows[rowIndex].columns[columnIndex].widgets[widgetIndex].index, height: widget.height };
+                        columnData.widgets.push(widgetData);
+                    })
+                    rowData.columns.push(columnData);
+                })
+                newStorageLayout.rows.push(rowData);
+            });
+
+            storage.cloud.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout = newStorageLayout);
         }
     }
 }]);

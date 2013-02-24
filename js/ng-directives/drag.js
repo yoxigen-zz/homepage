@@ -1,16 +1,46 @@
-angular.module("Homepage").directive("onVerticalDrag", ["$parse", function($parse){
+angular.module("Homepage").directive("layoutColumn", ["$parse", function($parse){
     return {
-        restrict: "A",
+        restrict: "C",
         scope: false,
         link: function($scope, element, attr){
-            var fn = $parse(attr["onVerticalDrag"]),
-                onMouseMove = function(e){
-                    $scope.$apply(function() {
-                        fn($scope, { $event: { x:e.x - currentPosition.x, y:e.y - currentPosition.y } });
-                    });
-                    currentPosition = { x:e.x, y:e.y };
-                },
-                currentPosition;
+            var fn = $parse(attr["onLayoutChange"]),
+                currentPosition,
+                draggerClass = "module-resize-drag",
+                columnModules,
+                moduleMinHeight = 100,
+                currentModule,
+                nextModule,
+                columnHeight;
+
+            setTimeout(function(){
+                columnModules = element[0].querySelectorAll(".module-wrapper");
+                angular.forEach(columnModules, function(module, i){
+                    if (i < columnModules.length - 1 ){
+                        var dragger = document.createElement("div");
+                        dragger.className = draggerClass;
+                        dragger.moduleIndex = i;
+                        module.appendChild(dragger);
+                        dragger.addEventListener("mousedown", onMouseDown);
+                    }
+                });
+            }, 400);
+
+            function onMouseMove(e){
+                var deltaY = e.y - currentPosition.y,
+                    currentHeight = currentModule.clientHeight,
+                    currentModuleHeight = currentHeight + deltaY,
+                    nextModuleHeight;
+
+                if (currentModuleHeight >= moduleMinHeight){
+                    nextModuleHeight = nextModule.clientHeight - deltaY;
+                    if (nextModuleHeight >= moduleMinHeight){
+                        currentModule.style.height = (100 * currentModuleHeight / columnHeight) + "%";
+                        nextModule.style.height = (100 * nextModuleHeight / columnHeight) + "%";
+                    }
+                }
+
+                currentPosition = { x:e.x, y:e.y };
+            }
 
             function onMouseUp(e){
                 e.stopPropagation();
@@ -18,15 +48,28 @@ angular.module("Homepage").directive("onVerticalDrag", ["$parse", function($pars
                 window.removeEventListener("mousemove", onMouseMove);
                 document.documentElement.removeEventListener("mouseup", onMouseUp);
                 currentPosition = null;
+                currentModule = null;
+                nextModule = null;
+
+                $scope.$apply(function() {
+                    var heights = [];
+                    angular.forEach(columnModules, function(module){
+                        heights.push(module.style.height);
+                    });
+                    fn($scope, { heights: heights });
+                });
             }
 
-            element.bind("mousedown", function(event) {
+            function onMouseDown(event){
                 currentPosition = { x: event.x, y: event.y };
+                currentModule = event.target.parentNode;
+                nextModule = currentModule.nextSibling;
+                columnHeight = element[0].clientHeight;
                 event.stopPropagation();
                 event.preventDefault();
                 window.addEventListener("mousemove", onMouseMove);
                 document.documentElement.addEventListener("mouseup", onMouseUp);
-            });
+            }
         }
     };
 }]);
