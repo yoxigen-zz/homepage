@@ -20,11 +20,16 @@ angular.module("GoogleFeed", []).factory("rss", ["$http", "$q", "utils", "Cache"
         else{
             $http.get("https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + (options.count || defaultOptions.count) +"&q=" + encodeURIComponent(feedUrl))
                 .success(function(response){
-                    response.responseData.feed.items = formatItems(response.responseData.feed.entries);
-                    delete response.responseData.feed.entries;
-                    deferred.resolve(response.responseData.feed);
+                    if (!response.responseData){
+                        deferred.reject({ error: response.responseDetails })
+                    }
+                    else{
+                        response.responseData.feed.items = formatItems(response.responseData.feed.entries);
+                        delete response.responseData.feed.entries;
+                        deferred.resolve(response.responseData.feed);
 
-                    cache.setItem(feedUrl, response.responseData.feed);
+                        cache.setItem(feedUrl, response.responseData.feed);
+                    }
                 })
                 .error(function(error){
                     deferred.reject(error);

@@ -230,6 +230,11 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     -webkit-transform: translateY(-100%);
     -webkit-transition: -webkit-transform 300ms ease-out;
 
+    .module-settings-remove{
+      float: right;
+      margin-top: 4px;
+    }
+
     h3{
       height: 28px;
       margin-bottom: 1em;

@@ -237,6 +237,9 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
             return deferred.promise;
         },
         onModelChange: eventBus.getEventPair("onModelChange"),
+        removeModule: function(module){
+
+        },
         saveSettings: function(settingsData){
             var settings = {};
 

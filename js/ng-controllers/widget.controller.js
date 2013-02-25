@@ -13,7 +13,7 @@ angular.module("Homepage").controller("WidgetController", ["$scope", "$timeout",
         onUpdate: function(setting){
             $timeout.cancel(updateSettingsTimeoutPromise);
             updateSettingsTimeoutPromise = $timeout(function(){
-                $scope.updateModel(setting);
+                $scope.updateSettings(setting);
                 $scope.$broadcast("updateSettings", { setting: setting, value: $scope.module.settings[setting.name] })
             }, 500);
         }

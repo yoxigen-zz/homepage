@@ -10,7 +10,8 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         setModel(e.model, e.layout);
     });
 
-    function setModel(modelData, layoutData){
+    function setModel(_modelData, layoutData){
+        modelData = _modelData;
         $scope.notifications = modelData.notifications;
         $scope.widgets = modelData.widgets;
         $scope.columns = [];
@@ -40,8 +41,8 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         $scope.$broadcast(service, { method: method, data: data });
     };
 
-    $scope.updateModel = function(){
-        model.saveModel(modelData);
+    $scope.updateSettings = function(){
+        model.saveSettings(modelData);
     };
 
     $scope.onColumnLayoutChange = function(column, heights){
@@ -49,6 +50,37 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
             column.widgets[i].height = moduleHeight;
         });
         model.setLayout($scope.layout);
+    };
+
+    $scope.removeModule = function(module, moduleTypeName){
+        if (window.confirm("Are you sure you want to remove this module?")){
+            model.removeModule(module);
+
+            if (moduleTypeName === "widgets"){
+                var found = false;
+                $scope.layout.rows.every(function(row){
+                    row.columns.every(function(column){
+                        column.widgets.every(function(widget, i){
+                            if (widget === module){
+                                column.widgets.splice(i, 1);
+                                found = true;
+                            }
+                            return !found;
+                        });
+                        return !found;
+                    });
+                    return !found;
+                });
+            }
+            else{
+                var modelType = modelData[moduleTypeName];
+                for(var i= 0, _module; _module = modelType[i]; i++){
+                    if (_module === module){
+
+                    }
+                }
+            }
+        }
     };
 
     $scope.includes = {
