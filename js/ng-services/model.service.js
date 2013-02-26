@@ -93,12 +93,11 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
             var module = { type: moduleType, id: getUniqueModuleId() },
                 self = this;
 
-            console.log("module ID: ", module.id);
             storageModel[type].push(module);
 
             if (type === "widgets"){
                 var column = getMostAvailableColumn();
-                column.widgets.push({ index: storageModel[type].length - 1 });
+                column.widgets.push({ id: module.id });
                 column.widgets.forEach(function(widget){
                     delete widget.height;
                 });
@@ -237,8 +236,59 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
             return deferred.promise;
         },
         onModelChange: eventBus.getEventPair("onModelChange"),
-        removeModule: function(module){
+        removeModule: function(moduleToRemove){
+            // Remove the module from model
+            var foundModule,
+                moduleType,
+                promises = [];
 
+            for(var moduleTypeName in storageModel){
+                moduleType = storageModel[moduleTypeName];
+                for(var i= 0, module; module = moduleType[i]; i++){
+                    if (module.id === moduleToRemove.id){
+                        moduleType.splice(i, 1);
+                        foundModule = true;
+                        break;
+                    }
+                }
+                if (foundModule)
+                    break;
+            };
+
+            promises.push(storage.cloud.setItem(storageKeys.MODEL_STORAGE_KEY, storageModel));
+
+            if (storageSettings[moduleToRemove.id]){
+                delete storageSettings[moduleToRemove.id];
+                promises.push(storage.cloud.setItem(storageKeys.SETTINGS_STORAGE_KEY, storageSettings));
+            }
+
+            if (moduleTypeName === "widgets"){
+                // Remove module from layout and use the freed space in other modules
+                foundModule = false;
+                storageLayout.rows.every(function(row){
+                    row.columns.every(function(column){
+                        column.widgets.every(function(widget, widgetIndex){
+                            if (widget.id === moduleToRemove.id){
+                                var leftOverHeight = 100 - (parseFloat(widget.height) || (100 / column.widgets.length)),
+                                    remainingWidgetsHeightRatio = 100 / leftOverHeight;
+
+                                column.widgets.splice(widgetIndex, 1);
+                                column.widgets.forEach(function(widget){
+                                    widget.height = (parseFloat(widget.height) * remainingWidgetsHeightRatio) + "%";
+                                });
+                                foundModule = true;
+                            }
+                            return !foundModule;
+                        });
+                        return !foundModule;
+                    });
+                    return !foundModule;
+                });
+
+                promises.push(storage.cloud.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout));
+            }
+
+            $q.all(promises).then(function(){ console.log("SAVED MODELS!") });
         },
         saveSettings: function(settingsData){
             var settings = {};
@@ -258,7 +308,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
                 row.columns.forEach(function(column, columnIndex){
                     var columnData = { widgets: [] };
                     column.widgets.forEach(function(widget, widgetIndex){
-                        var widgetData = { index: storageLayout.rows[rowIndex].columns[columnIndex].widgets[widgetIndex].index, height: widget.height };
+                        var widgetData = { id: storageLayout.rows[rowIndex].columns[columnIndex].widgets[widgetIndex].id, height: widget.height };
                         columnData.widgets.push(widgetData);
                     })
                     rowData.columns.push(columnData);

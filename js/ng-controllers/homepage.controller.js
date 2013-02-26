@@ -24,13 +24,22 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
             })
         }
 
+        function findWidgetById(widgetId){
+            for(var i= 0, widget; widget = $scope.widgets[i]; i++){
+                if (widget.id === widgetId)
+                    return widget;
+            }
+
+            return null;
+        }
+
         $scope.layout = layoutData;
         $scope.layout.rows.forEach(function(row){
             row.height = row.height || (100 / $scope.layout.rows.length) + "%";
             row.columns.forEach(function(column){
                 column.width = column.width || (100 / row.columns.length) + "%";
                 column.widgets.forEach(function(widget, i){
-                    column.widgets[i] = $scope.widgets[widget.index];
+                    column.widgets[i] = findWidgetById(widget.id);
                     column.widgets[i].height = widget.height || (100 / column.widgets.length) + "%";
                 });
             });
@@ -62,7 +71,13 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
                     row.columns.every(function(column){
                         column.widgets.every(function(widget, i){
                             if (widget === module){
+                                var leftOverHeight = 100 - (parseFloat(widget.height) || (100 / column.widgets.length)),
+                                    remainingWidgetsHeightRatio = 100 / leftOverHeight;
+
                                 column.widgets.splice(i, 1);
+                                column.widgets.forEach(function(widget){
+                                    widget.height = (parseFloat(widget.height) * remainingWidgetsHeightRatio) + "%";
+                                });
                                 found = true;
                             }
                             return !found;
