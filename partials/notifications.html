@@ -6,6 +6,9 @@
     </a>
     <div class="notificationsItems">
         <header class="notifications-header">
+            <a class="notifications-header-btn" title="Remove" ng-click="removeModule(notification, 'notifications')">
+                <i class="icon-remove"></i>
+            </a>
             <a class="notifications-header-btn" title="Refresh" ng-click="refresh()">
                 <i class="icon-refresh" ng-class="{rotating:loading}"></i>
             </a>

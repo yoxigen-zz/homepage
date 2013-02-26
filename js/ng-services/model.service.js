@@ -90,8 +90,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
 
     return {
         addModule: function(type, moduleType){
-            var module = { type: moduleType, id: getUniqueModuleId() },
-                self = this;
+            var module = { type: moduleType, id: getUniqueModuleId() };
 
             storageModel[type].push(module);
 
@@ -217,22 +216,17 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
 
             return deferred.promise;
         },
-        getUsedModulesIds: function(){
+        getUsedModuleTypes: function(){
             var deferred = $q.defer();
 
-            this.getModel().then(function(modelData){
-                var usedModulesIds = [];
-                for(var moduleType in modelData){
-                    modelData[moduleType].forEach(function(module){
-                        usedModulesIds.push(module.type);
-                    });
-                }
-
-                deferred.resolve(usedModulesIds);
-            }, function(error){
-                deferred.reject(error);
+            var usedModuleIds = [];
+            angular.forEach(storageModel, function(moduleType){
+                moduleType.forEach(function(module){
+                    usedModuleIds.push(module.type);
+                })
             });
 
+            deferred.resolve(usedModuleIds);
             return deferred.promise;
         },
         onModelChange: eventBus.getEventPair("onModelChange"),

@@ -32,7 +32,8 @@
 		"name": "RSS",
 		"icon": "http://aux.iconpedia.net/uploads/16094192891320973681.png",
 		"description": "Create a widget out of any RSS feed.",
-		"types": ["widgets"]
+		"types": ["widgets"],
+		"allowMultiple": true
 	},
 	{
 		"id": "slideshow",

@@ -7,7 +7,7 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     });
 
     model.onModelChange.addListener(function(e){
-        setModel(e.model, e.layout);
+        window.location.reload();
     });
 
     function setModel(_modelData, layoutData){
@@ -91,7 +91,8 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
                 var modelType = modelData[moduleTypeName];
                 for(var i= 0, _module; _module = modelType[i]; i++){
                     if (_module === module){
-
+                        modelType.splice(i, 1);
+                        break;
                     }
                 }
             }

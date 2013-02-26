@@ -3,11 +3,9 @@ angular.module("ModuleSettings").controller("ModuleSettingsController", ["$scope
         open: function(data){
             $scope.moduleSettingsOpen = true;
 
-            if (!$scope.modules){
-                moduleSettings.getAllModules().then(function(modules){
-                    $scope.modules = modules;
-                });
-            }
+            moduleSettings.getAllModules().then(function(modules){
+                $scope.modules = modules;
+            });
         }
     };
 

@@ -3,7 +3,8 @@ angular.module("ModuleSettings").factory("moduleSettings", ["$q", "$http", "mode
 
     return {
         addModule: function(module){
-            model.addModule(module.types[0], module.id);
+            if (module.allowMultiple || !module.used)
+                model.addModule(module.types[0], module.id);
         },
         /**
          * Returns all the available modules, which can be added to Homepage.
@@ -12,19 +13,20 @@ angular.module("ModuleSettings").factory("moduleSettings", ["$q", "$http", "mode
         getAllModules: function(){
             var deferred = $q.defer();
 
-            $q.all([$http.get(modulesDataUrl), model.getUsedModulesIds()]).then(function(results){
+            $q.all([$http.get(modulesDataUrl), model.getUsedModuleTypes()]).then(function(results){
                 var allModules = results[0].data,
-                    usedModuleIds = results[1];
+                    usedModuleTypes = results[1];
 
                 allModules.forEach(function(module){
-                    var found = usedModuleIds.indexOf(module.type);
+                    var found = usedModuleTypes.indexOf(module.id);
 
                     if (~found){
                         module.used = true;
-                        usedModuleIds.splice(found, 1);
+                        usedModuleTypes.splice(found, 1);
                     }
-                    deferred.resolve(allModules);
                 });
+                deferred.resolve(allModules);
+
             }, function(error){
                 deferred.reject(error);
             });

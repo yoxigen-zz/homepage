@@ -12,18 +12,26 @@ angular.module("Homepage").directive("layoutColumn", ["$parse", function($parse)
                 nextModule,
                 columnHeight;
 
-            setTimeout(function(){
-                columnModules = element[0].querySelectorAll(".module-wrapper");
-                angular.forEach(columnModules, function(module, i){
-                    if (i < columnModules.length - 1 ){
-                        var dragger = document.createElement("div");
-                        dragger.className = draggerClass;
-                        dragger.moduleIndex = i;
-                        module.appendChild(dragger);
-                        dragger.addEventListener("mousedown", onMouseDown);
-                    }
-                });
-            }, 400);
+            function setModules(){
+                setTimeout(function(){
+                    columnModules = element[0].querySelectorAll(".module-wrapper");
+                    angular.forEach(columnModules, function(module, i){
+                        if (i < columnModules.length - 1 ){
+                            if (!module.hasDragger){
+                                var dragger = document.createElement("div");
+                                dragger.className = draggerClass;
+                                dragger.moduleIndex = i;
+                                module.appendChild(dragger);
+                                dragger.addEventListener("mousedown", onMouseDown);
+                                module.hasDragger = true;
+                            }
+                        }
+                    });
+                }, 400);
+            }
+            setModules();
+
+            $scope.$watch(attr.updateLayoutOn, setModules);
 
             function onMouseMove(e){
                 var deltaY = e.y - currentPosition.y,
