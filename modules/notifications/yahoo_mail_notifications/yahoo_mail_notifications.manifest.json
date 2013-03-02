@@ -1,0 +1,21 @@
+{
+    "name": "Yahoo! Mail Notifications",
+	"icon": "icon.png",
+	"modules": [
+		{ "name": "YahooMailNotifications", "dependencies": [] }
+	],
+    "resources": [
+		"yahoo_mail_notifications.service.js"
+    ],
+	"settingsOptions": [
+		{
+			"label": "Refresh rate",
+			"name": "refreshRate",
+			"type": "number",
+			"appendix": " seconds"
+		}
+	],
+	"settings": {
+		"refreshRate": 60
+	}
+}

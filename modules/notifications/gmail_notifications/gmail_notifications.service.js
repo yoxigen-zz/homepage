@@ -84,48 +84,12 @@ angular.module("GmailNotifications").factory("gmail_notifications", ["$q", "$htt
                 console.error("can't load atom: ", error);
                 deferred.resolve({items: [], unreadCount: 0 });
             });
-            /*
-            FB.fql(fqlQuery).then(
-                function(response){
-                    var notifications = { items: [], unreadCount: 0 };
-                    angular.forEach(response.data.data, function(fbNotification){
-                        var tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = fbNotification.title_html;
 
-                        var htmlLinks = tempDiv.querySelectorAll("a[href]");
-                        angular.forEach(htmlLinks, function(link){
-                            link.setAttribute("target", "_blank");
-                        });
-
-                        notifications.items.push({
-                            id: fbNotification.notification_id,
-                            icon: fbNotification.icon_url,
-                            unread: !!fbNotification.is_unread,
-                            link: fbNotification.href,
-                            html: tempDiv.innerHTML,
-                            from: fbNotification.sender_id,
-                            image: getProfileImage(fbNotification.sender_id),
-                            date: new Date(fbNotification.created_time * 1000)
-                        });
-
-                        if (fbNotification.is_unread)
-                            notifications.unreadCount++;
-                    });
-
-                    deferred.resolve(notifications);
-                },
-                function(error){
-                    deferred.reject(error);
-                }
-            )
-            */
             return deferred.promise;
         },
         markAsRead: function(notificationIds){
             if (!notificationIds || !notificationIds.length)
                 return false;
-
-            //FB.method("notifications.markRead", {unread: "0", notification_ids: notificationIds.join(",")});
         }
     };
 

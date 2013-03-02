@@ -54,11 +54,12 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         model.saveSettings(modelData);
     };
 
-    $scope.onColumnLayoutChange = function(column, heights){
-        heights.forEach(function(moduleHeight, i){
-            column.widgets[i].height = moduleHeight;
+    $scope.onColumnLayoutChange = function(column, heights, refreshLayout){
+        column.widgets.forEach(function(widget, i){
+            widget.height = heights[i];
         });
-        model.setLayout($scope.layout);
+
+        model.setLayout($scope.layout, refreshLayout);
     };
 
     $scope.removeModule = function(module, moduleTypeName){
@@ -130,5 +131,18 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         disable: function(){
             $scope.background.enabled = false;
         }
-    }
+    };
+
+    $scope.sortOver = function(){
+        console.log("OVER: ", arguments);
+    };
+
+    $scope.updateLayout = function(){
+        console.log("UPDATE: ", $scope.layout.rows[0].columns[2].widgets[0].name)
+        setTimeout(function(){
+            $scope.$apply(function(){
+                $scope.$broadcast("layoutUpdate");
+            })
+        }, 50);
+    };
 }]);

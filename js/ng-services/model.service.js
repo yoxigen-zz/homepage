@@ -1,4 +1,5 @@
-angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model", ["$q", "$http", "Storage", "utils", "EventBus", function($q, $http, Storage, utils, EventBus){
+angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model", ["$q", "$http", "Storage", "utils", "EventBus", "$timeout",
+    function($q, $http, Storage, utils, EventBus, $timeout){
     var defaultModelUrl = "js/data/default_model.json",
         defaultLayoutUrl = "js/data/layout.json",
         model,
@@ -11,7 +12,8 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
         storageSettings,
         storageModel,
         storageLayout,
-        eventBus = new EventBus();
+        eventBus = new EventBus(),
+        setLayoutTimeoutPromise;
 
     function getModelData (){
         var deferred = $q.defer();
@@ -295,22 +297,25 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
 
             return storage.cloud.setItem(storageKeys.SETTINGS_STORAGE_KEY, settings);
         },
-        setLayout: function(layout){
-            var newStorageLayout = { rows: [] };
-            layout.rows.forEach(function(row, rowIndex){
-                var rowData = { columns: [] };
-                row.columns.forEach(function(column, columnIndex){
-                    var columnData = { widgets: [] };
-                    column.widgets.forEach(function(widget, widgetIndex){
-                        var widgetData = { id: storageLayout.rows[rowIndex].columns[columnIndex].widgets[widgetIndex].id, height: widget.height };
-                        columnData.widgets.push(widgetData);
+        setLayout: function(layout, refreshLayout){
+            $timeout.cancel(setLayoutTimeoutPromise);
+            setLayoutTimeoutPromise = $timeout(function(){
+                var newStorageLayout = { rows: [] };
+                layout.rows.forEach(function(row){
+                    var rowData = { columns: [] };
+                    row.columns.forEach(function(column){
+                        var columnData = { widgets: [] };
+                        column.widgets.forEach(function(widget){
+                            var widgetData = { id: widget.id, height: widget.height };
+                            columnData.widgets.push(widgetData);
+                        })
+                        rowData.columns.push(columnData);
                     })
-                    rowData.columns.push(columnData);
-                })
-                newStorageLayout.rows.push(rowData);
-            });
+                    newStorageLayout.rows.push(rowData);
+                });
 
-            storage.cloud.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout = newStorageLayout);
+                storage.cloud.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout = newStorageLayout);
+            }, 500);
         }
     }
 }]);

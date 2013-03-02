@@ -23,7 +23,8 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "OAuth2",
                     "Cache",
                     "HomepageModel",
-                    "ImageDirectives"
+                    "ImageDirectives",
+                    "ui.directives"
                 ],
                 appResources = [
                     "js/ng-controllers/homepage.controller.js",
@@ -33,7 +34,11 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "js/ng-directives/modal.js",
                     "js/ng-directives/img_alt.js",
                     "js/ng-directives/toggle_keys.js",
-                    "js/ng-directives/drag.js"
+                    "js/ng-directives/layout_resize.js",
+                    "js/lib/jquery-1.9.1.min.js",
+                    "js/lib/jquery-ui-1.10.1.custom.min.js",
+                    "js/lib/angular-ui.min.js",
+                    "js/lib/nc-ui-sortable.js"
                 ];
 
             model.getModel().then(function(modelData){

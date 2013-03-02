@@ -30,6 +30,7 @@ body{
   color: $color;
   font-family: 'Calibri', 'Muli', 'Alef', Arial, sans-serif;
   -webkit-perspective: 800px;
+  overflow: hidden;
 }
 .clearfix::after{
   content: "";
@@ -40,6 +41,7 @@ body{
 a{
   color: $linkColor;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover{ text-decoration: none; color: $linkColorHover }
 }
