@@ -95,6 +95,7 @@
             },
             logout: function(){
                 this.storage.local.removeItem("oauth");
+                this.oauthData = null;
             },
             setOauth: function(oauthData){
                 this.storage.local.setItem("oauth", oauthData);

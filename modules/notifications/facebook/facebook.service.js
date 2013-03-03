@@ -88,7 +88,7 @@ angular.module("Facebook").factory("facebook", [ "OAuth2", "$q", "$http", functi
         },
         logout: function(){
             currentUser = null;
-            oauth.logout("facebook");
+            fbOauth.logout();
         },
         getCurrentUser: function(){
             var deferred = $q.defer();

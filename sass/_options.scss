@@ -1,0 +1,27 @@
+.options-menu{
+  background: $optionsBackground;
+  color: $optionsColor;
+  border-radius: 0 0 0 5px;
+
+  a{ color: $optionsColor }
+  .options-items{
+    list-style: none;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+
+    a{
+      padding: .75em 1em;
+      display: block;
+
+      &:hover{ background: $optionsBackgroundHover; }
+      &:active{ background: $optionsBackgroundActive; }
+    }
+  }
+}
+
+.options-menu-wrapper:focus{
+  .menu-link, .menu-link:hover{
+    background: $optionsBackground !important;
+  }
+}

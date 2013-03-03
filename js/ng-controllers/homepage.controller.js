@@ -1,6 +1,7 @@
 angular.module("Homepage").controller("HomepageController", ["$scope", "model", "$timeout", "$window", "$q", function($scope, model, $timeout, $window, $q){
     var notificationsCount = 0,
-        modelData;
+        modelData,
+        version = new Date(); // For debugging
 
     $q.all([model.getModel(), model.getLayout()]).then(function(data){
         setModel(data[0], data[1]);
@@ -101,11 +102,12 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     };
 
     $scope.includes = {
-        itemsList: "partials/items_list.html?d=" + new Date().valueOf(),
-        notifications: "partials/notifications.html",
-        settings: "partials/settings.html",
-        thumbnails: "partials/thumbnails.html?d=" + new Date().valueOf(),
-        widget: "partials/widget.html?d=" + new Date().valueOf()
+        itemsList: "partials/items_list.html?v=" + version,
+        notifications: "partials/notifications.html?v=" + version,
+        settings: "partials/settings.html?v=" + version,
+        thumbnails: "partials/thumbnails.html?d=" + version,
+        widget: "partials/widget.html?d=" + version,
+        options: "partials/options.html?d=" + version
     };
 
     $scope.$on("notificationsChange", function(e, data){
@@ -144,5 +146,10 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
                 $scope.$broadcast("layoutUpdate");
             })
         }, 50);
+    };
+
+    $scope.logoutAll = function(){
+        if (window.confirm("Are you sure you wish to logout from all widgets?"))
+            $scope.$broadcast("logout");
     };
 }]);

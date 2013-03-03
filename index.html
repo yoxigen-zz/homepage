@@ -17,8 +17,7 @@
       toggle-keys="{{ { escape: 'background.disable' } }}"
       toggle-keys-enabled="background.enabled">
     <header id="header">
-        <menu id="settings-menu" class="header-menu">
-            <a ng-click="openModuleSettings()" title="Modules" class="menu-link"><i class="icon-cogs"></i></a>
+        <menu id="settings-menu" class="header-menu" ng-include="includes.options">
         </menu>
         <menu id="notifications" class="header-menu">
             <ng-include src="includes.notifications" ng-repeat="notification in notifications"></ng-include>

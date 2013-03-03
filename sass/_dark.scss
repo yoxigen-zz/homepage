@@ -55,6 +55,11 @@ $modalBtnActiveColor: $linkColor;
 
 $scrollbarWidth: 6px;
 
+$optionsBackground: rgba(0,0,0,.9);
+$optionsBackgroundHover: $linkColorBackgroundHover;
+$optionsBackgroundActive: $linkColorBackgroundActive;
+$optionsColor: White;
+
 @mixin firstColumn{
   color: White;
 

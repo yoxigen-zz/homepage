@@ -34,9 +34,6 @@ angular.module("GmailNotifications").factory("gmail_notifications", ["$q", "$htt
 
             return deferred.promise;
         },
-        logout: function(){
-            currentUser = null;
-        },
         getCurrentUser: function(){
             var deferred = $q.defer();
 

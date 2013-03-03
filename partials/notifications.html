@@ -1,10 +1,10 @@
-<div class="notification" ng-controller="NotificationsController" tabindex="1">
+<div class="main-menu-wrapper notification" ng-controller="NotificationsController" tabindex="1">
     <a class="menu-link" ng-mousedown="openNotifications()">
         <img class="notification-icon" ng-src="{{notification.icon}}" />
         <span ng-cloak ng-show="notification.unreadCount" class="notification-count">{{notification.unreadCount}}</span>
         <span class="notification-close" tabindex="-1"></span>
     </a>
-    <div class="notificationsItems">
+    <div class="main-menu notificationsItems">
         <header class="notifications-header">
             <a class="notifications-header-btn" title="Remove" ng-click="removeModule(notification, 'notifications')">
                 <i class="icon-remove"></i>
@@ -17,7 +17,7 @@
                 <span ng-bind="notification.user.name || notification.name + ' notifications'"></span>
             </a>
         </header>
-        <div class="notificationItems-scroll">
+        <div class="main-menu-scroll">
             <ul>
                 <li ng-repeat="item in notification.items" ng-class="{read:!item.unread}">
                     <a href="{{item.link}}" target="_blank" class="notification-item-link"></a>

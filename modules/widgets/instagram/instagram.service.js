@@ -124,7 +124,7 @@ angular.module("Instagram").factory("instagram", ["OAuth2", "$q", "$http", "Cach
             return deferred.promise;
         },
         logout: function(){
-
+            igOauth.logout();
         },
         getCurrentUser: function(){
 

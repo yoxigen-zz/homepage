@@ -67,4 +67,14 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
     };
 
     $scope.refresh = setNotifications;
+    $scope.$on("logout", function(){
+        if (notificationsService.logout){
+            notificationsService.logout();
+
+            $scope.notification.items = [];
+            $scope.notification.unreadCount = 0;
+            $scope.notification.user = null;
+            $scope.loading = false;
+        }
+    });
 }]);

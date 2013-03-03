@@ -33,6 +33,12 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
         }, handleError);
     });
 
+    $scope.$on("logout", function(){
+        instagram.logout();
+        $scope.isLoggedIn = false;
+        $scope.items = null;
+    });
+
     function handleError(error){
         console.error("Can't get Instagram items. Error: ", error);
         $scope.$emit("loadError", { module: $scope.module.name, error: error });
