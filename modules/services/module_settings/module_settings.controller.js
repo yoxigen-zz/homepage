@@ -16,4 +16,9 @@ angular.module("ModuleSettings").controller("ModuleSettingsController", ["$scope
     $scope.$on($scope.service.type, function(e, eventData){
         methods[eventData.method] && methods[eventData.method](eventData.data);
     });
+
+    $scope.setCurrentModule = function(module){
+        $scope.currentModule = module;
+        $scope.currentScreenshot = module.screenshots && module.screenshots[0];
+    };
 }]);

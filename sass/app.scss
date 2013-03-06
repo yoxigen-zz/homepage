@@ -10,7 +10,7 @@ $contentsPadding: 20px;
 $moduleRadius: 5px;
 $invertTransitionTime: 400ms;
 $moduleSettingsLabelWidth: 120px;
-$modalHeaderHeight: 60px;
+$modalHeaderHeight: 40px;
 
 @font-face{
   font-family: 'Alef';
@@ -54,9 +54,22 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   to{ -webkit-transform: rotate(360deg); }
 }
 
+.btn{
+  background: $btnBackground;
+  color: $btnColor;
+  padding: 0 20px;
+  display: inline-block;
+  height: 38px;
+  line-height: 38px;
+
+  &:hover{ background: $btnBackgroundHover }
+  &:active{ position: relative; top: 1px; }
+}
 .rotating{
   -webkit-animation: rotating 2s linear infinite;
 }
+.pull-right{ float: right }
+.pull-left{ float: left }
 .inverted{
   -webkit-transform: rotateY(180deg);
 }

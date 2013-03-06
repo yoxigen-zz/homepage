@@ -991,8 +991,27 @@ h1, h2, h3, h4, h5 {
   to {
     -webkit-transform: rotate(360deg); } }
 
+.btn {
+  background: #005f90;
+  color: white;
+  padding: 0 20px;
+  display: inline-block;
+  height: 38px;
+  line-height: 38px; }
+  .btn:hover {
+    background: #0081c3; }
+  .btn:active {
+    position: relative;
+    top: 1px; }
+
 .rotating {
   -webkit-animation: rotating 2s linear infinite; }
+
+.pull-right {
+  float: right; }
+
+.pull-left {
+  float: left; }
 
 .inverted {
   -webkit-transform: rotateY(180deg); }
@@ -1438,10 +1457,16 @@ h1, h2, h3, h4, h5 {
     height: 100%; }
 
 .modal-header {
-  height: 60px;
-  line-height: 60px;
-  font-size: 1.6em;
-  border-bottom: solid 1px #57c6ff; }
+  height: 40px;
+  line-height: 40px;
+  font-size: 1.3em;
+  background: #002e45;
+  color: white;
+  padding: 0 20px;
+  border-radius: 5px;
+  position: relative;
+  top: 40px;
+  font-weight: normal; }
 
 .modal-background {
   background: rgba(0, 0, 0, 0.9);

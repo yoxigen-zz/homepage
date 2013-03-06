@@ -4,7 +4,12 @@ $linkColor: rgb(87, 198, 255);
 $linkColorOnLightBackground: rgb(0, 144, 218);
 $linkColorBackgroundHover: rgba(87, 198, 255, .2);
 $linkColorBackgroundActive: rgba(87, 198, 255, .4);
+$linkColorBackgroundSelected: rgba(87, 198, 255, .26);
 $linkColorHover: White;
+
+$btnBackground: #005f90;
+$btnBackgroundHover: #0081c3;
+$btnColor: White;
 
 $headerColor: White;
 $headerBackgroundColor: rgba(0,0,0,.5);
@@ -47,6 +52,8 @@ $notificationsLinkColor: rgb(1, 90, 134);
 $notificationsLinkColorHover: rgb(23, 134, 190);
 $notificationsThumbnailBorderColor: rgba(0,0,0,.3);
 
+$modalHeaderBackground: #002e45;
+$modalHeaderColor: White;
 $modalBackground: rgba(0,0,0,.9);
 $modalColor: White;
 $modalBtnColor: rgba(255,255,255, .3);

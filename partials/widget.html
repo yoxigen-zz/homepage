@@ -6,7 +6,9 @@
         <a ng-show="module.settings.refreshRate" ng-click="refresh()" ng-disabled="refreshing" class="module-settings-btn" ng-class="{refreshing:loading}" title="Refresh">
             <i class="icon-refresh"></i>
         </a>
-        <a href="{{module.link}}" target="_blank"><img src="{{module.icon || (module.link | favicon)}}" class="favicon module-icon" /> {{module.name}}</a>
+        <a href="{{module.link}}" target="_blank">
+            <img src="{{module.icon || (module.link | favicon)}}" class="favicon module-icon" /> {{module.name}}
+        </a>
     </h2>
     <div class="module-content module-content-with-header" ng-class="{'settings-enabled':settingsEnabled}">
         <div class="module-settings" ng-include="includes.settings"></div>

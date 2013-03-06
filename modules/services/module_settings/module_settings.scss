@@ -1,25 +1,29 @@
-@import "sass/dark";
+@import "../../../sass/dark";
 
 $moduleSettingsListWidth: 400px;
 $moduleSettingsListIconWidth: 32px;
 $moduleSettingsListIconMargin: 15px;
+$modalHeaderHeight: 100px;
 
 .module-settings-modules{
   width: 80%;
-  max-width: 1000px;
+  max-width: 1056px;
   margin: 0 auto;
   position:relative;
   height: 100%;
   padding: 0;
 }
 
+.module-settings-contents{
+  position: absolute;
+  top: $modalHeaderHeight;
+}
+
 .module-settings-modules-list{
   list-style: none;
   padding: 0;
   margin: 0;
-  position: absolute;
   left: 0;
-  top: 80px;
   bottom: 20px;
   width: $moduleSettingsListWidth;
   overflow-y: auto;
@@ -31,6 +35,10 @@ $moduleSettingsListIconMargin: 15px;
 
     &:hover{
       background-color: $linkColorBackgroundHover;
+    }
+
+    &.selected{
+      background-color: $linkColorBackgroundSelected;
     }
   }
 }
@@ -54,3 +62,21 @@ $moduleSettingsListIconMargin: 15px;
   float: left;
   width: $moduleSettingsListWidth - $moduleSettingsListIconWidth - 3 * $moduleSettingsListIconMargin - 1 - $scrollbarWidth;
 }
+
+.module-settings-selected{
+  left: $moduleSettingsListWidth;
+  padding-left: 40px;
+  right: 0;
+}
+.module-settings-selected-name{
+  color: $linkColor;
+  font-size: 1.7em;
+  font-weight: normal;
+  margin-right: 150px;
+}
+.module-settings-selected-description{
+  margin: .5em 0;
+}
+.module-settings-selected-add{ position: relative; top: 10px; }
+.module-settings-selected-screenshot{ width: 100%; }
+.module-settings-selected-screenshots{ margin-top: 1em; }

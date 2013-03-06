@@ -18,7 +18,10 @@
 		"name": "Instagram",
 		"icon": "https://twimg0-a.akamaihd.net/profile_images/1551209333/instagramIcon.png",
 		"description": "View your Instagram feed.",
-		"types": ["widgets"]
+		"types": ["widgets"],
+        "screenshots": [
+            "instagram.png"
+        ]
 	},
 	{
 		"id": "gmail_notifications",
@@ -33,7 +36,11 @@
 		"icon": "http://aux.iconpedia.net/uploads/16094192891320973681.png",
 		"description": "Create a widget out of any RSS feed.",
 		"types": ["widgets"],
-		"allowMultiple": true
+		"allowMultiple": true,
+        "screenshots": [
+            "rss_closed.png",
+            "rss_open.png"
+        ]
 	},
 	{
 		"id": "slideshow",
