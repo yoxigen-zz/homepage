@@ -4,20 +4,14 @@
     <title></title>
     <script>
         if (window.opener){
-            var params = document.location.href.split("?")[1].split("#"),
-                paramsObj = {},
-                param;
+            var auth = { token: document.location.href.match(/access_token=([^&#]+)/)[1] },
+                expiresMatch = document.location.href.match(/expires_in=(\d+)/),
+                stateMatch = document.location.href.match(/state=(\d+)/);
 
-            for(var i=0; i < params.length; i++){
-                param = params[i].split("=");
-                paramsObj[param[0]] = param[1];
-            }
+            if (expiresMatch)
+                auth.expires = new Date().valueOf() + parseInt(expiresMatch[1], 10) * 1000;
 
-            var auth = { token: paramsObj.access_token };
-            if (paramsObj.expires_in)
-                auth.expires = new Date().valueOf() + parseInt(paramsObj.expires_in, 10) * 1000;
-
-            window.opener["setOauth2_" + paramsObj.state](auth);
+            window.opener["setOauth2_" + stateMatch[1]](auth);
         }
     </script>
 </head>
