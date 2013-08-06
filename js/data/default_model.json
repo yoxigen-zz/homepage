@@ -1,7 +1,6 @@
 {
 	"notifications": [
-		{ "type": "facebook", "id": "kd74jn" },
-		{ "type": "gmail_notifications", "id": "j7dj43" }
+		{ "type": "facebook", "id": "kd74jn" }
 	],
 	"widgets": [
 		{ "type": "instagram", "id": "3jc8dj" },
