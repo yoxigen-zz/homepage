@@ -1684,6 +1684,30 @@ h1, h2, h3, h4, h5 {
   .popup:focus .popup-window {
     display: block; }
 
+.gallery-section {
+  position: absolute;
+  left: 10px;
+  right: 6px; }
+
+.gallery-image {
+  position: absolute;
+  top: 6px;
+  bottom: 50px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain; }
+
+.gallery-thumbnails {
+  height: 50px;
+  bottom: 0; }
+  .gallery-thumbnails a {
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    margin-right: 10px; }
+    .gallery-thumbnails a:last-child {
+      margin-right: 0; }
+
 /* Scrollbars */
 *::-webkit-scrollbar {
   width: 6px; }

@@ -32,6 +32,7 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "js/ng-controllers/homepage.controller.js",
                     "js/ng-controllers/notification.controller.js?v=" + version,
                     "js/ng-controllers/items_list.controller.js",
+                    "js/ng-controllers/gallery.controller.js",
                     "js/ng-controllers/widget.controller.js",
                     "js/ng-directives/modal.js",
                     "js/ng-directives/img_alt.js",

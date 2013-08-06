@@ -1,5 +1,5 @@
-@import "sass/dark";
-@import "sass/font-awesome";
+@import "dark";
+@import "font-awesome";
 
 $headerHeight: 45px;
 $headerPadding: 0 0 0 15px;
@@ -366,13 +366,14 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   &.active{ display: block; -webkit-animation: rotating 2s linear infinite; }
 }
 
-@import "sass/header";
-@import "sass/notifications";
-@import "sass/options";
-@import "sass/modal";
-@import "sass/thumbnails";
-@import "sass/reader";
-@import "sass/popup";
+@import "header";
+@import "notifications";
+@import "options";
+@import "modal";
+@import "thumbnails";
+@import "reader";
+@import "popup";
+@import "gallery";
 
 /* Scrollbars */
 *::-webkit-scrollbar {

@@ -16,7 +16,11 @@
 			"label": "Display mode",
 			"name": "display",
 			"type": "select",
-			"options": [ { "value": "headlines", "display": "Headlines" }, { "value": "full", "display": "Full" } ]
+			"options": [
+                { "value": "headlines", "display": "Headlines" },
+                { "value": "full", "display": "Full" },
+                { "value": "gallery", "display": "Gallery" }
+            ]
 		},
 		{
 			"label": "Refresh rate",

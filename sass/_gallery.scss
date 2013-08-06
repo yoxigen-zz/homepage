@@ -1,0 +1,61 @@
+$galleryThumbnailsHeight: 50px;
+$galleryImagePadding: 5px;
+$galleryThumbnailsPadding: 5px;
+$galleryTextHeight: 25px;
+
+.gallery-section{
+  position: absolute;
+  left: $galleryImagePadding;
+  right: $galleryImagePadding - 4;
+}
+.gallery-image{
+  position: absolute;
+  top: $galleryImagePadding - 4;
+  bottom: $galleryThumbnailsHeight + $galleryImagePadding + $galleryTextHeight;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.gallery-text{
+  height: $galleryTextHeight;
+  line-height: $galleryTextHeight;
+  box-sizing: border-box;
+  bottom: $galleryThumbnailsHeight;
+  font-style: italic;
+  padding: 0 $galleryThumbnailsPadding;
+}
+
+.gallery-text-time{
+  float: right;
+  font-style: normal;
+  font-size: .8em;
+}
+.gallery-thumbnails{
+  height: $galleryThumbnailsHeight;
+  bottom: 0;
+  text-align: center;
+  border-top: solid 1px rgba(255,255,255,.1);
+  box-sizing: border-box;
+
+  a{
+    height: $galleryThumbnailsHeight - $galleryThumbnailsPadding * 2;
+    width: $galleryThumbnailsHeight - $galleryThumbnailsPadding * 2;
+    display: inline-block;
+    margin-right: $galleryThumbnailsPadding;
+    margin-top: $galleryThumbnailsPadding;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: solid 1px #999;
+    box-sizing: border-box;
+    opacity: .5;
+
+    &:hover{ border-color: White; opacity: 1}
+    &.selected{ border-color: #57c6ff; opacity: 1 }
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+}

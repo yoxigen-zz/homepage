@@ -1,4 +1,9 @@
-<ul class="items-list items-list-{{module.settings.display}}" ng-controller="ItemsListController">
+<div ng-if="module.settings.display == 'gallery'" ng-init="items = feed.items">
+    <ng-include src="includes.gallery"></ng-include>
+</div>
+<ul class="items-list items-list-{{module.settings.display}}"
+    ng-if="module.settings.display != 'gallery'"
+    ng-controller="ItemsListController">
     <li ng-repeat="item in feed.items | orderBy:'publishDate':true"
         dir="{{item.direction}}"
         ng-style="getItemStyle(item)"

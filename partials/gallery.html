@@ -1,0 +1,18 @@
+<div ng-controller="GalleryController">
+    <div class="gallery-section gallery-image" ng-style="{ 'background-image': 'url(' + currentItem.image.src + ')' }">
+
+    </div>
+    <div class="gallery-section gallery-text">
+        <div class="gallery-text-time">
+            <span><i class="icon icon-time"></i> {{currentItem.publishDate | prettyDate:true}}</span>
+        </div>
+        <a href="{{ currentItem.link }}" target="_blank" title="Open original post">{{ currentItem.title }}</a>
+    </div>
+    <div class="gallery-section gallery-thumbnails">
+        <a ng-repeat="item in items"
+           ng-click="selectItem(item)"
+           ng-class="{ selected: item == currentItem }"
+           ng-style="{ 'background-image': 'url(' + item.image.src + ')' }"
+           title="{{item.title}}"></a>
+    </div>
+</div>

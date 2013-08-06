@@ -103,6 +103,7 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
 
     $scope.includes = {
         itemsList: "partials/items_list.html?v=" + version,
+        gallery: "partials/gallery.html?v=" + version,
         notifications: "partials/notifications.html?v=" + version,
         settings: "partials/settings.html?v=" + version,
         thumbnails: "partials/thumbnails.html?d=" + version,

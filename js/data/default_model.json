@@ -6,7 +6,7 @@
 		{ "type": "instagram", "id": "3jc8dj" },
 		{ "type": "rss", "id": "m3dk49", "settings": { "feed": "http://www.ynet.co.il/Integration/StoryRss2.xml" }},
 		{ "type": "rss", "id": "ncf35s", "settings": { "feed": "http://feeds.wired.com/wired/index" }},
-		{ "type": "rss", "id": "lag561", "settings": { "feed": "https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=SeinfeldToday", "count": 4 }},
+		{ "type": "rss", "id": "lag561", "settings": { "feed": "http://xkcd.com/rss.xml", "count": 3, "display": "gallery" }},
 		{ "type": "rss", "id": "ug1fs2", "settings": { "feed": "http://feeds.feedburner.com/SputnikmusicNews", "count": 10 } }
 	],
 	"services": [
