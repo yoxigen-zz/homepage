@@ -105,7 +105,7 @@
             angular.forEach(keys, function(key){
                 var storageValue = localStorage.getItem(key);
                 if (storageValue !== null){
-                    items[key.replace(self.storageKeyPrefixRegExp, "")] = storageValue;
+                    items[key.replace(self.storageKeyPrefixRegExp, "")] = JSON.parse(storageValue).data;
                 }
             });
 
@@ -123,7 +123,7 @@
         setItem: function(key, data){
             var deferred = this.$q.defer();
 
-            localStorage.setItem(this.getStorageKeyName(key), data);
+            localStorage.setItem(this.getStorageKeyName(key), JSON.stringify({ data: data }));
             deferred.resolve();
 
             return deferred.promise;
