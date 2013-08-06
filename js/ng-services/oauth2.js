@@ -100,15 +100,9 @@
 
                     self.logout();
 
-                    window["oauthOnResult_" + self.options.apiName] = function(oauthResult){
-                        methods.setOauth.call(self, oauthResult);
-                        deferred.resolve({ oauth: oauthResult, isNew: true });
-                        self.$rootScope.$apply();
-                    };
-
                     var state = self.getOauthState();
 
-                    window["setOauth2_" + state] = function(response){
+                    window["setOauth2_" + state] = function(auth){
                         delete window["setOauth2_" + state];
                         oauthWindow.close();
                         methods.setOauth.call(self, auth);
