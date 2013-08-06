@@ -45,8 +45,8 @@ angular.module("Facebook").factory("facebook", [ "OAuth2", "$q", "$http", functi
     }
 
     var methods = {
-        get loggedIn(){
-            return fbOauth.isLoggedIn;
+        isLoggedIn: function(){
+            return fbOauth.isLoggedIn();
         },
         login: function(){
             var deferred = $q.defer();
@@ -142,7 +142,7 @@ angular.module("Facebook").factory("facebook", [ "OAuth2", "$q", "$http", functi
                             html: tempDiv.innerHTML,
                             from: fbNotification.sender_id,
                             image: getProfileImage(fbNotification.sender_id),
-                            date: new Date(fbNotification.created_time * 1000)
+                            date: fbNotification.created_time * 1000
                         });
 
                         if (fbNotification.is_unread)

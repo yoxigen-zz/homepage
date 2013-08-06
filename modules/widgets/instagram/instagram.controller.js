@@ -2,8 +2,14 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
     var nextPage;
 
     $scope.currentFeed = instagram.feeds[0];
+    $scope.isLoggedIn = true;
 
-    $scope.isLoggedIn = instagram.loggedIn;
+    instagram.isLoggedIn().then(function(isLoggedIn){
+        $scope.isLoggedIn = isLoggedIn;
+        if (isLoggedIn)
+            getItems();
+    });
+
     $scope.login = function(){
         instagram.login().then(function(oauth){
             $scope.isLoggedIn = true;
@@ -46,8 +52,5 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
 
     function getItems(){
         $scope.loadFeed($scope.currentFeed);
-    }
-    if (instagram.loggedIn){
-        getItems();
     }
 }]);

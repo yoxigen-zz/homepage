@@ -1,4 +1,4 @@
-angular.module("GmailNotifications").factory("gmail_notifications", ["$q", "$http", "utils", function($q, $http, utils){
+angular.module("GmailNotifications").factory("gmail_notifications", ["$q", "$http", "utils", "$rootScope", function($q, $http, utils, $rootScope){
     var currentUser,
         apiUrl = "https://mail.google.com/mail/feed/atom",
         clientId = "225561981539.apps.googleusercontent.com",
@@ -14,7 +14,7 @@ angular.module("GmailNotifications").factory("gmail_notifications", ["$q", "$htt
                 link: entry.getElementsByTagName("link")[0].getAttribute("href"),
                 from: { name: author ? author.getElementsByTagName("name")[0].innerText : "Unknown", link: author ? "mailto:" + author.getElementsByTagName("email")[0].innerText : "" },
                 //image: getProfileImage(fbNotification.sender_id),
-                date: new Date(entry.getElementsByTagName("modified")[0].innerText),
+                date: entry.getElementsByTagName("modified")[0].innerText,
                 direction: utils.strings.getDirection(title),
                 summary: entry.getElementsByTagName("summary")[0].innerText
             };
@@ -24,8 +24,14 @@ angular.module("GmailNotifications").factory("gmail_notifications", ["$q", "$htt
     }
 
     var methods = {
-        get loggedIn(){
-            return true;
+        isLoggedIn: function(){
+            var deferred = $q.defer();
+            setTimeout(function(){
+                deferred.resolve(true);
+                $rootScope.safeApply();
+            });
+
+            return deferred.promise;
         },
         login: function(){
             var deferred = $q.defer();

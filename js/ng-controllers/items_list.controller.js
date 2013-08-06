@@ -19,7 +19,7 @@ angular.module("Homepage").controller("ItemsListController", ["$scope", function
             });
         }
         else{
-            chrome.tabs.create({ url: item.link });
+            window.open(item.link);
         }
     }
 }]);

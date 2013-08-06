@@ -26,37 +26,44 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
     }
 
     if (notificationsService){
-        if (notificationsService.loggedIn){
-            setNotifications();
-            setCurrentUser();
-        }
+        notificationsService.isLoggedIn().then(function(isLoggedIn){
+            if (isLoggedIn){
+                setNotifications();
+                setCurrentUser();
+            }
+        });
     }
     else
         console.error("Notification service not found: ", $scope.notification.type);
 
     $scope.openNotifications = function(){
-        if (!notificationsService.loggedIn){
-            notificationsService.login().then(function(){
-                setNotifications();
-                setCurrentUser();
-            });
-        }
-        else {
-            if ($scope.notification.unreadCount){
-                var unreadItems = [];
-                angular.forEach($scope.notification.items, function(item){
-                    if (item.unread){
-                        unreadItems.push(item.id);
-                        item.unread = false;
-                    }
+        notificationsService.isLoggedIn().then(function(isLoggedIn){
+            console.log("ISSSS: ", isLoggedIn);
+            if (!isLoggedIn){
+                notificationsService.login().then(function(){
+                    setNotifications();
+                    setCurrentUser();
                 });
-
-                $scope.$emit("notificationsChange", { countChange: -1 * $scope.notification.unreadCount });
-                $scope.notification.unreadCount = 0;
             }
+            else {
+                if ($scope.notification.unreadCount){
+                    var unreadItems = [];
+                    angular.forEach($scope.notification.items, function(item){
+                        if (item.unread){
+                            unreadItems.push(item.id);
+                            item.unread = false;
+                        }
+                    });
 
-            notificationsService.markAsRead(unreadItems);
-        }
+                    $scope.$emit("notificationsChange", { countChange: -1 * $scope.notification.unreadCount });
+                    $scope.notification.unreadCount = 0;
+                }
+
+                notificationsService.markAsRead(unreadItems);
+            }
+        }, function(error){
+            console.error("BAD: ", error);
+        });
     };
 
     $scope.toggleItem = function(item){

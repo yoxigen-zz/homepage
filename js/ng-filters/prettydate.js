@@ -3,11 +3,16 @@ angular.module("PrettyDate", []).filter('prettyDate', function () {
         if (!date)
             return "";
 
-        if (String(date) === date)
+        if (angular.isNumber(date) || angular.isString(date))
             date = new Date(date);
 
-        var diff = (((new Date()).getTime() - date.getTime()) / 1000),
-            day_diff = Math.floor(diff / 86400);
+        try{
+            var diff = (((new Date()).getTime() - date.getTime()) / 1000),
+                day_diff = Math.floor(diff / 86400);
+        }
+        catch(e){
+            return "";
+        }
 
         var units = {
             long: {
