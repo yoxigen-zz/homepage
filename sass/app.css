@@ -1703,7 +1703,10 @@ h1, h2, h3, h4, h5 {
   box-sizing: border-box;
   bottom: 50px;
   font-style: italic;
-  padding: 0 5px; }
+  padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
 
 .gallery-text-time {
   float: right;

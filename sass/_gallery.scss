@@ -25,6 +25,9 @@ $galleryTextHeight: 25px;
   bottom: $galleryThumbnailsHeight;
   font-style: italic;
   padding: 0 $galleryThumbnailsPadding;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .gallery-text-time{
