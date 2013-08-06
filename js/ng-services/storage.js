@@ -12,7 +12,7 @@
             if (this.localStorageApi)
                 return this.localStorageApi;
 
-            this.localStorageApi = new StorageApi(id, localStorage);
+            this.localStorageApi = new AsyncLocalStorage(id, $q, $rootScope);
             return this.localStorageApi;
         });
 
@@ -28,7 +28,7 @@
             if (this.cloudStorageApi)
                 return this.cloudStorageApi;
 
-            this.cloudStorageApi = new ChromeStorageApi(id, $q, $rootScope);
+            this.cloudStorageApi = new AsyncLocalStorage(id, $q, $rootScope);
             return this.cloudStorageApi;
         });
     }
@@ -56,8 +56,8 @@
             return [id, key].join("_");
         };
 
-        this.getStorageKeyPrefixRegExp = function(){
-            new RegExp("^" + id + "_");
+        this.storageKeyPrefixRegExp = function(){
+            return new RegExp("^" + id + "_");
         };
     };
 
@@ -82,9 +82,75 @@
         }
     };
 
-    function ChromeStorageApi(id, $q, $rootScope){
+    function AsyncLocalStorage(id, $q, $rootScope){
         this.$q = $q;
         this.$rootScope = $rootScope;
+
+        this.getStorageKeyName = function(key){
+            return [id, key].join("_");
+        };
+
+        this.storageKeyPrefixRegExp = new RegExp("^" + id + "_");
+    }
+
+    AsyncLocalStorage.prototype = {
+        getItem: function(key){
+            return this.getItems([this.getStorageKeyName(key)]);
+        },
+        getItems: function(keys){
+            var deferred = this.$q.defer(),
+                items = {},
+                self = this;
+
+            angular.forEach(keys, function(key){
+                var storageValue = localStorage.getItem(key);
+                if (storageValue !== null){
+                    items[key.replace(self.storageKeyPrefixRegExp, "")] = storageValue;
+                }
+            });
+
+            if (!Object.keys(items).length)
+                deferred.resolve();
+            else{
+                if (keys.length === 1)
+                    deferred.resolve(items[keys[0]]);
+                else
+                    deferred.resolve(items);
+            }
+
+            return deferred.promise;
+        },
+        setItem: function(key, data){
+            var deferred = this.$q.defer();
+
+            localStorage.setItem(this.getStorageKeyName(key), data);
+            deferred.resolve();
+
+            return deferred.promise;
+        },
+        removeItem: function(key){
+            var deferred = this.$q.defer();
+            localStorage.removeItem(this.getStorageKeyName(key));
+            deferred.resolve();
+            return deferred.promise;
+        },
+        clear: function(){
+            var deferred = this.$q.defer();
+            for(var storageKey in localStorage){
+                if (this.storageKeyPrefixRegExp.test(storageKey)){
+                    localStorage.removeItem(storageKey);
+                }
+            }
+
+            deferred.resolve();
+            return deferred.promise;
+        }
+    };
+
+    function ChromeStorageApi(id, storage, $q, $rootScope){
+        this.$q = $q;
+        this.$rootScope = $rootScope;
+        this.storage = storage;
 
         this.getStorageKeyName = function(key){
             return [id, key].join("_");
@@ -97,13 +163,13 @@
 
     ChromeStorageApi.prototype = {
         getItem: function(key){
-            return this.getItems([key]);
+            return this.getItems([this.getStorageKeyName(key)]);
         },
         getItems: function(keys){
             var deferred = this.$q.defer(),
                 self = this;
 
-            chrome.storage.sync.get(keys, function(data){
+            this.storage.get(keys, function(data){
                 if (!Object.keys(data).length)
                     deferred.resolve();
                 else{
@@ -123,10 +189,9 @@
                 obj = {},
                 self = this;
 
-            obj[key] = data;
+            obj[this.getStorageKeyName(key)] = data;
 
-            chrome.storage.sync.set(obj, function(){
-                console.log("sync set: ", arguments, ", error: ", chrome.runtime.lastError);
+            this.storage.set(obj, function(){
                 deferred.resolve();
                 self.$rootScope.$apply();
             });
@@ -137,7 +202,7 @@
             var deferred = this.$q.defer(),
                 self = this;
 
-            chrome.storage.sync.remove(key, function(){
+            this.storage.remove(this.getStorageKeyName(key), function(){
                 deferred.resolve();
                 self.$rootScope.$apply();
             });
@@ -148,7 +213,7 @@
             var deferred = this.$q.defer(),
                 self = this;
 
-            chrome.storage.sync.clear(function(){
+            this.storage.clear(function(){
                 deferred.resolve();
                 self.$rootScope.$apply();
             });

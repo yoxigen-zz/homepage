@@ -3,15 +3,22 @@
         return function(options) { return $injector.instantiate(OAuth2, { options: options }); };
     }]);
 
+    var defaultOptions = {
+        oauthWindowDimensions: {
+            width: 500,
+            height: 350
+        }
+    };
+
     function OAuth2($rootScope, $q, Storage, options){
         this.$rootScope = $rootScope;
         this.$q = $q;
-        this.options = options;
+        this.options = angular.extend({}, defaultOptions, options);
         this.storage = new Storage("oauth2_" + options.apiName);
     }
 
     OAuth2.prototype = (function(){
-        var redirectUri = "https://yoxigen.github.com/homepage";
+        var redirectUri = document.location.href + "/oauth2.html";
 
         function getUrl(){
             return this.options.baseUrl + (~this.options.baseUrl.indexOf("?") ? "&" : "?") +
@@ -24,71 +31,102 @@
 
         var methods = {
             getOauth: function(){
-                var existingOauth = this.oauthData || this.storage.local.getItem("oauth");
-                if (existingOauth){
+                var deferred = this.$q.defer(),
+                    existingOauth = this.oauthData,
+                    self = this;
+
+                function resolve(){
                     if (!existingOauth.expires || existingOauth.expires > new Date().valueOf()){
-                        this.oauthData = existingOauth;
-                        return existingOauth;
+                        self.oauthData = existingOauth;
+                        deferred.resolve(existingOauth);
                     }
                     else{
-                        this.storage.removeItem("oauth");
+                        self.storage.removeItem("oauth");
+                        deferred.resolve(null);
                     }
                 }
 
-                return null;
+                if (existingOauth){
+                    resolve();
+                }
+                else{
+                    this.storage.local.getItem("oauth").then(function(oauthData){
+                        if (oauthData){
+                            existingOauth = oauthData;
+                            resolve();
+                        }
+                        else{
+                            deferred.resolve(null);
+                        }
+                    })
+                }
+
+                return deferred.promise;
             },
-            get isLoggedIn(){
-                return !!this.getOauth();
+            isLoggedIn: function(){
+                var deferred = this.$q.defer();
+                this.getOauth().then(function(auth){
+                    deferred.resolve(!!auth);
+                }, function(error){
+                    deferred.resolve(false)
+                });
+
+                return deferred.promise;
             },
             login: function(){
                 var deferred = this.$q.defer(),
-                    existingOauth = this.getOauth(),
-                    self = this;
+                    self = this,
+                    oauthWindow;
 
-                if (existingOauth){
-                    setTimeout(function(){
-                        deferred.resolve({ oauth: existingOauth });
-                        self.$rootScope.$apply()
-                    });
+                this.getOauth().then(function(existingOauth){
+                    if (existingOauth){
+                        setTimeout(function(){
+                            deferred.resolve({ oauth: existingOauth });
+                            self.$rootScope.$apply()
+                        });
 
-                    return deferred.promise;
-                }
+                        return deferred.promise;
+                    }
 
-                this.logout();
+                    self.logout();
 
-                chrome.tabs.getCurrent(function(currentTab){
-                    chrome.tabs.create({ url: getUrl.call(self) }, function(authTab){
-                        function onRemoved(tabId){
-                            if (tabId === authTab.id){
-                                deferred.reject();
-                                self.$rootScope.$apply();
-                                chrome.tabs.onRemoved.removeListener(onRemoved);
-                                chrome.tabs.onUpdated.removeListener(onUpdated);
-                            }
+                    window["oauthOnResult_" + self.options.apiName] = function(oauthResult){
+                        methods.setOauth.call(self, oauthResult);
+                        deferred.resolve({ oauth: oauthResult, isNew: true });
+                        self.$rootScope.$apply();
+                    };
+
+                    oauthWindow = window.open(getUrl.call(self), "_blank", ["location=0", "width=" + self.options.oauthWindowDimensions.width, "height=" + self.options.oauthWindowDimensions.height, "toolbar=no"].join(","));
+                    function onRemoved(tabId){
+                        if (tabId === authTab.id){
+                            deferred.reject();
+                            self.$rootScope.$apply();
+                            chrome.tabs.onRemoved.removeListener(onRemoved);
+                            chrome.tabs.onUpdated.removeListener(onUpdated);
                         }
+                    }
 
-                        function onUpdated(tabId, changeInfo, tab) {
-                            if (tabId === authTab.id && tab.url.indexOf(self.options.redirectUri || redirectUri) === 0){
-                                var expiresMatch = tab.url.match(/expires_in=(\d+)/),
-                                    auth = {
-                                        token: tab.url.match(/access_token=([^&#]+)/)[1],
-                                        expires: expiresMatch ? new Date().valueOf() + parseInt(expiresMatch[1], 10) * 1000 : undefined
-                                    };
+                    function onUpdated(tabId, changeInfo, tab) {
+                        if (tabId === authTab.id && tab.url.indexOf(self.options.redirectUri || redirectUri) === 0){
+                            var expiresMatch = tab.url.match(/expires_in=(\d+)/),
+                                auth = {
+                                    token: tab.url.match(/access_token=([^&#]+)/)[1],
+                                    expires: expiresMatch ? new Date().valueOf() + parseInt(expiresMatch[1], 10) * 1000 : undefined
+                                };
 
-                                chrome.tabs.onRemoved.removeListener(onRemoved);
-                                chrome.tabs.onUpdated.removeListener(onUpdated);
+                            chrome.tabs.onRemoved.removeListener(onRemoved);
+                            chrome.tabs.onUpdated.removeListener(onUpdated);
 
-                                methods.setOauth.call(self, auth);
-                                deferred.resolve({ oauth: auth, isNew: true });
-                                self.$rootScope.$apply();
-                                chrome.tabs.remove(tabId);
-                                chrome.tabs.update(currentTab.id, { active: true });
-                            }
+                            methods.setOauth.call(self, auth);
+                            deferred.resolve({ oauth: auth, isNew: true });
+                            self.$rootScope.$apply();
+                            chrome.tabs.remove(tabId);
+                            chrome.tabs.update(currentTab.id, { active: true });
                         }
+                    }
 
-                        chrome.tabs.onUpdated.addListener(onUpdated);
-                        chrome.tabs.onRemoved.addListener(onRemoved);
-                    });
+                    //chrome.tabs.onUpdated.addListener(onUpdated);
+                    //chrome.tabs.onRemoved.addListener(onRemoved);
                 });
 
                 return deferred.promise;

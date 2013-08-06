@@ -1,39 +1,45 @@
 (function(){
-    var prefix = "cache_";
+    angular.module("Cache", ["Storage"]).factory('Cache', ["$injector", "$q", "Storage", function ($injector, $q, Storage) {
+        return function(options) { return $injector.instantiate(Cache, { options: options }); };
+    }]);
 
-    function Cache($rootScope, options){
+    function Cache($rootScope, $q, Storage, options){
         this.$rootScope = $rootScope;
+        this.$q = $q;
         this.options = options || {};
         this.data = {};
+        this.storage = new Storage("cache_" + options.id).local;
         this.__defineGetter__("id", function(){ return options.id; });
     };
 
     Cache.prototype = {
-        getKey: function(keyName){
-            return [prefix, this.id, keyName].join("_");
-        },
         getItem: function(keyName, options){
-            var dataStr = localStorage.getItem(this.getKey(keyName));
+            var deferred = this.$q.defer(),
+                self = this;
 
-            if (!dataStr)
-                return null;
+            this.storage.getItem(keyName).then(function(dataObj){
+                if (dataObj){
+                    if (dataObj.expires && dataObj.expires < new Date().valueOf()){
+                        self.removeItem(keyName);
+                        deferred.resolve(null);
+                    }
+                    else{
+                        var data = dataObj && dataObj.data;
 
-            var dataObj = JSON.parse(dataStr);
+                        if (options && options.hold)
+                            self.data[keyName] = data;
 
-            if (dataObj && dataObj.expires && dataObj.expires < new Date().valueOf()){
-                this.removeItem(keyName);
-                return null;
-            }
+                        deferred.resolve(data);
+                    }
+                }
+                else
+                    deferred.resolve(dataObj);
+            });
 
-            var data = dataObj && dataObj.data;
-
-            if (options && options.hold)
-                this.data[keyName] = data;
-
-            return data;
+            return deferred.promise;
         },
         removeItem: function(keyName){
-            localStorage.removeItem(this.getKey(keyName));
+            this.storage.removeItem(keyName);
             if (this.data[keyName])
                 delete this.data[keyName];
         },
@@ -49,13 +55,9 @@
             else if (options.expiresIn)
                 storageData.expires = new Date().valueOf() + options.expiresIn * 1000;
 
-            localStorage.setItem(this.getKey(keyName), JSON.stringify(storageData));
+            this.storage.setItem(keyName, storageData);
             if (options.hold)
                 this.data[keyName] = data;
         }
     };
-
-    angular.module("Cache", []).factory('Cache', function ($injector) {
-        return function(options) { return $injector.instantiate(Cache, { options: options }); };
-    });
 })();

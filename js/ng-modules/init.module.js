@@ -14,6 +14,8 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                 };
             }
 
+            var version = new Date().valueOf();
+
             var appDependencies = [
                     "Utils",
                     "EventBus",
@@ -28,7 +30,7 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                 ],
                 appResources = [
                     "js/ng-controllers/homepage.controller.js",
-                    "js/ng-controllers/notification.controller.js",
+                    "js/ng-controllers/notification.controller.js?v=" + version,
                     "js/ng-controllers/items_list.controller.js",
                     "js/ng-controllers/widget.controller.js",
                     "js/ng-directives/modal.js",

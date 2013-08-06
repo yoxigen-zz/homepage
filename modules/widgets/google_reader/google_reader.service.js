@@ -42,7 +42,7 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
                     id: item.id,
                     author: item.author && item.author.replace("noreply@blogger.com", ""),
                     link: item.alternate[0].href,
-                    publishDate: new Date(item.published * 1000),
+                    publishDate: item.published * 1000,
                     creationDate: item.crawlTimeMsec,
                     feed: {
                         id: item.origin.streamId,
@@ -159,18 +159,9 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
                 sessionStorage.removeItem("reader_token");
             },
             getItems: function(params, forceRefresh){
-                var deferred = $q.defer(),
-                    cachePosts;
+                var deferred = $q.defer();
 
-                if (forceRefresh)
-                    cache.removeItem(cacheKey);
-                else if (!params){
-                    cachePosts = cache.getItem(cacheKey, { hold: true });
-                    if (cachePosts)
-                        deferred.resolve(cachePosts)
-                }
-
-                if (!cachePosts){
+                function getRemoteData(){
                     $http.get(apiBaseUrl + "stream/contents/user/-/state/com.google/reading-list", { params: angular.extend({}, defaultSettings, params) })
                         .success(function(readerData){
                             var returnData = {
@@ -199,6 +190,20 @@ angular.module("GoogleReader").factory("googleReader", ["$http", "$q", "utils", 
                         .error(function(e){
                             deferred.reject(e);
                         });
+                }
+
+                if (forceRefresh){
+                    cache.removeItem(cacheKey);
+                    getRemoteData();
+                }
+                else if (!params){
+                    cache.getItem(cacheKey, { hold: true }).then(function(cachePosts){
+                        if (cachePosts)
+                            deferred.resolve(cachePosts)
+                        else
+                            getRemoteData();
+                    });
+
                 }
 
                 return deferred.promise;

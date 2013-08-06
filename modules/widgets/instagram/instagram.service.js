@@ -105,21 +105,23 @@ angular.module("Instagram").factory("instagram", ["OAuth2", "$q", "$http", "Cach
             { name: "My Uploads", endpoint: "users/self/media/recent", id: "recent" },
             { name: "Most popular", endpoint: "media/popular", id: "popular" }
         ],
-        get loggedIn(){
-            return igOauth.isLoggedIn;
+        isLoggedIn: function(){
+            return igOauth.isLoggedIn();
         },
         login: function(){
             var deferred = $q.defer();
 
-            if (igOauth.isLoggedIn)
-                deferred.resolve(igOauth.authData);
-            else{
-                igOauth.login().then(function(){
+            methods.isLoggedIn().then(function(isLoggedIn){
+                if (isLoggedIn)
                     deferred.resolve(igOauth.authData);
-                }, function(error){
-                    deferred.reject(error);
-                });
-            }
+                else{
+                    igOauth.login().then(function(){
+                        deferred.resolve(igOauth.authData);
+                    }, function(error){
+                        deferred.reject(error);
+                    });
+                }
+            });
 
             return deferred.promise;
         },
@@ -130,20 +132,9 @@ angular.module("Instagram").factory("instagram", ["OAuth2", "$q", "$http", "Cach
 
         },
         load: function(feed, params, forceRefresh){
-            var deferred = $q.defer(),
-                feedCache;
+            var deferred = $q.defer();
 
-            params = params || {};
-
-            if (forceRefresh)
-                cache.removeItem(feed.id);
-            else if (feed.cache && !params.max_id && !params.min_id){
-                feedCache = cache.getItem(feed.id, { hold: true });
-                if (feedCache)
-                    deferred.resolve(feedCache)
-            }
-
-            if (!feedCache){
+            function getRemoteData(){
                 $http.jsonp("https://api.instagram.com/v1/" + feed.endpoint + "?callback=JSON_CALLBACK", {
                     params: angular.extend(params, { access_token: igOauth.oauthData.token, count: 20 }) })
                     .then(function(igData){
@@ -171,6 +162,21 @@ angular.module("Instagram").factory("instagram", ["OAuth2", "$q", "$http", "Cach
                     }, function(error){
                         deferred.reject(error);
                     });
+            }
+
+            params = params || {};
+
+            if (forceRefresh){
+                cache.removeItem(feed.id);
+                getRemoteData();
+            }
+            else if (feed.cache && !params.max_id && !params.min_id){
+                cache.getItem(feed.id, { hold: true }).then(function(feedCache){
+                    if (feedCache)
+                        deferred.resolve(feedCache)
+                    else
+                        getRemoteData();
+                });
             }
 
             return deferred.promise;

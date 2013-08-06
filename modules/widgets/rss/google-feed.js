@@ -1,4 +1,5 @@
-angular.module("GoogleFeed", []).factory("rss", ["$http", "$q", "utils", "Cache", function($http, $q, utils, Cache){
+angular.module("GoogleFeed", [])
+    .factory("rss", ["$http", "$q", "utils", "Cache", "$rootScope", function($http, $q, utils, Cache, $rootScope){
     var cache = new Cache({
             id: "rss",
             itemsExpireIn: 60 * 5 // cache items expire in 5 minutes
@@ -9,31 +10,36 @@ angular.module("GoogleFeed", []).factory("rss", ["$http", "$q", "utils", "Cache"
 
     function loadFeed(feedUrl, forceRefresh, options){
         var deferred = $q.defer(),
-            cachedData;
+            feed = new google.feeds.Feed(feedUrl);
 
-        if (!forceRefresh)
-            cachedData = cache.getItem(feedUrl);
-
-        if (cachedData){
-            deferred.resolve(cachedData);
-        }
-        else{
-            $http.get("https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + (options.count || defaultOptions.count) +"&q=" + encodeURIComponent(feedUrl))
-                .success(function(response){
-                    if (!response.responseData){
-                        deferred.reject({ error: response.responseDetails })
+        function getRemoteData(){
+            feed.load(function(result) {
+                $rootScope.safeApply(function(){
+                    if (!result.error) {
+                        result.feed.items = formatItems(result.feed.entries)
+                        delete result.feed.entries;
+                        deferred.resolve(result.feed);
+                        cache.setItem(feedUrl, result.feed);
                     }
                     else{
-                        response.responseData.feed.items = formatItems(response.responseData.feed.entries);
-                        delete response.responseData.feed.entries;
-                        deferred.resolve(response.responseData.feed);
-
-                        cache.setItem(feedUrl, response.responseData.feed);
+                        deferred.reject({ error: result.error })
+                        console.error(result);
                     }
-                })
-                .error(function(error){
-                    deferred.reject(error);
                 });
+            });
+        }
+
+        if (forceRefresh){
+            cache.removeItem(feedUrl);
+            getRemoteData();
+        }
+        else{
+            cache.getItem(feedUrl).then(function(cachedData){
+                if (cachedData)
+                    deferred.resolve(cachedData);
+                else
+                    getRemoteData();
+            });
         }
 
         return deferred.promise;
@@ -47,7 +53,7 @@ angular.module("GoogleFeed", []).factory("rss", ["$http", "$q", "utils", "Cache"
             formattedItem = {
                 author: item.author,
                 link: item.link,
-                publishDate: new Date(item.publishedDate),
+                publishDate: item.publishedDate,
                 title: item.title,
                 text: utils.strings.stripHtml(item.content),
                 summary: utils.strings.stripHtml(item.content),
