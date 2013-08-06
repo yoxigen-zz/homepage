@@ -8,7 +8,7 @@ angular.module("Instagram").factory("instagram", ["OAuth2", "$q", "$http", "Cach
         igOauth = new OAuth2({
             apiName: "instagram",
             baseUrl: "https://instagram.com/oauth/authorize/",
-            redirectUri: "https://github.com/yoxigen/homepage",
+            redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
             clientId: clientId,
             scope: "basic likes comments relationships"
         }),

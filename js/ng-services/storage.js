@@ -113,7 +113,7 @@
                 deferred.resolve();
             else{
                 if (keys.length === 1)
-                    deferred.resolve(items[keys[0]]);
+                    deferred.resolve(items[keys[0].replace(self.storageKeyPrefixRegExp, "")]);
                 else
                     deferred.resolve(items);
             }

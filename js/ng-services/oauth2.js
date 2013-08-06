@@ -20,13 +20,17 @@
     OAuth2.prototype = (function(){
         var redirectUri = document.location.href + "/oauth2.html";
 
-        function getUrl(){
-            return this.options.baseUrl + (~this.options.baseUrl.indexOf("?") ? "&" : "?") +
+        function getUrl(state){
+            var url = this.options.baseUrl + (~this.options.baseUrl.indexOf("?") ? "&" : "?") +
                 "client_id=" + this.options.clientId +
                 "&scope=" + encodeURIComponent(this.options.scope) +
                 "&redirect_uri=" + encodeURIComponent(this.options.redirectUri || redirectUri) +
-                "&state=" + this.options.apiName +
                 "&response_type=token";
+
+            if (state)
+                url += "&state=" + state;
+
+            return url;
         }
 
         var methods = {
@@ -63,6 +67,12 @@
 
                 return deferred.promise;
             },
+            getOauthState: function(){
+                if (!OAuth2.prototype.lastOauthState)
+                    OAuth2.prototype.lastOauthState = 0;
+
+                return ++OAuth2.prototype.lastOauthState;
+            },
             isLoggedIn: function(){
                 var deferred = this.$q.defer();
                 this.getOauth().then(function(auth){
@@ -96,7 +106,19 @@
                         self.$rootScope.$apply();
                     };
 
-                    oauthWindow = window.open(getUrl.call(self), "_blank", ["location=0", "width=" + self.options.oauthWindowDimensions.width, "height=" + self.options.oauthWindowDimensions.height, "toolbar=no"].join(","));
+                    var state = self.getOauthState();
+
+                    window["setOauth2_" + state] = function(response){
+                        delete window["setOauth2_" + state];
+                        oauthWindow.close();
+                        methods.setOauth.call(self, auth);
+                        deferred.resolve({ oauth: auth, isNew: true });
+                        self.$rootScope.$apply();
+                    };
+
+                    oauthWindow = window.open(getUrl.call(self, state), "_blank", ["location=0", "width=" + self.options.oauthWindowDimensions.width, "height=" + self.options.oauthWindowDimensions.height, "toolbar=no"].join(","));
+
+                    /*
                     function onRemoved(tabId){
                         if (tabId === authTab.id){
                             deferred.reject();
@@ -124,7 +146,7 @@
                             chrome.tabs.update(currentTab.id, { active: true });
                         }
                     }
-
+                    */
                     //chrome.tabs.onUpdated.addListener(onUpdated);
                     //chrome.tabs.onRemoved.addListener(onRemoved);
                 });

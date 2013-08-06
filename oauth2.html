@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script>
+        if (window.opener){
+            var params = document.location.href.split("?")[1].split("#"),
+                paramsObj = {},
+                param;
+
+            for(var i=0; i < params.length; i++){
+                param = params[i].split("=");
+                paramsObj[param[0]] = param[1];
+            }
+
+            var auth = { token: paramsObj.access_token };
+            if (paramsObj.expires_in)
+                auth.expires = new Date().valueOf() + parseInt(paramsObj.expires_in, 10) * 1000;
+
+            window.opener["setOauth2_" + paramsObj.state](auth);
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
