@@ -1,5 +1,5 @@
 (function(){
-    angular.module("Storage", []).factory('Storage', ["$injector", "$q", function ($injector, $q, $rootScope) {
+    angular.module("Storage", []).factory('Storage', ["$injector", "$q", "$rootScope", function ($injector, $q, $rootScope) {
         return function(id) { return $injector.instantiate(Storage, { id: id }); };
     }]);
 
@@ -109,15 +109,18 @@
                 }
             });
 
-            if (!Object.keys(items).length)
-                deferred.resolve();
-            else{
-                if (keys.length === 1)
-                    deferred.resolve(items[keys[0].replace(self.storageKeyPrefixRegExp, "")]);
-                else
-                    deferred.resolve(items);
-            }
-
+            setTimeout(function(){
+                self.$rootScope.safeApply(function(){
+                    if (!Object.keys(items).length)
+                        deferred.resolve();
+                    else{
+                        if (keys.length === 1)
+                            deferred.resolve(items[keys[0].replace(self.storageKeyPrefixRegExp, "")]);
+                        else
+                            deferred.resolve(items);
+                    }
+                })
+            });
             return deferred.promise;
         },
         setItem: function(key, data){

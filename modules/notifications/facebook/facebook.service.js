@@ -6,7 +6,7 @@ angular.module("Facebook").factory("facebook", [ "OAuth2", "$q", "$http", functi
         fbOauth = new OAuth2({
             apiName: "facebook",
             baseUrl: "http://www.facebook.com/dialog/oauth/",
-            redirectUri: "https://apps.facebook.com/yox-homepage",
+            redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
             clientId: apiKey,
             scope: "manage_notifications"
         }),
