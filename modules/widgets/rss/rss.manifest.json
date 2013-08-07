@@ -36,10 +36,19 @@
 			"name": "feed",
 			"type": "text",
 			"style": "long"
-		}
+		},
+        {
+            "label": "Items count",
+            "name": "count",
+            "type": "number",
+            "min": 1,
+            "max": 20,
+            "step": 1
+        }
 	],
 	"settings": {
 		"display": "headlines",
-		"refreshRate": 300
+		"refreshRate": 300,
+        "count": 4
 	}
 }
