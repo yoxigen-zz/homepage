@@ -178,6 +178,8 @@ angular.module("Instagram").factory("instagram", ["OAuth2", "$q", "$http", "Cach
                         getRemoteData();
                 });
             }
+            else
+                getRemoteData();
 
             return deferred.promise;
         },
