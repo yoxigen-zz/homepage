@@ -50,26 +50,27 @@ angular.module("Viewer").controller("ViewerController", ["$scope", "imageCache",
             $scope.currentItemIsLast = true;
         }
 
-        var item = $scope.items[currentIndex = index];
+        var item = $scope.items[currentIndex = index],
+            imageUrl = item.url || item.image.src;
 
         $scope.currentItem = item;
-        $scope.currentImageUrl = item.thumbnail.src;
+        $scope.currentImageUrl = item.thumbnail ? item.thumbnail.src : imageUrl;
         $scope.currentImageWidth = item.width || (item.thumbnail && item.thumbnail.width);
 
         loadingTimeoutPromise = $timeout(function(){
             $scope.loading = true;
         }, 140);
 
-        imageCache.cacheImage(item.url).then(function(imageData){
+        imageCache.cacheImage(imageUrl).then(function(imageData){
             item.width = imageData.width;
             item.height = imageData.height;
-            $scope.currentImageUrl = item.url;
+            $scope.currentImageUrl = imageUrl;
             $scope.currentImageWidth = item.width;
             $timeout.cancel(loadingTimeoutPromise);
             $scope.loading = false;
         }, function(error){
             if (error){
-                $scope.currentItem = { url: null, title: "<i class='icon-warning-sign'></i> Can't load image from <a href='" + item.url + "' target='_blank'>" + item.url + "</a>"};
+                $scope.currentItem = { url: null, title: "<i class='icon-warning-sign'></i> Can't load image from <a href='" + imageUrl + "' target='_blank'>" + imageUrl + "</a>"};
                 $timeout.cancel(loadingTimeoutPromise);
                 $scope.loading = false;
             }

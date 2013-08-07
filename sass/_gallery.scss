@@ -12,7 +12,10 @@ $galleryTextHeight: 25px;
   position: absolute;
   top: $galleryImagePadding - 4;
   bottom: $galleryThumbnailsHeight + $galleryImagePadding + $galleryTextHeight;
-
+  cursor: pointer;
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: -o-zoom-in;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain;

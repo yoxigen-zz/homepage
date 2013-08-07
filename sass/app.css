@@ -1693,6 +1693,10 @@ h1, h2, h3, h4, h5 {
   position: absolute;
   top: 1px;
   bottom: 80px;
+  cursor: pointer;
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: -o-zoom-in;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain; }

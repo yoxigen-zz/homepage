@@ -38,7 +38,11 @@ angular.module("Instagram").factory("instagram", ["OAuth2", "$q", "$http", "Cach
                     height: image.height,
                     ratio: image.height / image.width,
                     link: imageData.link,
-                    title: imageData.caption ? imageData.caption.text : null,
+                    title: imageData.caption && imageData.caption.text,
+                    image: {
+                        src: image.url,
+                        title: imageData.caption && imageData.caption.text
+                    },
                     type: "image",
                     time: new Date(imageData.created_time * 1000),
                     social: {
