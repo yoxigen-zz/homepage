@@ -10,7 +10,10 @@ angular.module("GoogleFeed", [])
 
     function loadFeed(feedUrl, forceRefresh, options){
         var deferred = $q.defer(),
-            feed = new google.feeds.Feed(feedUrl);
+            feed = new google.feeds.Feed(feedUrl),
+            loadOptions = angular.extend({}, defaultOptions, options);
+
+        feed.setNumEntries(loadOptions.count);
 
         function getRemoteData(){
             feed.load(function(result) {
