@@ -28,14 +28,23 @@
             </div>
             <div class="item-text" ng-switch on="item==currentItem">
                 <a ng-click="setCurrentItem(item)">
-                    <img class="item-thumbnail" ng-src="{{item.image.src}}" ng-class="{'full-width': !item.summary}" ng-show="item.image && item!=currentItem"/>
+                    <img class="item-thumbnail"
+                         ng-src="{{item.image.src}}"
+                         ng-load="onImageLoad(item, $event)"
+                         ng-error="onImageError(item, $event)"
+                         ng-class="{'full-width': !item.summary}"
+                         ng-show="item.image && item!=currentItem"/>
                 </a>
                 <div ng-switch-when="true" ng-bind-html-unsafe="item.text"></div>
                 <div ng-switch-when="false" ng-bind-html-unsafe="item.summary"></div>
             </div>
         </div>
         <div ng-switch-when="headlines" class="items-list-headline">
-            <img ng-src="{{item.image.src}}" ng-show="item.image" class="item-thumbnail" />
+            <img ng-src="{{item.image.src}}"
+                 ng-show="item.image"
+                 class="item-thumbnail"
+                 ng-error="onImageError(item, $event)"
+                 ng-load="onImageLoad(item, $event)" />
             <div ng-class="{'item-text-with-image':item.image}">
                 <div class="item-details">
                     <span><i class="icon icon-time"></i>{{item.publishDate | prettyDate:true}}</span>

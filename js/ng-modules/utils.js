@@ -19,6 +19,14 @@ angular.module("Utils", []).value("utils", {
             return /[\u0591-\u07FF\uFB1D-\uFDFF\uFE70-\uFEFC]/.test(str);
         },
         /**
+         * Recognizes URLs in a string and creates <A> elements around them.
+         * @param str
+         * @param target
+         */
+        makeLinks: function(str, target){
+
+        },
+        /**
          * Removes HTML tags from the string.
          * @param str
          * @return {*}
@@ -26,7 +34,7 @@ angular.module("Utils", []).value("utils", {
         stripHtml: function(str){
             var temp = document.createElement("div");
             temp.innerHTML = str;
-            return temp.innerText;
+            return temp.innerText.replace(/\"/g, "&quot;");
         },
         /**
          * Shortens the string to the specified length, then trims the end, so words aren't cut in the middle.

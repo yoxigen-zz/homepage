@@ -1,7 +1,5 @@
 <div ng-controller="GalleryController">
-    <div class="gallery-section gallery-image" ng-style="{ 'background-image': 'url(' + currentItem.image.src + ')' }">
-
-    </div>
+    <div class="gallery-section gallery-image" ng-style="{ 'background-image': 'url(' + currentItem.image.src + ')' }" title="{{ currentItem.image.title }}"></div>
     <div class="gallery-section gallery-text">
         <div class="gallery-text-time">
             <span><i class="icon icon-time"></i> {{currentItem.publishDate | prettyDate:true}}</span>

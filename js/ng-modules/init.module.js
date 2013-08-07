@@ -36,6 +36,8 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "js/ng-controllers/widget.controller.js",
                     "js/ng-directives/modal.js",
                     "js/ng-directives/img_alt.js",
+                    "js/ng-directives/ng-load.js",
+                    "js/ng-directives/ng-error.js",
                     "js/ng-directives/toggle_keys.js",
                     "js/ng-directives/layout_resize.js",
                     "js/lib/jquery-1.9.1.min.js",

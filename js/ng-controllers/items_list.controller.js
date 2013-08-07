@@ -21,5 +21,15 @@ angular.module("Homepage").controller("ItemsListController", ["$scope", function
         else{
             window.open(item.link);
         }
-    }
+    };
+
+    $scope.onImageLoad = function(item, e){
+        if(e.currentTarget.height < 5 || e.currentTarget.width < 5){
+            delete item.image;
+        }
+    };
+
+    $scope.onImageError = function(item, e){
+        delete item.image;
+    };
 }]);
