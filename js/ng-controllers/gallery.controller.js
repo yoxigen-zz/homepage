@@ -1,5 +1,11 @@
 angular.module("Homepage").controller("GalleryController", ["$scope", "imageCache", "$timeout", function($scope, imageCache, $timeout){
-    $scope.currentItem = $scope.items[0];
+    if ($scope.items && $scope.items.length)
+        setFirstItem();
+
+    $scope.$on("onItems", function(e, data){
+        if (data.items)
+            setFirstItem();
+    });
 
     $scope.selectItem = function(item){
         $scope.currentItem = item;
@@ -11,4 +17,8 @@ angular.module("Homepage").controller("GalleryController", ["$scope", "imageCach
             currentItem: $scope.items.indexOf($scope.currentItem)
         });
     };
+
+    function setFirstItem(){
+        $scope.currentItem = $scope.items[0];
+    }
 }]);
