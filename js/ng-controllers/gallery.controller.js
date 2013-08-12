@@ -1,6 +1,6 @@
 angular.module("Homepage").controller("GalleryController", ["$scope", "imageCache", "$timeout", function($scope, imageCache, $timeout){
     if ($scope.items && $scope.items.length)
-        setFirstItem();
+        setFirstItem($scope.items);
 
     $scope.$on("onItems", function(e, data){
         if (data.items)
