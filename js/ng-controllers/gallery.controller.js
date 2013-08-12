@@ -4,7 +4,7 @@ angular.module("Homepage").controller("GalleryController", ["$scope", "imageCach
 
     $scope.$on("onItems", function(e, data){
         if (data.items)
-            setFirstItem();
+            setFirstItem(data.items);
     });
 
     $scope.selectItem = function(item){
@@ -18,7 +18,7 @@ angular.module("Homepage").controller("GalleryController", ["$scope", "imageCach
         });
     };
 
-    function setFirstItem(){
-        $scope.currentItem = $scope.items[0];
+    function setFirstItem(items){
+        $scope.currentItem = items[0];
     }
 }]);
