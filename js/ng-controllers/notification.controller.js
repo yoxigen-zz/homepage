@@ -16,6 +16,9 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
                 timeoutPromise = $timeout(setNotifications, $scope.notification.settings.refreshRate * 1000);
 
             $scope.safeApply();
+        }, function(error){
+            $scope.loading = false;
+            console.error("Error getting notifications: ", error);
         });
     }
 
