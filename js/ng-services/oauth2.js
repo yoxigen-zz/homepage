@@ -29,7 +29,7 @@
             }
 
             function getCloudOauth(){
-                return this.storage.cloud.query({ equals: ["api", this.options.apiName] }, { single: true });
+                return this.storage.cloud.query({ equalTo: ["api", this.options.apiName] }, { single: true });
             }
 
             var methods = {
