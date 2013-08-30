@@ -28,9 +28,9 @@
                 return url;
             }
 
-            function getCloudOauth(){
+            var getCloudOauth = function(){
                 return this.storage.cloud.query({ equals: ["api", this.options.apiName] }, { single: true });
-            }
+            }.bind(this);
 
             var methods = {
                 destroy: function(){
