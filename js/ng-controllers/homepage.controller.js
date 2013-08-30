@@ -107,11 +107,10 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     };
 
     $scope.sortOver = function(){
-        console.log("OVER: ", arguments);
+        //console.log("OVER: ", arguments);
     };
 
     $scope.updateLayout = function(){
-        console.log("UPDATE: ", $scope.layout.rows[0].columns[2].widgets[0].name)
         setTimeout(function(){
             $scope.$apply(function(){
                 $scope.$broadcast("layoutUpdate");

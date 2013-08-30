@@ -218,7 +218,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
                                 var layoutData = { attributes: data };
                                 storage.local.setItem(storageKeys.LAYOUT_STORAGE_KEY, layoutData);
                                 storageLayout = layoutData;
-                                deferred.resolve(layoutData);
+                                deferred.resolve(layoutData.attributes);
                             })
                             .error(function(error){
                                 deferred.reject(error);

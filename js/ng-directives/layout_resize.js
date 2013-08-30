@@ -45,7 +45,6 @@ angular.module("Homepage").directive("layoutColumn", ["$parse", function($parse)
                     totalColumnHeight += widget.clientHeight;
                 });
 
-                console.log("total: ", totalColumnHeight, " column: ", columnHeight)
                 if (totalColumnHeight !== columnHeight){
                     angular.forEach(columnModules, function(widget){
                         var finalWidgetHeight = Math.max(columnHeight * (widget.clientHeight / totalColumnHeight), moduleMinHeight),
