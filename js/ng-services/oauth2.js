@@ -72,7 +72,7 @@
                             getCloudOauth.call(self).then(function(oauthCloudData){
                                 if (oauthCloudData){
                                     existingOauth = oauthCloudData.getData();
-                                    resolve;
+                                    resolve();
                                 }
                                 else
                                     getFromLocal();
@@ -144,6 +144,7 @@
                     this.oauthData = null;
                 },
                 setOauth: function(oauthData){
+                    var self = this;
                     if (users.getCurrentUser()){
                         getCloudOauth.call(this).then(function(oauthObject){
                             if (oauthObject){
@@ -153,7 +154,7 @@
                                 oauthObject.save();
                             }
                             else
-                                this.storage.cloud.setItem(null, angular.extend(oauthData, { api: this.options.apiName }));
+                                self.storage.cloud.setItem(null, angular.extend(oauthData, { api: self.options.apiName }));
                         });
                     }
                     else
