@@ -57,11 +57,10 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
                         }
                     });
 
+                    notificationsService.markAsRead(unreadItems);
                     $scope.$emit("notificationsChange", { countChange: -1 * $scope.notification.unreadCount });
                     $scope.notification.unreadCount = 0;
                 }
-
-                notificationsService.markAsRead(unreadItems);
             }
         }, function(error){
             console.error("BAD: ", error);

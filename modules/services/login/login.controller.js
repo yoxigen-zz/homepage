@@ -8,6 +8,11 @@ angular.module("Login").controller("LoginController", ["$scope", "users", functi
             $scope.loginOpen = true;
             $scope.loginError = null;
             $scope.newUser = options.newUser;
+            $scope.focusUsername = true;
+
+            users.getLastUser().then(function(username){
+                $scope.loginUser.username = username;
+            });
         }
     };
 

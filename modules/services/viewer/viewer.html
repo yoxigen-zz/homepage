@@ -9,7 +9,7 @@
                    ng-click="prev($event)"
                    ng-disabled="currentItemIsFirst">
                     <i class="icon-chevron-left icon-large"></i></a>
-                <img class="viewer-image" ng-src="{{currentImageUrl}}" ng-show="currentImageUrl" />
+                <img class="viewer-image" ng-src="{{currentImageUrl}}" ng-show="currentImageUrl" title="{{ currentItem.image.title }}" />
                 <a class="modal-btn nav-btn-next"
                    ng-click="next($event)"
                    ng-disabled="currentItemIsLast">

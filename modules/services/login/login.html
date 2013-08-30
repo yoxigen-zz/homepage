@@ -3,23 +3,23 @@
         <div class="closes-modal login-modal">
             <h3 class="modal-header">{{ newUser && 'Create user' || 'Sign In' }}</h3>
             <form ng-submit="signIn()" class="login-form">
-                <div class="formElement">
+                <div class="form-element">
                     <label>
-                        Email address:
-                        <input type="text" ng-model="loginUser.username" />
+                        <span>Email address</span>
+                        <input type="text" ng-model="loginUser.username" class="input-email" focus-me="focusUsername" />
                     </label>
                 </div>
-                <div class="formElement">
+                <div class="form-element">
                     <label>
-                        Password:
+                        <span>Password</span>
                         <input type="password" ng-model="loginUser.password" />
                     </label>
                 </div>
                 <p class="error-message" ng-show="loginError">
                     <i class="icon-warning-sign"></i> {{ loginError }}
                 </p>
-                <div class="formElement">
-                    <input type="submit" value="{{ newUser && 'Create user' || 'Sign In' }}" />
+                <div class="form-element">
+                    <input class="btn" type="submit" value="{{ newUser && 'Create user' || 'Sign In' }}" />
                 </div>
             </form>
         </div>

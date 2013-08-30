@@ -997,8 +997,13 @@ h1, h2, h3, h4, h5 {
   padding: 0 20px;
   display: inline-block;
   height: 38px;
-  line-height: 38px; }
-  .btn:hover {
+  line-height: 38px;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  outline: none;
+  font-size: 1.1em; }
+  .btn:focus, .btn:hover {
     background: #0081c3; }
 
 .rotating {
@@ -1130,7 +1135,8 @@ h1, h2, h3, h4, h5 {
     padding: 0 15px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 5px 5px 0 0;
-    white-space: nowrap; }
+    white-space: nowrap;
+    cursor: move; }
     .module .module-header a {
       color: white; }
       .module .module-header a:hover {
@@ -1463,8 +1469,8 @@ h1, h2, h3, h4, h5 {
   .modal .error-message {
     background: rgba(204, 0, 0, 0.5);
     color: white;
-    padding: 15px;
-    border-radius: 5px;
+    padding: 9px 15px;
+    border-radius: 3px;
     margin: 1em 0; }
 
 .modal-header {

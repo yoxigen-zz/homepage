@@ -10,6 +10,7 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
             $scope.module.link = $scope.feed.link;
 
             $scope.$emit("load", { module: $scope.module.name, count: $scope.feed.items.length });
+            $scope.items = $scope.feed.items;
             $scope.$broadcast("onItems", { items: $scope.feed.items });
         }, handleError);
     }

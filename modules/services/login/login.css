@@ -7,4 +7,30 @@
   margin-top: -200px;
   margin-left: -250px; }
   .login-modal .login-form {
-    margin-top: 50px; }
+    margin-top: 50px;
+    padding: 0 20px; }
+    .login-modal .login-form label > span {
+      display: inline-block;
+      width: 100px;
+      padding-right: 6px; }
+    .login-modal .login-form input[type=text], .login-modal .login-form input[type=password] {
+      border: none;
+      padding: 7px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.6);
+      -webkit-transition: all 200ms ease-out;
+      outline: none; }
+      .login-modal .login-form input[type=text]:focus, .login-modal .login-form input[type=password]:focus {
+        background: White; }
+    .login-modal .login-form .input-email {
+      width: 250px; }
+    .login-modal .login-form .form-element {
+      padding: 8px 0;
+      border-bottom: dotted 1px #002e45; }
+      .login-modal .login-form .form-element:last-child {
+        border-bottom: none; }
+    .login-modal .login-form .error-message {
+      margin-left: 112px; }
+    .login-modal .login-form .btn {
+      width: 150px;
+      margin-left: 112px; }

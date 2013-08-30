@@ -12,5 +12,46 @@ $loginHeight: 400px;
 
   .login-form{
     margin-top: 50px;
+    padding: 0 20px;
+
+    label > span{
+      display: inline-block;
+      width: 100px;
+      padding-right: 6px;
+    }
+
+    input[type=text], input[type=password]{
+      border: none;
+      padding: 7px;
+      border-radius: 3px;
+      background: rgba(255,255,255,.6);
+      -webkit-transition: all 200ms ease-out;
+      outline: none;
+
+      &:focus{
+        background: White;
+      }
+    }
+
+    .input-email{
+      width: 250px;
+    }
+    .form-element{
+      padding: 8px 0;
+      border-bottom: dotted 1px #002e45;
+
+      &:last-child{
+        border-bottom: none;
+      }
+    }
+
+    .error-message{
+      margin-left: 112px;
+    }
+
+    .btn{
+      width: 150px;
+      margin-left: 112px;
+    }
   }
 }

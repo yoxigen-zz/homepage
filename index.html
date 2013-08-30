@@ -37,7 +37,7 @@
             <div ng-repeat="column in row.columns"
                  class="layout-column"
                  nc-ui-sortable="nc-ui-sortable"
-                 ui-options="{ connectWith: '.layout-column', scroll: false, out: sortOver, stop: updateLayout}"
+                 ui-options="{ connectWith: '.layout-column', scroll: false, out: sortOver, stop: updateLayout, handle: '.module-header'}"
                  ng-model="column.widgets"
                  update-layout-on="column.widgets.length"
                  on-layout-change="onColumnLayoutChange(column, heights, refreshLayout)"

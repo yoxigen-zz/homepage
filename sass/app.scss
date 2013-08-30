@@ -61,8 +61,13 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   display: inline-block;
   height: 38px;
   line-height: 38px;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  outline: none;
+  font-size: 1.1em;
 
-  &:hover{ background: $btnBackgroundHover }
+  &:focus, &:hover{ background: $btnBackgroundHover }
 }
 .rotating{
   -webkit-animation: rotating 2s linear infinite;
@@ -209,6 +214,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     background: $moduleHeaderBackground;
     border-radius: $moduleRadius $moduleRadius 0 0;
     white-space: nowrap;
+    cursor: move;
 
     a{
       color: $moduleHeaderLinkColor;
