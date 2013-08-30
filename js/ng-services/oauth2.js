@@ -28,9 +28,9 @@
                 return url;
             }
 
-            var getCloudOauth = function(){
+            function getCloudOauth(){
                 return this.storage.cloud.query({ equals: ["api", this.options.apiName] }, { single: true });
-            }.bind(this);
+            }
 
             var methods = {
                 destroy: function(){
@@ -137,7 +137,7 @@
                 logout: function(){
                     this.storage.local.removeItem("oauth");
                     if (users.getCurrentUser())
-                        getCloudOauth().then(function(oauthObject){
+                        getCloudOauth.call(this).then(function(oauthObject){
                             oauthObject.destroy();
                         });
 
@@ -145,7 +145,7 @@
                 },
                 setOauth: function(oauthData){
                     if (users.getCurrentUser()){
-                        getCloudOauth().then(function(oauthObject){
+                        getCloudOauth.call(this).then(function(oauthObject){
                             if (oauthObject){
                                 for(var oauthProperty in oauthData){
                                     oauthObject.set(oauthProperty, oauthData[oauthProperty]);
