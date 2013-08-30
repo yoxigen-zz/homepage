@@ -24,8 +24,7 @@ angular.module("Facebook").factory("facebook", [ "OAuth2", "$q", "$http", functi
         },
         fql: function(query){
             var fqlUrl = graphApiUrl + "fql?q=" + encodeURIComponent(query) + "&" + getFbUrlCommons() + "&t=" + new Date().valueOf();
-            console.log("FQL: ", fqlUrl);
-            return $http.jsonp(fqlUrl).success(function(d){ console.log("D: ", d)});
+            return $http.jsonp(fqlUrl);
         },
         method: function(method, params){
             var paramsQuery = [];
@@ -91,6 +90,7 @@ angular.module("Facebook").factory("facebook", [ "OAuth2", "$q", "$http", functi
         logout: function(){
             currentUser = null;
             fbOauth.logout();
+            fbOauth.destroy();
         },
         getCurrentUser: function(){
             var deferred = $q.defer();
@@ -126,7 +126,6 @@ angular.module("Facebook").factory("facebook", [ "OAuth2", "$q", "$http", functi
 
             FB.fql(fqlQuery).then(
                 function(response){
-                    console.log("RES: ", response);
                     var notifications = { items: [], unreadCount: 0 };
                     angular.forEach(response.data.data, function(fbNotification){
                         var tempDiv = document.createElement("div");

@@ -1,5 +1,5 @@
-angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model", ["$q", "$http", "Storage", "utils", "EventBus", "$timeout",
-    function($q, $http, Storage, utils, EventBus, $timeout){
+angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"]).factory("model", ["$q", "$http", "Storage", "utils", "EventBus", "$timeout", "users",
+    function($q, $http, Storage, utils, EventBus, $timeout, users){
     var defaultModelUrl = "js/data/default_model.json",
         defaultLayoutUrl = "js/data/layout.json",
         model,
@@ -18,16 +18,27 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
     function getModelData (){
         var deferred = $q.defer();
 
-        $q.all([storage.cloud.getItem(storageKeys.MODEL_STORAGE_KEY), storage.cloud.getItem(storageKeys.SETTINGS_STORAGE_KEY)]).then(function(data){
+        $q.all([storage.cloud.getItem(storageKeys.MODEL_STORAGE_KEY, { fallbackOnLocal: true }), storage.cloud.getItem(storageKeys.SETTINGS_STORAGE_KEY)]).then(function(data){
             storageModel = data[0];
-            storageSettings = data[1] || {};
+            storageSettings = data[1];
             if (storageModel){
-                deferred.resolve(angular.copy(storageModel));
+                deferred.resolve(users.getCurrentUser() ? storageModel.getData() : storageModel.attributes);
             }
             else{
                 $http.get(defaultModelUrl).then(function(defaultModel){
-                    storageModel = defaultModel.data;
-                    deferred.resolve(angular.copy(defaultModel.data));
+                    if (users.getCurrentUser()){
+                        storage.cloud.setItem(storageKeys.MODEL_STORAGE_KEY, defaultModel.data).then(function(cloudModel){
+                            storageModel = cloudModel;
+
+                            createSettings().then(function(){
+                                deferred.resolve(defaultModel.data);
+                            });
+                        });
+                    }
+                    else{
+                        storageModel = { attributes: defaultModel.data };
+                        deferred.resolve(storageModel.attributes);
+                    }
                 }, function(error){
                     deferred.reject(error);
                 });
@@ -40,12 +51,20 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
     }
 
     function applyStorageSettingsToModel(model){
-        var modelStorageSettings = storageSettings[model.id];
-        if (modelStorageSettings){
-            if (!model.settings)
-                model.settings = modelStorageSettings;
-            else
-                angular.extend(model.settings, modelStorageSettings);
+        if (!storageSettings){
+            createSettings().then(withSettings);
+        }
+        else
+            withSettings();
+
+        function withSettings(){
+            var modelStorageSettings = storageSettings.attributes.moduleSettings[model.id];
+            if (modelStorageSettings){
+                if (!model.settings)
+                    model.settings = modelStorageSettings;
+                else
+                    angular.extend(model.settings, modelStorageSettings);
+            }
         }
     }
 
@@ -56,10 +75,11 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
     function getUniqueModuleId(){
         var randomStr = utils.strings.getRandomString(6),
             moduleType,
-            idExists = false;
+            idExists = false,
+            modelData = storageModel.getData();
 
-        for(var moduleTypeName in storageModel){
-            moduleType = storageModel[moduleTypeName];
+        for(var moduleTypeName in modelData){
+            moduleType = modelData[moduleTypeName];
             moduleType.every(function(module){
                 if (module.id === randomStr){
                     idExists = true;
@@ -80,7 +100,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
 
     function getMostAvailableColumn(){
         var mostAvailableColumn;
-        storageLayout.rows.forEach(function(row){
+        storageLayout.attributes.rows.forEach(function(row){
             row.columns.forEach(function(column){
                 if (!mostAvailableColumn || column.widgets.length < mostAvailableColumn.widgets.length)
                     mostAvailableColumn = column;
@@ -90,11 +110,29 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
         return mostAvailableColumn;
     }
 
+    function createSettings(settings){
+        var deferred = $q.defer();
+
+        if (users.getCurrentUser()){
+            storage.cloud.setItem(storageKeys.SETTINGS_STORAGE_KEY, { moduleSettings: settings || {}}).then(function(cloudSettings){
+                storageSettings = cloudSettings;
+                deferred.resolve(storageSettings);
+            });
+        }
+        else{
+            storageSettings = { attributes: { moduleSettings: settings || {}}};
+            storage.local.setItem(storageKeys.SETTINGS_STORAGE_KEY, storageSettings);
+        }
+
+        return deferred.promise;
+    }
+
     return {
         addModule: function(type, moduleType){
-            var module = { type: moduleType, id: getUniqueModuleId() };
+            var module = { type: moduleType, id: getUniqueModuleId() },
+                modelModuleType = angular.copy(storageModel.getData()[type]);
 
-            storageModel[type].push(module);
+            modelModuleType.push(module);
 
             if (type === "widgets"){
                 var column = getMostAvailableColumn();
@@ -103,8 +141,8 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
                     delete widget.height;
                 });
             }
-            this.getModel(angular.copy(storageModel)).then(function(modulesData){
-                var module = modulesData[type][modulesData[type].length - 1];
+            this.getModel(users.getCurrentUser() ? storageModel.getData() : storageModel.attributes).then(function(modulesData){
+                var module = modulesData[type][modulesData[type].length - 1],
                     resources = [];
 
                 if (module.resources){
@@ -127,10 +165,18 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
                 //eventBus.triggerEvent("onModelChange", { added: { type: type, module:  }, model: modulesData, layout: storageLayout });
             });
 
-            $q.all([
-                storage.cloud.setItem(storageKeys.MODEL_STORAGE_KEY, storageModel),
-                storage.cloud.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout)
-            ]).then(function(){ console.log("SAVED MODELS!") });
+            if (users.getCurrentUser()){
+                storageModel.set(type, modelModuleType);
+                storageModel.save();
+
+                storageLayout.update();
+            }
+            else{
+                $q.all([
+                    storage.local.setItem(storageKeys.MODEL_STORAGE_KEY, storageModel),
+                    storage.local.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout)
+                ]).then(function(){ console.log("SAVED MODELS!") });
+            }
         },
         destroy: function(){
             storage.destroy();
@@ -140,23 +186,46 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
         getLayout: function(){
             var deferred = $q.defer();
 
-            storage.cloud.getItem(storageKeys.LAYOUT_STORAGE_KEY).then(function(layoutData){
-                if (layoutData){
-                    storageLayout = layoutData;
-                    deferred.resolve(angular.copy(layoutData));
-                }
-                else{
-                    $http.get(defaultLayoutUrl)
-                        .success(function(data){
-                            storageLayout = data;
-                            deferred.resolve(angular.copy(data));
-                        })
-                        .error(function(error){
-                            deferred.reject(error);
-                        });
-                }
-            }, deferred.reject)
-
+            if (users.getCurrentUser()){
+                storage.cloud.getItem(storageKeys.LAYOUT_STORAGE_KEY).then(function(layoutData){
+                    if (layoutData){
+                        storageLayout = layoutData;
+                        deferred.resolve(layoutData.getData());
+                    }
+                    else{
+                        $http.get(defaultLayoutUrl)
+                            .success(function(data){
+                                storage.cloud.setItem(storageKeys.LAYOUT_STORAGE_KEY, data).then(function(cloudLayout){
+                                    storageLayout = cloudLayout;
+                                    deferred.resolve(data);
+                                });
+                            })
+                            .error(function(error){
+                                deferred.reject(error);
+                            });
+                    }
+                }, deferred.reject);
+            }
+            else{
+                storage.local.getItem(storageKeys.LAYOUT_STORAGE_KEY).then(function(layoutData){
+                    if (layoutData){
+                        storageLayout = layoutData;
+                        deferred.resolve(layoutData.attributes);
+                    }
+                    else{
+                        $http.get(defaultLayoutUrl)
+                            .success(function(data){
+                                var layoutData = { attributes: data };
+                                storage.local.setItem(storageKeys.LAYOUT_STORAGE_KEY, layoutData);
+                                storageLayout = layoutData;
+                                deferred.resolve(layoutData);
+                            })
+                            .error(function(error){
+                                deferred.reject(error);
+                            });
+                    }
+                }, deferred.reject);
+            }
             return deferred.promise;
         },
         getModel: function(modelData){
@@ -222,7 +291,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
             var deferred = $q.defer();
 
             var usedModuleIds = [];
-            angular.forEach(storageModel, function(moduleType){
+            angular.forEach(storageModel.getData(), function(moduleType){
                 moduleType.forEach(function(module){
                     usedModuleIds.push(module.type);
                 })
@@ -236,10 +305,10 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
             // Remove the module from model
             var foundModule,
                 moduleType,
-                promises = [];
+                storageData = storageModel.getData();
 
-            for(var moduleTypeName in storageModel){
-                moduleType = storageModel[moduleTypeName];
+            for(var moduleTypeName in storageData){
+                moduleType = storageData[moduleTypeName];
                 for(var i= 0, module; module = moduleType[i]; i++){
                     if (module.id === moduleToRemove.id){
                         moduleType.splice(i, 1);
@@ -249,19 +318,28 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
                 }
                 if (foundModule)
                     break;
-            };
-
-            promises.push(storage.cloud.setItem(storageKeys.MODEL_STORAGE_KEY, storageModel));
-
-            if (storageSettings[moduleToRemove.id]){
-                delete storageSettings[moduleToRemove.id];
-                promises.push(storage.cloud.setItem(storageKeys.SETTINGS_STORAGE_KEY, storageSettings));
             }
 
+            if (users.getCurrentUser()){
+                storageModel.update();
+                if (storageSettings.getData().moduleSettings[moduleToRemove.id]){
+                    delete storageSettings.attributes.moduleSettings[moduleToRemove.id];
+                    storageSettings.update();
+                }
+            }
+            else{
+                storage.local.setItem(storageKeys.MODEL_STORAGE_KEY, storageModel);
+                if (storageSettings.attributes[moduleToRemove.id]){
+                    delete storageSettings.attributes[moduleToRemove.id];
+                    storage.local.setItem(storageKeys.SETTINGS_STORAGE_KEY, storageSettings);
+                }
+            }
+
+            // In case of a widget, need to also remove it from the layout:
             if (moduleTypeName === "widgets"){
                 // Remove module from layout and use the freed space in other modules
                 foundModule = false;
-                storageLayout.rows.every(function(row){
+                storageLayout.attributes.rows.every(function(row){
                     row.columns.every(function(column){
                         column.widgets.every(function(widget, widgetIndex){
                             if (widget.id === moduleToRemove.id){
@@ -281,21 +359,41 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
                     return !foundModule;
                 });
 
-                promises.push(storage.cloud.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout));
+                if (users.getCurrentUser())
+                    storageLayout.update();
+                else
+                    storage.local.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout);
             }
-
-            $q.all(promises).then(function(){ console.log("SAVED MODELS!") });
         },
         saveSettings: function(settingsData){
-            var settings = {};
+            var newSettings = !storageSettings;
 
-            for(var namespace in settingsData){
-                settingsData[namespace].forEach(function(module){
-                    settings[module.id] = module.settings;
-                });
+            if (newSettings){
+                var settings = {};
+
+                for(var namespace in settingsData){
+                    settingsData[namespace].forEach(function(module){
+                        settings[module.id] = module.settings;
+                    });
+                }
+            }
+            else{
+                for(var namespace in settingsData){
+                    settingsData[namespace].forEach(function(module){
+                        storageSettings.attributes.moduleSettings[module.id] = module.settings;
+                    });
+                }
             }
 
-            return storage.cloud.setItem(storageKeys.SETTINGS_STORAGE_KEY, settings);
+            if (newSettings){
+                createSettings(settings);
+            }
+            else{
+                if (users.getCurrentUser())
+                    return storageSettings.update();
+                else
+                    return storage.local.setItem(storageKeys.SETTINGS_STORAGE_KEY, storageSettings);
+            }
         },
         setLayout: function(layout, refreshLayout){
             $timeout.cancel(setLayoutTimeoutPromise);
@@ -314,7 +412,15 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus"]).factory("model
                     newStorageLayout.rows.push(rowData);
                 });
 
-                storage.cloud.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout = newStorageLayout);
+                if (users.getCurrentUser()){
+                    for(var property in newStorageLayout){
+                        storageLayout.set(property, newStorageLayout[property]);
+                    }
+                    storageLayout.save();
+                }
+                else{
+                    storage.local.setItem(storageKeys.LAYOUT_STORAGE_KEY, { attributes: newStorageLayout });
+                }
             }, 500);
         }
     }

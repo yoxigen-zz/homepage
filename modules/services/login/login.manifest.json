@@ -1,0 +1,15 @@
+{
+	"name": "Login",
+	"modules": [
+		{ "name": "Login", "dependencies": [] }
+	],
+    "resources": [
+		"login.controller.js"
+    ],
+	"html": {
+		"widget": "login.html"
+	},
+	"css": [ "login.css" ],
+	"settingsOptions": [],
+	"settings": {}
+}

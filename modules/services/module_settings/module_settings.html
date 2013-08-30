@@ -5,7 +5,7 @@
             <ul class="module-settings-contents module-settings-modules-list">
                 <li ng-repeat="moduleSettings in modules"
                     class="clearfix"
-                    ng-class="{added: moduleSettings.used, selected: moduleSettings === currentModule}"
+                    ng-class="{added: moduleSettings.used, selected: moduleSettings == currentModule}"
                     ng-click="setCurrentModule(moduleSettings)">
                     <img class="module-settings-icon" ng-src="{{moduleSettings.icon}}" />
                     <div class="module-settings-details">

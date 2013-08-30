@@ -1,0 +1,16 @@
+$loginWidth: 500px;
+$loginHeight: 400px;
+
+.login-modal{
+  width: $loginWidth;
+  height: $loginHeight;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -1 * $loginHeight / 2;
+  margin-left: -1 * $loginWidth / 2;
+
+  .login-form{
+    margin-top: 50px;
+  }
+}

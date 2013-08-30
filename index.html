@@ -8,6 +8,7 @@
     <script src="js/lib/jquery-1.9.1.min.js"></script>
     <script src="js/lib/jquery-ui-1.10.1.custom.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="http://www.parsecdn.com/js/parse-1.2.9.min.js"></script>
     <script type="text/javascript">
         google.load("feeds", "1");
     </script>
@@ -21,11 +22,12 @@
       toggle-keys="{{ { escape: 'background.disable' } }}"
       toggle-keys-enabled="background.enabled">
     <header id="header">
-        <menu id="settings-menu" class="header-menu" ng-include="includes.options">
-        </menu>
-        <menu id="notifications" class="header-menu">
-            <ng-include src="includes.notifications" ng-repeat="notification in notifications"></ng-include>
-        </menu>
+        <div class="header-menu">
+            <menu id="notifications">
+                <ng-include src="includes.notifications" ng-repeat="notification in notifications"></ng-include>
+            </menu><menu id="user-menu" ng-include="includes.userMenu">
+            </menu>
+        </div>
         <img class="logo" src="img/logo.png" />
         <h1>Homepage</h1>
     </header>
@@ -84,6 +86,8 @@
     <script src="js/ng-services/oauth1.js"></script>
     <script src="js/ng-services/oauth2.js"></script>
     <script src="js/ng-services/cache.js"></script>
+    <script src="js/ng-services/users.js"></script>
+    <script src="js/ng-services/parse.js"></script>
 
     <div id="appInit" ng-app="HomepageInit" ng-csp></div>
 </body>

@@ -63,7 +63,6 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   line-height: 38px;
 
   &:hover{ background: $btnBackgroundHover }
-  &:active{ position: relative; top: 1px; }
 }
 .rotating{
   -webkit-animation: rotating 2s linear infinite;
@@ -82,8 +81,6 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   text-align: center;
 }
 .main-menu-wrapper{
-  float: right;
-  width: $headerHeight;
   height: 100%;
   position: relative;
   outline: none;

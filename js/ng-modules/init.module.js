@@ -24,6 +24,8 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "OAuth1",
                     "OAuth2",
                     "Cache",
+                    "Parse",
+                    "HomepageUsers",
                     "HomepageModel",
                     "ImageDirectives",
                     "ui.directives"
@@ -34,6 +36,7 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "js/ng-controllers/items_list.controller.js",
                     "js/ng-controllers/gallery.controller.js",
                     "js/ng-controllers/widget.controller.js",
+                    "js/ng-controllers/user_menu.controller.js",
                     "js/ng-directives/modal.js",
                     "js/ng-directives/img_alt.js",
                     "js/ng-directives/ng-load.js",

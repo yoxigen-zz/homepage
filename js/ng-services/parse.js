@@ -1,0 +1,181 @@
+angular.module("Parse", []).factory("parse", ["$q", "$rootScope", function($q, $rootScope){
+    var homepageAppId = "WqKXJxJYkLJF4QavOnURbZOmWeIVPmIu7Iy3XjMa",
+        homepageJavascriptKey = "lofx3rk1xTk7502I88bkYnXodCsUIY16N3MRGufb";
+
+    Parse.initialize(homepageAppId, homepageJavascriptKey);
+    Parse.Object.prototype.getData = function(){
+        var data = angular.copy(this.attributes);
+        delete data.user;
+        delete data.ACL;
+
+        return data;
+    };
+
+    Parse.Object.prototype.update = function(){
+        var data = angular.copy(this.getData());
+        for(var property in data){
+            this.set(property, data[property]);
+        }
+
+        this.save();
+    };
+
+    var defaultGetOptions = {
+        forCurrentUser: true
+    };
+
+    var defaultSaveOptions = {
+        setUser: true,
+        isPrivate: true
+    };
+
+    var methods = {
+        get: function(className, options){
+            var deferred = $q.defer();
+            var ObjType = Parse.Object.extend(className),
+                query = new Parse.Query(ObjType);
+
+            options = angular.extend({}, defaultGetOptions, options);
+
+            var onData = {
+                success: function(results){
+                    $rootScope.$apply(function(){
+                        deferred.resolve(results)
+                    });
+                },
+                error: function(error){
+                    $rootScope.$apply(function(){
+                        deferred.reject(error);
+                    });
+                }
+            };
+
+            if (options.forCurrentUser){
+                query.equalTo("user", Parse.User.current());
+            }
+
+            query.find(onData);
+
+            return deferred.promise;
+        },
+        getCurrentUser: function(){
+            return Parse.User.current();
+        },
+        login: function(username, password){
+            var deferred = $q.defer();
+
+            Parse.User.logIn(username, password, {
+                success: function(user) {
+                    $rootScope.$apply(function(){
+                        deferred.resolve(user);
+                    });
+                },
+                error: function(user, error) {
+                    $rootScope.$apply(function(){
+                        deferred.reject(error);
+                    });
+                }
+            });
+
+            return deferred.promise;
+        },
+        logout: function(){
+            Parse.User.logOut();
+        },
+        query: function(className, constrains, options){
+            options = options || {};
+            var deferred = $q.defer();
+            var ObjType = Parse.Object.extend(className),
+                query = new Parse.Query(ObjType);
+
+            if (options.forCurrentUser !== false){
+                query.equalTo("user", Parse.User.current());
+            }
+
+            if (angular.isArray(constrains)){
+                angular.forEach(constrains, function(constrain){
+                    for(var method in constrain){
+                        query[method] && query[method].apply(query, constrain[method]);
+                    }
+                });
+            }
+            else{
+                for(var method in constrains){
+                    query[method] && query[method].apply(query, constrains[method]);
+                }
+            }
+
+            var onResults = {
+                success: function(results){
+                    $rootScope.$apply(function(){
+                        deferred.resolve(results);
+                    });
+                },
+                error: function(error){
+                    $rootScope.$apply(function(){
+                        deferred.reject(error);
+                    });
+                }
+            };
+
+            if (options.single)
+                query.first(onResults);
+            else
+                query.find(onResults);
+
+            return deferred.promise;
+        },
+        save: function(className, data, options){
+            var ObjType = Parse.Object.extend(className),
+                obj = new ObjType(),
+                deferred = $q.defer();
+
+            options = angular.extend({}, defaultSaveOptions, options);
+
+            if (options.setUser){
+                var currentUser = Parse.User.current();
+                obj.set("user", currentUser);
+                if (options.isPrivate)
+                    obj.setACL(new Parse.ACL(currentUser));
+            }
+
+            obj.save(data, {
+                success: function(obj){
+                    console.log("Saved object %s:", className, obj);
+                    $rootScope.$apply(function(){
+                        deferred.resolve(obj);
+                    })
+                },
+                error: function(obj, error){
+                    console.error("NOOO: ", error);
+                    $rootScope.$apply(function(){
+                        deferred.reject(error);
+                    });
+                }
+            });
+
+            return deferred.promise;
+        },
+        signUp: function(userDetails){
+            var user = new Parse.User(userDetails),
+                deferred = $q.defer();
+
+            user.signUp(null, {
+                success: function(user) {
+                    $rootScope.$apply(function(){
+                        deferred.resolve(user);
+                    });
+                },
+                error: function(user, error) {
+                    $rootScope.$apply(function(){
+                        deferred.reject(error);
+                    });
+                }
+            });
+
+            return deferred.promise;
+        }
+    };
+
+    return methods;
+}]);

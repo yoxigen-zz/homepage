@@ -25,16 +25,28 @@
     height: 100%;
     margin: 0;
     padding: 0;
+    text-align: right;
+    padding-right: 10px;
 
+    menu{
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
     .menu-link{
-      display: block;
+      display: inline-block;
       height: 100%;
-      width: $headerHeight;
       text-align: center;
       line-height: $headerHeight;
       position: relative;
       color: $headerColor;
+      padding: 0 12px;
 
+      .icon-caret-down{
+        font-size: 0.75em;
+        margin-left: 5px;
+      }
       &:hover{
         background: rgba(255,255,255,.2);
         color: $headerBtnColorHover;

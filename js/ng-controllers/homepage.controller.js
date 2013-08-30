@@ -1,51 +1,9 @@
-angular.module("Homepage").controller("HomepageController", ["$scope", "model", "$timeout", "$window", "$q", function($scope, model, $timeout, $window, $q){
+angular.module("Homepage").controller("HomepageController", ["$scope", "model", "$timeout", "$window", "$q", "users", function($scope, model, $timeout, $window, $q, users){
     var notificationsCount = 0,
         modelData,
-        version = new Date(); // For debugging
+        version = new Date(); // For debugging, remove when moving to production!!!
 
-    $q.all([model.getModel(), model.getLayout()]).then(function(data){
-        setModel(data[0], data[1]);
-    });
-
-    model.onModelChange.addListener(function(e){
-        window.location.reload();
-    });
-
-    function setModel(_modelData, layoutData){
-        modelData = _modelData;
-        $scope.notifications = modelData.notifications;
-        $scope.widgets = modelData.widgets;
-        $scope.columns = [];
-        $scope.services = [];
-
-        if(modelData.services && modelData.services.length){
-            modelData.services.forEach(function(service){
-                if (service.html)
-                    $scope.services.push(service);
-            })
-        }
-
-        function findWidgetById(widgetId){
-            for(var i= 0, widget; widget = $scope.widgets[i]; i++){
-                if (widget.id === widgetId)
-                    return widget;
-            }
-
-            return null;
-        }
-
-        $scope.layout = layoutData;
-        $scope.layout.rows.forEach(function(row){
-            row.height = row.height || (100 / $scope.layout.rows.length) + "%";
-            row.columns.forEach(function(column){
-                column.width = column.width || (100 / row.columns.length) + "%";
-                column.widgets.forEach(function(widget, i){
-                    column.widgets[i] = findWidgetById(widget.id);
-                    column.widgets[i].height = widget.height || (100 / column.widgets.length) + "%";
-                });
-            });
-        });
-    }
+    $scope.currentUser = users.getCurrentUser();
 
     $scope.callService = function(service, method, data){
         $scope.$broadcast(service, { method: method, data: data });
@@ -108,16 +66,28 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         settings: "partials/settings.html?v=" + version,
         thumbnails: "partials/thumbnails.html?d=" + version,
         widget: "partials/widget.html?d=" + version,
-        options: "partials/options.html?d=" + version
+        options: "partials/options.html?d=" + version,
+        userMenu: "partials/user_menu.html?v=" + version
     };
 
     $scope.$on("notificationsChange", function(e, data){
         notificationsCount += data.countChange;
-            var title = "Homepage";
-            if (notificationsCount > 0)
-                title = "(" + notificationsCount + ") " + title;
+        var title = "Homepage";
+        if (notificationsCount > 0)
+            title = "(" + notificationsCount + ") " + title;
 
         $scope.pageTitle = title;
+    });
+
+    $scope.$on("userLogin", function(e, data){
+        $scope.currentUser = data.user;
+        loadLayout();
+    });
+
+    $scope.$on("userLogout", function(e, data){
+        $scope.currentUser = null;
+        $scope.$broadcast("logout");
+        loadLayout();
     });
 
     $scope.pageTitle = "Homepage";
@@ -149,8 +119,51 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         }, 50);
     };
 
-    $scope.logoutAll = function(){
-        if (window.confirm("Are you sure you wish to logout from all widgets?"))
-            $scope.$broadcast("logout");
-    };
+    loadLayout();
+
+    model.onModelChange.addListener(function(e){
+        window.location.reload();
+    });
+
+    function loadLayout(){
+        $q.all([model.getModel(), model.getLayout()]).then(function(data){
+            setModel(data[0], data[1]);
+        });
+    }
+
+    function setModel(_modelData, layoutData){
+        modelData = _modelData;
+        $scope.notifications = modelData.notifications;
+        $scope.widgets = modelData.widgets;
+        $scope.columns = [];
+        $scope.services = [];
+
+        if(modelData.services && modelData.services.length){
+            modelData.services.forEach(function(service){
+                if (service.html)
+                    $scope.services.push(service);
+            })
+        }
+
+        function findWidgetById(widgetId){
+            for(var i= 0, widget; widget = $scope.widgets[i]; i++){
+                if (widget.id === widgetId)
+                    return widget;
+            }
+
+            return null;
+        }
+
+        $scope.layout = layoutData;
+        $scope.layout.rows.forEach(function(row){
+            row.height = row.height || (100 / $scope.layout.rows.length) + "%";
+            row.columns.forEach(function(column){
+                column.width = column.width || (100 / row.columns.length) + "%";
+                column.widgets.forEach(function(widget, i){
+                    column.widgets[i] = findWidgetById(widget.id);
+                    column.widgets[i].height = widget.height || (100 / column.widgets.length) + "%";
+                });
+            });
+        });
+    }
 }]);
