@@ -44,7 +44,6 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "js/ng-directives/toggle_keys.js",
                     "js/ng-directives/layout_resize.js",
                     "js/lib/jquery-ui-1.10.1.custom.min.js",
-                    "js/lib/angular-ui.min.js",
                     "js/lib/nc-ui-sortable.js"
                 ];
 
