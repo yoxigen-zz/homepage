@@ -1,4 +1,6 @@
 angular.module("ModuleSettings").controller("ModuleSettingsController", ["$scope", "moduleSettings", function($scope, moduleSettings){
+    var screenshotsFolder = "img/screenshots/";
+
     var methods = {
         open: function(data){
             $scope.moduleSettingsOpen = true;
@@ -19,6 +21,6 @@ angular.module("ModuleSettings").controller("ModuleSettingsController", ["$scope
 
     $scope.setCurrentModule = function(module){
         $scope.currentModule = module;
-        $scope.currentScreenshot = module.screenshots && module.screenshots[0];
+        $scope.currentScreenshotUrl = module.screenshots ? screenshotsFolder + module.screenshots[0] : null;
     };
 }]);

@@ -59,7 +59,7 @@
                             deferred.resolve(existingOauth);
                         }
                         else{
-                            self.storage.removeItem(this.options.apiName + "oauth");
+                            //self.storage.cloud.removeItem(self.options.apiName + "oauth");
                             deferred.resolve(null);
                         }
                     }

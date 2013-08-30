@@ -7,7 +7,7 @@
             <i class="icon-refresh"></i>
         </a>
         <a href="{{module.link}}" target="_blank">
-            <img src="{{module.icon || (module.link | favicon)}}" class="favicon module-icon" /> {{module.name}}
+            <img ng-src="{{module.icon || (module.link | favicon)}}" class="favicon module-icon" /> {{module.name}}
         </a>
     </h2>
     <div class="module-content module-content-with-header" ng-class="{'settings-enabled':settingsEnabled}">
