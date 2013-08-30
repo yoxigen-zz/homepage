@@ -34,21 +34,7 @@ angular.module("Slideshow").directive("slideshow", function(){
 
                 advanceSlideshow();
 
-                if (attrs.slideInBackground){
-                    var changeOnLeaveTab = true;
-
-                    chrome.tabs.getCurrent(function(currentTab){
-                        chrome.tabs.onActivated.addListener(function(activeInfo){
-                            if (changeOnLeaveTab && activeInfo.tabId !== currentTab.id){
-                                setTimeout(advanceSlideshow, 2000);
-                                changeOnLeaveTab = false;
-                            }
-                            else
-                                changeOnLeaveTab = true;
-                        });
-                    });
-                }
-                else if(imageUrls.length > 1){
+                if(imageUrls.length > 1){
                     intervalId = setInterval(advanceSlideshow, interval);
                 }
             };
