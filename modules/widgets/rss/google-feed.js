@@ -26,7 +26,7 @@ angular.module("GoogleFeed", [])
                     }
                     else{
                         deferred.reject({ error: result.error })
-                        console.error(result);
+                        console.error("Feed load error: ", result);
                     }
                 });
             });

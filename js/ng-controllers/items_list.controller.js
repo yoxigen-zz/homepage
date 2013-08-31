@@ -23,6 +23,17 @@ angular.module("Homepage").controller("ItemsListController", ["$scope", function
         }
     };
 
+    $scope.$on("onItems", function(e, data){
+        if (currentOpenItem){
+            for(var i= 0, item; item = data.items[i]; i++){
+                if (currentOpenItem.link === item.link){
+                    $scope.toggleItem(item);
+                    break;
+                }
+            }
+        }
+    });
+
     $scope.onImageLoad = function(item, e){
         if(e.currentTarget.height < 5 || e.currentTarget.width < 5){
             delete item.image;
