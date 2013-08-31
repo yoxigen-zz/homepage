@@ -3,8 +3,10 @@ angular.module("Homepage").controller("GalleryController", ["$scope", "imageCach
         setFirstItem($scope.items);
 
     $scope.$on("onItems", function(e, data){
-        if (data.items)
+        if (data.items){
             setFirstItem(data.items);
+            $scope.items = data.items;
+        }
     });
 
     $scope.selectItem = function(item){
