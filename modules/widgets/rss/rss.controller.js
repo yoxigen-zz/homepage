@@ -22,8 +22,10 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
             }
             else{
                 $scope.module.name = feeds[0].title;
-                if (feeds.length > 1)
+                if (feeds.length > 1){
                     $scope.module.name += " + " + (feeds.length - 1) + " more";
+                    $scope.module.icon = "img/rss_16x16.png";
+                }
             }
             $scope.module.link = !$scope.module.settings.title && $scope.feeds.length === 1 ? $scope.feed.link : null;
 
