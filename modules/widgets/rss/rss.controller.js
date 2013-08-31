@@ -1,6 +1,6 @@
 angular.module("Rss").controller("RssController", ["$scope", "rss", function($scope, rss){
     $scope.loadFeed = function(forceRefresh){
-        rss.load($scope.module.settings.feed, forceRefresh, { count: $scope.module.settings.count }).then(function(feeds){
+        rss.load($scope.module.settings.feed || $scope.module.settings.feeds, forceRefresh, { count: $scope.module.settings.count }).then(function(feeds){
             var items = getAllItems(feeds);
 
             if(isSameItems(items)){
@@ -8,6 +8,7 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
                 return;
             }
 
+            $scope.feeds = feeds;
             $scope.feed = feeds[0];
             $scope.items = items;
 
@@ -15,10 +16,18 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
                 height: (100 / feeds.length) + "%"
             };
 
-            $scope.module.name = $scope.feed.title;
-            $scope.module.link = $scope.feed.link;
+            if ($scope.module.settings.title){
+                $scope.module.name = $scope.module.settings.title;
+                $scope.module.icon = "img/rss_16x16.png";
+            }
+            else{
+                $scope.module.name = feeds[0].title;
+                if (feeds.length > 1)
+                    $scope.module.name += " + " + (feeds.length - 1) + " more";
+            }
+            $scope.module.link = !$scope.module.settings.title && $scope.feeds.length === 1 ? $scope.feed.link : null;
 
-            $scope.$emit("load", { module: $scope.module.name, count: $scope.feed.items.length });
+            $scope.$emit("load", { module: $scope.module.name, count: items.length });
             $scope.$broadcast("onItems", { items: $scope.items });
         }, handleError);
     };

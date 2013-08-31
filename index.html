@@ -72,6 +72,18 @@
                 id="setting_{{module.id}}"
                 ng-options="option.value as option.display for option in setting.options"></select>
     </script>
+    <script type="text/ng-template" id="setting.textArray">
+        <ul class="unstyled module-settings-string-array">
+            <li ng-repeat="settingItem in module.settings[setting.name]">
+                <input type="text"
+                       ng-class="{'long-text':setting.style=='long'}"
+                       ng-model="module.settings[setting.name][$index]"
+                       ng-change="settings.onUpdate(setting)" />
+                <a ng-click="removeStringFromArraySetting(setting.name, $index)"><i class="icon-remove-sign" title="Remove"></i></a>
+            </li>
+        </ul>
+        <a class="small-btn module-settings-array-add" ng-click="addStringToArraySetting(setting.name, '')">+ Add more</a>
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
     <script src="js/lib/angular-ui.min.js"></script>

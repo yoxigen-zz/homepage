@@ -1,6 +1,6 @@
 <a ng-click="removeModule(module, 'widgets')" class="module-settings-remove" title="Remove widget"><i class="icon-remove"></i> Remove</a>
 <h3>Settings</h3>
-<ul class="module-settings-options">
+<ul class="module-settings-options" ng-controller="SettingsController">
     <li ng-repeat="setting in module.settingsOptions">
         <label for="setting_{{module.id}}_{{$index}}">{{setting.label}}</label>
         <div class="setting-inputs" ng-include="settings.getSettingTemplateId(setting)"></div>

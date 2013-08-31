@@ -32,8 +32,9 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                 ],
                 appResources = [
                     "js/ng-controllers/homepage.controller.js",
-                    "js/ng-controllers/notification.controller.js?v=" + version,
+                    "js/ng-controllers/notification.controller.js",
                     "js/ng-controllers/items_list.controller.js",
+                    "js/ng-controllers/settings.controller.js",
                     "js/ng-controllers/gallery.controller.js",
                     "js/ng-controllers/widget.controller.js",
                     "js/ng-controllers/user_menu.controller.js",

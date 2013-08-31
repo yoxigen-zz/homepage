@@ -47,6 +47,11 @@ a{
 }
 
 h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
+.unstyled{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
 .content-text{ padding: $contentPadding; }
 @-webkit-keyframes rotating {
@@ -54,7 +59,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   to{ -webkit-transform: rotate(360deg); }
 }
 
-.btn{
+.btn, .small-btn{
   background: $btnBackground;
   color: $btnColor;
   padding: 0 20px;
@@ -69,6 +74,14 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
   &:focus, &:hover{ background: $btnBackgroundHover }
 }
+
+.small-btn{
+  height: 27px;
+  line-height: 26px;
+  font-size: 1em;
+  padding: 0 10px;
+}
+
 .rotating{
   -webkit-animation: rotating 2s linear infinite;
 }
@@ -325,10 +338,14 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
       padding: 3px 8px;
       outline: none;
       margin: 0;
+
+      -webkit-transition: background 200ms ease-out;
+      -moz-transition: background 200ms ease-out;
+      transition: background 200ms ease-out;
     }
 
     input[type=text]:focus, input[type=number]:focus{
-      background: rgb(126, 211, 255);
+      background: White;
     }
 
     .long-text{ width: 90% }

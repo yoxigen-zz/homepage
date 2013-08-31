@@ -32,11 +32,17 @@
 			"step": 5
 		},
 		{
-			"label": "Feed URL",
-			"name": "feed",
-			"type": "text",
+			"label": "Feed URLs",
+			"name": "feeds",
+			"type": "textArray",
 			"style": "long"
 		},
+        {
+            "label": "Widget Title",
+            "name": "title",
+            "type": "text",
+            "style": "long"
+        },
         {
             "label": "Items count",
             "name": "count",

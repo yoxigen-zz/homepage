@@ -1,11 +1,11 @@
-<div ng-show="module.settings.display == 'gallery'" ng-if="module.settings.display == 'gallery'" ng-init="items = feed.items">
+<div ng-show="module.settings.display == 'gallery'" ng-if="module.settings.display == 'gallery'">
     <ng-include src="includes.gallery"></ng-include>
 </div>
 <ul class="items-list items-list-{{module.settings.display}}"
     ng-show="module.settings.display != 'gallery'"
     ng-if="module.settings.display != 'gallery'"
     ng-controller="ItemsListController">
-    <li ng-repeat="item in feed.items | orderBy:'publishDate':true"
+    <li ng-repeat="item in items | orderBy:'publishDate':true"
         dir="{{item.direction}}"
         ng-style="getItemStyle(item)"
         ng-class="{active:item==currentItem, read: item.isRead}"

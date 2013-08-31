@@ -27,6 +27,13 @@
     .module-settings-modules-list li.selected {
       background-color: rgba(87, 198, 255, 0.26); }
 
+.module-settings-string-array li {
+  margin-bottom: 5px; }
+
+.module-settings-array-add {
+  margin-bottom: 10px;
+  margin-top: 5px; }
+
 .module-settings-name {
   margin-bottom: .5em;
   color: #57c6ff; }
