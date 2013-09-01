@@ -1,5 +1,5 @@
 angular.module("Rss").controller("RssController", ["$scope", "rss", function($scope, rss){
-    $scope.loadFeed = function(forceRefresh){
+    $scope.loadFeeds = function(forceRefresh){
         rss.load($scope.module.settings.feed || $scope.module.settings.feeds, forceRefresh, { count: $scope.module.settings.count }).then(function(feeds){
             var items = getAllItems(feeds);
 
@@ -9,7 +9,6 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
             }
 
             $scope.feeds = feeds;
-            $scope.feed = feeds[0];
             $scope.items = items;
 
             $scope.moduleStyle = {
@@ -27,17 +26,17 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
                     $scope.module.icon = "img/rss_16x16.png";
                 }
             }
-            $scope.module.link = !$scope.module.settings.title && $scope.feeds.length === 1 ? $scope.feed.link : null;
+            $scope.module.link = !$scope.module.settings.title && $scope.feeds.length === 1 ? $scope.feeds[0].link : null;
 
             $scope.$emit("load", { module: $scope.module.name, count: items.length });
             $scope.$broadcast("onItems", { items: $scope.items });
         }, handleError);
     };
 
-    $scope.$on("refresh", function(){ $scope.loadFeed(true); });
+    $scope.$on("refresh", function(){ $scope.loadFeeds(true); });
 
     $scope.$on("updateSettings", function(e, data){
-        $scope.loadFeed(true);
+        $scope.loadFeeds(true);
     });
 
     function isSameItems(newItems){
@@ -79,9 +78,9 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
     }
 
     function handleError(error){
-        console.error("Can't get Google Reader items. Error: ", error);
+        console.error("Can't get RSS items. Error: ", error);
         $scope.$emit("loadError", { module: $scope.module.name, error: error });
     }
 
-    $scope.loadFeed();
+    $scope.loadFeeds();
 }]);

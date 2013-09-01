@@ -12,7 +12,7 @@
     </h2>
     <div class="module-content module-content-with-header" ng-class="{'settings-enabled':settingsEnabled}">
         <div class="module-settings" ng-include="includes.settings"></div>
-        <div class="module-content-scroll">
+        <div class="module-content-scroll" scroll-detect>
             <ng-include src="module.html.widget"></ng-include>
             <div class="module-content-height-measure"></div>
         </div>

@@ -44,6 +44,7 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "js/ng-directives/ng-error.js",
                     "js/ng-directives/toggle_keys.js",
                     "js/ng-directives/layout_resize.js",
+                    "js/ng-directives/scroll_detect.js",
                     "js/ng-directives/focus_me.js",
                     "js/lib/jquery-ui-1.10.1.custom.min.js",
                     "js/lib/nc-ui-sortable.js"

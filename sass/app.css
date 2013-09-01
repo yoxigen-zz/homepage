@@ -1175,16 +1175,17 @@ h1, h2, h3, h4, h5 {
     top: 0;
     bottom: 0; }
   .module .module-content-scroll {
-    padding-bottom: .5em;
+    padding-bottom: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
     z-index: 1;
     position: absolute;
     top: 0;
     left: 0;
     right: 4px;
-    bottom: 0; }
+    bottom: 10px; }
+    .module .module-content-scroll.scroll {
+      -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%); }
   .module .module-content-with-header {
     top: 44px; }
   .module .module-settings {

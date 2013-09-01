@@ -5,7 +5,7 @@
     ng-show="module.settings.display != 'gallery'"
     ng-if="module.settings.display != 'gallery'"
     ng-controller="ItemsListController">
-    <li ng-repeat="item in items | orderBy:'publishDate':true"
+    <li ng-repeat="item in items"
         dir="{{item.direction}}"
         ng-style="getItemStyle(item)"
         ng-class="{active:item==currentItem, read: item.isRead}"

@@ -267,17 +267,22 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   }
 
   .module-content-scroll{
-    padding-bottom: .5em;
+    padding-bottom: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
+
     z-index: 1;
     position: absolute;
     top: 0;
     left: 0;
     right: $scrollbarMargin;
-    bottom: 0;
+    bottom: 10px;
+
+    &.scroll{
+      -webkit-mask-image: -webkit-linear-gradient(bottom, transparent 0, white 30px, white 100%);
+    }
   }
+
   .module-content-with-header{
     top: $moduleHeaderHeight + $scrollbarMargin;
   }
