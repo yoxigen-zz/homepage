@@ -13,14 +13,17 @@
         google.load("feeds", "1");
     </script>
 </head>
-<body
-      slideshow
-      slideshow-interval="60"
-      ng-model="slideshowImages"
-      ng-class="{ 'background-enabled': background.enabled }"
-      ng-init="slideshowImages=['img/backgrounds/1.webp','img/backgrounds/2.webp','img/backgrounds/3.webp']"
+<body ng-class="{ 'background-enabled': background.enabled }"
       toggle-keys="{{ { escape: 'background.disable' } }}"
       toggle-keys-enabled="background.enabled">
+    <div id="background">
+        <div id="background-module"
+             slideshow
+             slideshow-interval="60"
+             ng-model="slideshowImages"
+             ng-init="slideshowImages=['img/backgrounds/1.webp','img/backgrounds/2.webp','img/backgrounds/3.webp']">
+        </div>
+    </div>
     <header id="header">
         <div class="header-menu">
             <menu id="notifications">
@@ -31,7 +34,7 @@
         <img class="logo" src="img/logo.png" />
         <h1>Homepage</h1>
     </header>
-    <div id="backgroundOvelay" class="fill" ng-click="background.enable()" ng-show="!background.enabled"></div>
+    <div id="backgroundOverlay" class="fill" ng-click="background.enable()" ng-show="!background.enabled"></div>
     <div id="content" class="fill">
         <div ng-repeat="row in layout.rows" class="layout-row" ng-style="{ height: row.height }">
             <div ng-repeat="column in row.columns"

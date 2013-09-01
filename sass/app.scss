@@ -180,6 +180,15 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   bottom: 0;
   right: 0;
 }
+
+#background, #background-module{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
 #backgroundOverlay{
   z-index: 5;
 }

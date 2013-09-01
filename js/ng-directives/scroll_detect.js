@@ -8,7 +8,7 @@ angular.module("Homepage").directive("scrollDetect", function($timeout){
             el.addEventListener("scroll", setScrollClass);
             $scope.$on("load", setScrollClass);
 
-            function setScrollClass(){  console.error("SET SCROLL");
+            function setScrollClass(){
                 $timeout.cancel(timeoutPromise);
                 timeoutPromise = $timeout(function(){
                     if (isMaxScroll()){
