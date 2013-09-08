@@ -21,7 +21,7 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
         instagram.load(feed).then(function(igData){
             $scope.items = igData.items;
             nextPage = igData.paging;
-            $scope.$emit("load", { module: $scope.module.name, count: igData.items.length });
+            $scope.$emit("load", { module: $scope.module, count: igData.items.length });
         }, handleError);
     };
 
@@ -35,7 +35,7 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
     $scope.$on("refresh", function(){
         instagram.getNewItems($scope.currentFeed, $scope.items[0].id).then(function(igData){
             $scope.items = igData.items.concat($scope.items);
-            $scope.$emit("load", { module: $scope.module.name, count: igData.items.length });
+            $scope.$emit("load", { module: $scope.module, count: igData.items.length });
         }, handleError);
     });
 

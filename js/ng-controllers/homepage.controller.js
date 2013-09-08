@@ -130,12 +130,23 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         });
     }
 
+    var totalWidgetsLoaded = 0,
+        totalWidgetsToLoad = 0;
+
+    var widgetsOnLoadDeregister = $scope.$on("load", function(e, data){
+        if (++totalWidgetsLoaded === totalWidgetsToLoad){
+            widgetsOnLoadDeregister();
+            $scope.homepageLoaded = true;
+        }
+    });
+
     function setModel(_modelData, layoutData){
         modelData = _modelData;
         $scope.notifications = modelData.notifications;
         $scope.widgets = modelData.widgets;
         $scope.columns = [];
         $scope.services = [];
+        $scope.background.widgets = modelData.background;
 
         if(modelData.services && modelData.services.length){
             modelData.services.forEach(function(service){
@@ -159,6 +170,7 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
             row.columns.forEach(function(column){
                 column.width = column.width || (100 / row.columns.length) + "%";
                 column.widgets.forEach(function(widget, i){
+                    totalWidgetsToLoad++;
                     column.widgets[i] = findWidgetById(widget.id);
                     column.widgets[i].height = widget.height || (100 / column.widgets.length) + "%";
                 });

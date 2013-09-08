@@ -1,9 +1,18 @@
 {
 	"name": "Slideshow",
 	"modules": [
-		{ "name": "Slideshow", "dependencies": [] }
+		{ "name": "Slideshow", "dependencies": ["Viewer"] }
 	],
+    "html": {
+        "widget": "slideshow.html"
+    },
     "resources": [
-		"slideshow.directive.js"
-    ]
+		"slideshow.directive.js",
+        "slideshow.controller.js"
+    ],
+    "settings": {
+        "interval": 60,
+        "mode": "cover",
+        "transition": 1000
+    }
 }

@@ -16,14 +16,13 @@
 <body ng-class="{ 'background-enabled': background.enabled }"
       toggle-keys="{{ { escape: 'background.disable' } }}"
       toggle-keys-enabled="background.enabled">
-    <div id="background">
-        <div id="background-module"
-             slideshow
-             slideshow-interval="60"
-             ng-model="slideshowImages"
-             ng-init="slideshowImages=['img/backgrounds/1.webp','img/backgrounds/2.webp','img/backgrounds/3.webp']">
+    <div id="main_loader" ng-show="!homepageLoaded">
+        <div id="main_loader_animation">
+            <img  src="img/cyan_loader.png" />
         </div>
+        Loading Homepage...
     </div>
+    <div id="background" ng-repeat="module in background.widgets" ng-include="module.html.widget"></div>
     <header id="header">
         <div class="header-menu">
             <menu id="notifications">

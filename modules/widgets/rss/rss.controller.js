@@ -4,7 +4,7 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
             var items = getAllItems(feeds);
 
             if(isSameItems(items)){
-                $scope.$emit("load", { module: $scope.module.name, count: 0 });
+                $scope.$emit("load", { module: $scope.module, count: 0 });
                 return;
             }
 
@@ -28,7 +28,7 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
             }
             $scope.module.link = !$scope.module.settings.title && $scope.feeds.length === 1 ? $scope.feeds[0].link : null;
 
-            $scope.$emit("load", { module: $scope.module.name, count: items.length });
+            $scope.$emit("load", { module: $scope.module, count: items.length });
             $scope.$broadcast("onItems", { items: $scope.items });
         }, handleError);
     };

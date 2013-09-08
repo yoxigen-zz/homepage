@@ -1,12 +1,5 @@
 [
 	{
-		"id": "google_reader",
-		"name": "Google Reader",
-		"icon": "http://png-2.findicons.com/files/icons/820/simply_google/128/google_reader.png",
-		"description": "Connect to your Google Reader account and view RSS posts.",
-		"types": ["widgets"]
-	},
-	{
 		"id": "facebook",
 		"name": "Facebook Notifications",
 		"icon": "http://cdn2.iconfinder.com/data/icons/web2/Icons/FaceBook_128x128.png",
@@ -22,13 +15,6 @@
         "screenshots": [
             "instagram.png"
         ]
-	},
-	{
-		"id": "gmail_notifications",
-		"name": "Gmail Notifications",
-		"icon": "modules/services/module_settings/icons/gmail.png",
-		"description": "Notifications of your unread gmail messages.",
-		"types": ["notifications"]
 	},
 	{
 		"id": "rss",

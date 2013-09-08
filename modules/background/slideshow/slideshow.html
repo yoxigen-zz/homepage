@@ -1,0 +1,13 @@
+<div class="background-module slideshow" ng-controller="SlideshowController">
+    <div class="slideshow-images">
+        <div class="slideshow-image"
+             ng-class="{ active: currentImages[0].active }"
+             ng-style="{ 'background-size': module.settings.mode, 'background-image': 'url(' + currentImages[0].src + ')', 'z-index': currentImages[0].order }"></div>
+        <div class="slideshow-image"
+             ng-class="{ active: currentImages[1].active }"
+             ng-style="{ 'background-size': module.settings.mode, 'background-image': 'url(' + currentImages[1].src + ')', 'z-index': currentImages[1].order }"></div>
+    </div>
+    <div class="slideshow-menu">
+
+    </div>
+</div>

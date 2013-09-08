@@ -9,7 +9,7 @@ angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "
 
     googleReader.getItems().then(function(readerData){
         $scope.feed.items = readerData.items;
-        $scope.$emit("load", { module: $scope.module.name, count: readerData.items.length });
+        $scope.$emit("load", { module: $scope.module, count: readerData.items.length });
     }, handleError);
 
     $scope.setCurrentItem = function(item){
@@ -39,7 +39,7 @@ angular.module("GoogleReader").controller("GoogleReaderController", ["$scope", "
                 $scope.safeApply();
             }
 
-            $scope.$emit("load", { module: $scope.module.name, count: readerData.items.length });
+            $scope.$emit("load", { module: $scope.module, count: readerData.items.length });
         }, handleError);
     });
 
