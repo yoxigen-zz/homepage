@@ -68,8 +68,10 @@ angular.module("Utils", []).factory("utils", ["$q", function($q){
              * @return {*}
              */
             stripHtml: function(str){
-                var temp = document.createElement("div");
-                temp.innerHTML = str;
+                var temp = document.createElement("div"),
+                    strippedStr = str.replace(/src=(["'])/, "nosrc=$1");
+
+                temp.innerHTML = strippedStr;
                 return temp.innerText.replace(/\"/g, "&quot;");
             },
             /**
@@ -83,6 +85,12 @@ angular.module("Utils", []).factory("utils", ["$q", function($q){
 
                 return str.slice(0, length).replace(/[\s\.:,!\?\(\)]+[^\s\.:,!\?\(\)]*$/, suffix || "")
 
+            }
+        },
+        url: {
+            getDomain: function(url){
+                var match = url.match(/^(https?:\/\/[^\/]+)/);
+                return match ? match[1] : null;
             }
         }
     }

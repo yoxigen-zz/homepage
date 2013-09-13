@@ -1677,6 +1677,8 @@ h1, h2, h3, h4, h5 {
     margin: 0 0 0 40px; }
   .items-list .items-list-headline .item-text-summary {
     margin: .5em 0 .5em 20px; }
+    .items-list .items-list-headline .item-text-summary li {
+      list-style-position: inside; }
   .items-list .items-list-headline .icon, .items-list .items-list-headline .favicon {
     margin-right: 3px; }
   .items-list [dir=rtl] {

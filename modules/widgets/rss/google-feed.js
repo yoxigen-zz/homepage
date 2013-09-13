@@ -58,30 +58,40 @@ angular.module("GoogleFeed", [])
                 link: item.link,
                 publishDate: item.publishedDate,
                 title: item.title,
-                text: utils.strings.stripHtml(item.content),
-                summary: utils.strings.stripHtml(item.content),
+                text: fixUrls(item),
+                summary: item.summary,
                 isRead: false,
                 direction: utils.strings.getDirection(item.content)
             };
 
-            var temp = document.createElement("div"),
-                images;
+            var imageUrls = item.content.match(/([^\"']+(?:png|gif|jpg|jpeg))/ig);
+            if (imageUrls){
+                for(var imageIndex= 0, imgSrc; (imgSrc = imageUrls[imageIndex]) && !formattedItem.image; imageIndex++){
+                    if (/^[\/\\]/.test(imgSrc)){
+                        imgSrc = utils.url.getDomain(item.link) + imgSrc;
+                    }
 
-            temp.innerHTML = item.content;
-            images = temp.querySelectorAll("img");
-            for(var imageIndex= 0, img; (img = images[imageIndex]) && !formattedItem.image; imageIndex++){
-                if (img && /\.(png|jpg)$/.test(img.src))
                     formattedItem.image = {
-                        src: img.src,
-                        title: img.title
-                    };
+                        src: imgSrc
+                    }
+                }
             }
 
-
             formattedItems.push(formattedItem);
-        };
+        }
 
         return formattedItems;
+    }
+
+    function fixUrls(item){
+        var itemText = item.content.replace(/([^\"']+(?:png|gif|jpg|jpeg))/ig, function(link){
+            if (/^[\/\\]/.test(link)){
+                link = utils.url.getDomain(item.link) + link;
+            }
+            return link;
+        });
+
+        return itemText;
     }
 
     var methods = {
