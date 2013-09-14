@@ -148,7 +148,7 @@
                     this.storage.local.removeItem("oauth");
                     if (users.getCurrentUser())
                         getCloudOauth.call(this).then(function(oauthObject){
-                            oauthObject.destroy();
+                            oauthObject && oauthObject.destroy();
                         });
 
                     this.oauthData = null;
