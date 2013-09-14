@@ -1,4 +1,4 @@
-angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeout", "utils", "imageCache", function ($scope, $timeout, utils, imageCache) {
+angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeout", "utils", "imageCache", "dataImages", function ($scope, $timeout, utils, imageCache, dataImages) {
     var defaultImages = ["1", "2", "3"],
         imagesFolder = "modules/background/slideshow/images/",
         currentImageIndex = 0,
@@ -21,7 +21,13 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     $scope.play = true;
     $scope.toggleMenu = function(){
         $scope.slideshowMenuOpen = !$scope.slideshowMenuOpen;
-    }
+    };
+
+    $scope.sources = dataImages;
+
+    $scope.selectSource = function(source){
+        source.auth.login();
+    };
 
     function advanceImage(direction) {
         var prevImage = $scope.currentImages[currentImagePosition];

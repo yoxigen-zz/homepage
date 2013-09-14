@@ -10,6 +10,9 @@
 		"slideshow.directive.js",
         "slideshow.controller.js"
     ],
+    "dataSources": [
+        "picasa.js"
+    ],
     "settings": {
         "interval": 60,
         "mode": "cover",

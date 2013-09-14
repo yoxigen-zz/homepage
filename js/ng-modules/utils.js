@@ -91,6 +91,20 @@ angular.module("Utils", []).factory("utils", ["$q", function($q){
             getDomain: function(url){
                 var match = url.match(/^(https?:\/\/[^\/]+)/);
                 return match ? match[1] : null;
+            },
+            queryToJson: function(query){
+                if (!query)
+                    return null;
+
+                var queryParams = query.split("&"),
+                    json = {};
+
+                for(var i=queryParams.length; i--;)
+                {
+                    var paramData = queryParams[i].split('=');
+                    json[paramData[0]] = paramData.length == 2 ? paramData[1] : true;
+                }
+                return json;
             }
         }
     }

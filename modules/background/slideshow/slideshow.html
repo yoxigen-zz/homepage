@@ -16,5 +16,10 @@
             </div>
             <h2>Slideshow</h2>
         </header>
+        <div class="slideshow-menu-contents">
+            <menu class="slideshow-menu-sources">
+                <a ng-repeat="source in sources" ng-click="selectSource(source)">{{source.name}}</a>
+            </menu>
+        </div>
     </div>
 </div>

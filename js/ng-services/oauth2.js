@@ -9,7 +9,8 @@
 
         function OAuth2(options){
             this.options = angular.extend({}, defaultOptions, options);
-            this.storage = new Storage("oauth2");
+            if (!OAuth2.prototype.storage)
+                OAuth2.prototype.storage = new Storage("oauth2");
         }
 
         OAuth2.prototype = (function(){
@@ -124,9 +125,18 @@
                         window["setOauth2_" + state] = function(auth){
                             delete window["setOauth2_" + state];
                             oauthWindow.close();
-                            methods.setOauth.call(self, auth);
-                            deferred.resolve({ oauth: auth, isNew: true });
-                            $rootScope.$apply();
+
+                            function onDone(){
+                                methods.setOauth.call(self, auth);
+                                deferred.resolve({ oauth: auth, isNew: true });
+                                $rootScope.$apply();
+                            }
+
+                            if (self.options.tokenValidation){
+                                self.options.tokenValidation(auth).then(onDone, deferred.reject);
+                            }
+                            else
+                                onDone();
                         };
 
                         oauthWindow = window.open(getUrl.call(self, state), "_blank", ["location=0", "width=" + self.options.oauthWindowDimensions.width, "height=" + self.options.oauthWindowDimensions.height, "toolbar=no"].join(","));
