@@ -4,7 +4,7 @@
 			"columns": [
 				{ "widgets": [ { "id": "lag561", "height": "65%" }, { "id": "ug1fs2", "height": "35%" } ] },
 				{ "widgets": [ { "id": "3jc8dj" } ] },
-				{ "widgets": [ { "id": "m3dk49", "height": "35%" }, { "id": "ncf35s", "height": "30%" } ] }
+				{ "widgets": [ { "id": "m3dk49", "height": "50%" }, { "id": "ncf35s", "height": "50%" } ] }
 			]
 		}
 	]
