@@ -14,5 +14,8 @@
         "interval": 60,
         "mode": "cover",
         "transition": 1000
-    }
+    },
+    "css": [
+        "style/slideshow.css"
+    ]
 }

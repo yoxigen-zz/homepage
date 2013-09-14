@@ -19,6 +19,9 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
     $scope.currentImages = [{}, {}];
     $scope.play = true;
+    $scope.toggleMenu = function(){
+        $scope.slideshowMenuOpen = !$scope.slideshowMenuOpen;
+    }
 
     function advanceImage(direction) {
         var prevImage = $scope.currentImages[currentImagePosition];

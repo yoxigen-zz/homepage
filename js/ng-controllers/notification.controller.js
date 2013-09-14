@@ -42,7 +42,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
     $scope.openNotifications = function(){
         notificationsService.auth.isLoggedIn().then(function(isLoggedIn){
             if (!isLoggedIn){
-                notificationsService.login().then(function(){
+                notificationsService.auth.login().then(function(){
                     setNotifications();
                     setCurrentUser();
                 });

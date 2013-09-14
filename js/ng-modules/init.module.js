@@ -47,7 +47,8 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "js/ng-directives/scroll_detect.js",
                     "js/ng-directives/focus_me.js",
                     "js/lib/jquery-ui-1.10.1.custom.min.js",
-                    "js/lib/nc-ui-sortable.js"
+                    "js/lib/nc-ui-sortable.js",
+                    "modules/data_sources/types/images.js"
                 ];
 
             model.getModel().then(function(modelData){

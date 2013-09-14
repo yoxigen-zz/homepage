@@ -8,7 +8,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
             baseUrl: "http://www.facebook.com/dialog/oauth/",
             redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
             clientId: apiKey,
-            scope: "manage_notifications"
+            scope: "manage_notifications,user_photos,friends_photos"
         }),
         currentUser;
 
