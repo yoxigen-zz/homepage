@@ -6,8 +6,10 @@
 	"link": "http://yoxigen.github.com/yoxview/?/instagram/feed",
 	"icon": "http://instagram.com/favicon.ico",
     "resources": [
-		"instagram.service.js",
 		"instagram.controller.js"
+    ],
+    "dataSources": [
+        "instagram.js"
     ],
 	"html": {
 		"widget": "instagram.html"

@@ -1,24 +1,24 @@
 angular.module("Instagram").controller("InstagramController", ["$scope", "instagram", function($scope, instagram){
     var nextPage;
 
-    $scope.currentFeed = instagram.feeds[0];
+    $scope.currentFeed = instagram.images.feeds[0];
     $scope.isLoggedIn = true;
 
-    instagram.isLoggedIn().then(function(isLoggedIn){
+    instagram.auth.isLoggedIn().then(function(isLoggedIn){
         $scope.isLoggedIn = isLoggedIn;
         if (isLoggedIn)
             getItems();
     });
 
     $scope.login = function(){
-        instagram.login().then(function(oauth){
+        instagram.auth.login().then(function(oauth){
             $scope.isLoggedIn = true;
             getItems();
         });
     };
 
     $scope.loadFeed = function(feed){
-        instagram.load(feed).then(function(igData){
+        instagram.images.load(feed).then(function(igData){
             $scope.items = igData.items;
             nextPage = igData.paging;
             $scope.$emit("load", { module: $scope.module, count: igData.items.length });
@@ -33,14 +33,14 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
     };
 
     $scope.$on("refresh", function(){
-        instagram.getNewItems($scope.currentFeed, $scope.items[0].id).then(function(igData){
+        instagram.images.getNewItems($scope.currentFeed, $scope.items[0].id).then(function(igData){
             $scope.items = igData.items.concat($scope.items);
             $scope.$emit("load", { module: $scope.module, count: igData.items.length });
         }, handleError);
     });
 
     $scope.$on("logout", function(){
-        instagram.logout();
+        instagram.auth.logout();
         $scope.isLoggedIn = false;
         $scope.items = null;
     });

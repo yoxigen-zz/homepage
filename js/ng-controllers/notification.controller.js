@@ -5,7 +5,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
     function setNotifications(options){
         $timeout.cancel(timeoutPromise);
         $scope.loading = true;
-        notificationsService.getNotifications(options).then(function(notifications){
+        notificationsService.notifications.getNotifications(options).then(function(notifications){
             $scope.$emit("notificationsChange", { countChange: notifications.unreadCount - ($scope.notification.unreadCount || 0) });
 
             $scope.notification.items = notifications.items;
@@ -23,13 +23,13 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
     }
 
     function setCurrentUser(){
-        notificationsService.getCurrentUser().then(function(user){
+        notificationsService.auth.getCurrentUser().then(function(user){
             $scope.notification.user = user;
         });
     }
 
     if (notificationsService){
-        notificationsService.isLoggedIn().then(function(isLoggedIn){
+        notificationsService.auth.isLoggedIn().then(function(isLoggedIn){
             if (isLoggedIn){
                 setNotifications();
                 setCurrentUser();
@@ -40,7 +40,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
         console.error("Notification service not found: ", $scope.notification.type);
 
     $scope.openNotifications = function(){
-        notificationsService.isLoggedIn().then(function(isLoggedIn){
+        notificationsService.auth.isLoggedIn().then(function(isLoggedIn){
             if (!isLoggedIn){
                 notificationsService.login().then(function(){
                     setNotifications();
@@ -57,7 +57,7 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
                         }
                     });
 
-                    notificationsService.markAsRead(unreadItems);
+                    notificationsService.notifications.markAsRead(unreadItems);
                     $scope.$emit("notificationsChange", { countChange: -1 * $scope.notification.unreadCount });
                     $scope.notification.unreadCount = 0;
                 }
@@ -76,8 +76,8 @@ angular.module("Homepage").controller("NotificationsController", ["$scope", "$ti
 
     $scope.refresh = setNotifications;
     $scope.$on("logout", function(){
-        if (notificationsService.logout){
-            notificationsService.logout();
+        if (notificationsService.auth.logout){
+            notificationsService.auth.logout();
 
             $scope.notification.items = [];
             $scope.notification.unreadCount = 0;

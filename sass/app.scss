@@ -237,7 +237,13 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     border-radius: $moduleRadius $moduleRadius 0 0;
     white-space: nowrap;
     cursor: move;
+    -webkit-transition: background 200ms ease-out;
+    -moz-transition: background 200ms ease-out;
+    transition: background 200ms ease-out;
 
+    &:hover{
+      background: $moduleHeaderBackgroundHover
+    }
     a{
       color: $moduleHeaderLinkColor;
       &:hover{ text-decoration: underline }

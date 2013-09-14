@@ -1154,7 +1154,12 @@ h1, h2, h3, h4, h5 {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 5px 5px 0 0;
     white-space: nowrap;
-    cursor: move; }
+    cursor: move;
+    -webkit-transition: background 200ms ease-out;
+    -moz-transition: background 200ms ease-out;
+    transition: background 200ms ease-out; }
+    .module .module-header:hover {
+      background: rgba(0, 0, 0, 0.4); }
     .module .module-header a {
       color: white; }
       .module .module-header a:hover {

@@ -73,6 +73,12 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                         });
                     }
 
+                    if (module.dataSources){
+                        module.dataSources.forEach(function(dataSourcesUrl){
+                            resources.push(["modules", "data_sources", dataSourcesUrl].join("/"));
+                        });
+                    }
+
                     if (module.resources){
                         module.resources.forEach(function(resourceUrl){
                             resources.push(["modules", moduleType, module.type, resourceUrl].join("/"));
