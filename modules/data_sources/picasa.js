@@ -19,17 +19,15 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
                 var deferred = $q.defer();
 
                 $http.jsonp("https://www.googleapis.com/oauth2/v1/tokeninfo?callback=JSON_CALLBACK", {
-                    params: { access_token: auth.token },
-                    success: function(data){
-                        if (data.error)
-                            deferred.reject(data.error);
-                        else if (data.audience === clientId)
-                            deferred.resolve(data);
+                    params: { access_token: auth.token }}).then(function(result){
+                        if (result.data.error)
+                            deferred.reject(result.data.error);
+                        else if (result.data.audience === clientId)
+                            deferred.resolve(result.data);
                     },
-                    error: function(error){
+                    function(error){
                         deferred.reject(error);
-                    }
-                });
+                    });
 
                 return deferred.promise;
             }
