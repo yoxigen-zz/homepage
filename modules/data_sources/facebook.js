@@ -159,12 +159,12 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                             notifications.items.push({
                                 id: fbNotification.notification_id,
                                 icon: fbNotification.icon_url,
-                                unread: !!fbNotification.is_unread,
+                                unread: fbNotification.is_unread === "1",
                                 link: fbNotification.href,
                                 html: tempDiv.innerHTML,
                                 from: fbNotification.sender_id,
                                 image: getProfileImage(fbNotification.sender_id),
-                                date: fbNotification.created_time * 1000
+                                date: Number(fbNotification.created_time) * 1000
                             });
 
                             if (fbNotification.is_unread)
