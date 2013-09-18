@@ -34,12 +34,12 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
         currentUser;
 
     function fbFql(query){
-        var deferred = $q.defer();
+        var deferred = $q.defer(),
+            params = angular.isObject(query)
+                ? { method: 'fql.multiquery', queries: query }
+                : { method: 'fql.query', query: query };
 
-        FB.api({
-                method: 'fql.query',
-                query: query
-            }, function(data) {
+        FB.api(params, function(data) {
                 $rootScope.$apply(function(){
                     deferred.resolve(data);
                 });
@@ -176,7 +176,15 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                     function(error){
                         deferred.reject(error);
                     }
-                )
+                );
+
+                fbFql({
+                    notifications: fqlQuery,
+                    photos: "SELECT src, width, height FROM photo_src WHERE photo_id IN (SELECT object_id FROM #notifications WHERE object_type = 'photo')"
+                }).then(function(response){
+                        console.log("RES: ", response);
+                    }, function(error){ console.error(error); });
+
 
                 return deferred.promise;
             },
