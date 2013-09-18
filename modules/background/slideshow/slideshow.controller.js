@@ -26,8 +26,25 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     $scope.sources = dataImages;
 
     $scope.selectSource = function(source){
-        source.auth.login();
+        $scope.currentSource = source;
+        source.auth.isLoggedIn().then(function(isLoggedIn){
+            $scope.currentSourceIsLoggedIn = isLoggedIn;
+            if (isLoggedIn)
+                loadSourceItems(source);
+        });
     };
+
+    $scope.sourceLogin = function(source){
+        source.auth.login().then(function(){
+            loadSourceItems(source);
+        });
+    };
+
+    function loadSourceItems(source){
+        source.images.getUserAlbums().then(function(result){
+            $scope.currentSourceItems = result.items;
+        });
+    }
 
     function advanceImage(direction) {
         var prevImage = $scope.currentImages[currentImagePosition];

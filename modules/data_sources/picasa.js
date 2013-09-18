@@ -7,8 +7,9 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
         }),
         picasaOauth = new OAuth2({
             apiName: "picasa",
-            baseUrl: "https://accounts.google.com/o/oauth2/auth",
+            baseUrl: "https://accounts.google.com/o/oauth2/auth", //?access_type=offline&approval_prompt=force
             redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
+            responseType: "code",
             clientId: clientId,
             scope: "https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.profile",
             oauthWindowDimensions: {
@@ -104,8 +105,7 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
         data.imgmax = getImgMax(picasaUncropSizes, data.imgmax);
         data.thumbsize = getImgMax(data.cropThumbnails ? picasaCropSizes : picasaUncropSizes, data.thumbsize) + (data.cropThumbnails ? "c" : "u");
 
-        if (accessToken && checkTokenExpiry())
-            data.access_token = accessToken;
+        data.access_token = picasaOauth.oauthData.token;
 
         return data;
     }
@@ -218,12 +218,11 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
     function loadData(source){
         var returnData = {
             source: source,
-            sourceType: dataSourceName,
             createThumbnails: true
         };
 
         var deferred = $q.defer();
-
+        /*
         if (source.cache){
             var cachedData = cache().getItem(source.id);
             if (cachedData){
@@ -233,16 +232,14 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
                 return deferred.promise;
             }
         }
-
+          */
         var picasaData = getDataFromUrl(source, source);
         delete picasaData.fields;
 
-        $.ajax({
-            url: picasaData.url || getFeedUrl(picasaData),
-            dataType: 'jsonp',
-            data: picasaData,
-            success: function(data)
-            {
+        $http.jsonp(picasaData.url || getFeedUrl(picasaData), {
+            params: angular.extend( { callback: "JSON_CALLBACK" }, picasaData)
+        }).then(function(result){
+                var data = result.data;
                 returnData.totalItems = data.feed.openSearch$totalResults.$t;
 
                 if (!data.feed.entry || data.feed.entry.length == 0){
@@ -256,9 +253,7 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
                         authorData = {
                             id: author.uri.$t.match(/\d+/)[0],
                             name: author.name.$t,
-                            link: author.uri.$t,
-
-                            source: dataSourceName
+                            link: author.uri.$t
                         };
 
                         authorData.avatar = "http://profiles.google.com/s2/photos/profile/" + authorData.id;
@@ -266,7 +261,7 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
 
                     if (kind === "user"){
                         var author = data.feed.author[0];
-                        $.extend(returnData, {
+                        angular.extend(returnData, {
                             title: data.feed.title.$t,
                             data: {
                                 kind: "user",
@@ -276,18 +271,20 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
                     }
                     returnData.createThumbnails = true;
                     returnData.items = getImagesData(data, source, authorData);
-
+                    /*
                     if (source.cache)
                         cache().setItem(source.id, { items: returnData.items, totalItems: returnData.totalItems }, { expiresIn: source.cacheTime }); // Albums are cached for 6 hours
+                        */
                 }
 
-                if (callback)
-                    callback(returnData);
+                deferred.resolve(returnData);
             },
-            error : function(xOptions, textStatus){
-                console.log("error: ", arguments);
+            function(error){
+                deferred.reject(error);
             }
-        });
+        );
+
+        return deferred.promise;
     }
 
     var methods = {
@@ -322,7 +319,7 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
             }
         },
         images: {
-            getUserAlbums: function(user){
+            getUserAlbums: function(){
                 return methods.images.load(feeds.albums);
             },
             getFeeds: function(){

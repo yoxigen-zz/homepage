@@ -20,6 +20,17 @@
             <menu class="slideshow-menu-sources">
                 <a ng-repeat="source in sources" ng-click="selectSource(source)">{{source.name}}</a>
             </menu>
+            <div class="slideshow-source-contents" ng-show="currentSource">
+                <div>
+                    <a ng-click="sourceLogin(currentSource)" ng-show="!currentSourceIsLoggedIn">Login to {{currentSource.name}}</a>
+                    <a ng-click="currentSource.auth.logout()" ng-show="currentSourceIsLoggedIn">Logout from {{currentSource.name}}</a>
+                </div>
+                <div>
+                    <a ng-repeat="item in currentSourceItems" ng-click="selectItem(item)">
+                        <img src="{{item.thumbnail.src}}" title="{{item.title}}" />
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

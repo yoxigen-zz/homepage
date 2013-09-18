@@ -8,7 +8,28 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
             baseUrl: "http://www.facebook.com/dialog/oauth/",
             redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
             clientId: apiKey,
-            scope: "manage_notifications,user_photos,friends_photos"
+            scope: "manage_notifications,user_photos,friends_photos",
+            tokenValidation: function(auth){
+                var deferred = $q.defer();
+
+                $http.jsonp("https://graph.facebook.com/oauth/access_token?callback=JSON_CALLBACK", {
+                    params: {
+                        client_id: apiKey,
+                        client_secret: appSecret,
+                        grant_type: "fb_exchange_token",
+                        fb_exchange_token: auth.token
+                    }}).then(function(result){
+                        if (result.data.error)
+                            deferred.reject(result.data.error);
+                        else
+                            deferred.resolve(result.data);
+                    },
+                    function(error){
+                        deferred.reject(error);
+                    });
+
+                return deferred.promise;
+            }
         }),
         currentUser;
 

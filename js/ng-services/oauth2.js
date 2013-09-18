@@ -21,7 +21,7 @@
                     "client_id=" + this.options.clientId +
                     "&scope=" + encodeURIComponent(this.options.scope) +
                     "&redirect_uri=" + encodeURIComponent(this.options.redirectUri || redirectUri) +
-                    "&response_type=token";
+                    "&response_type=" + (this.options.responseType || "token");
 
                 if (state)
                     url += "&state=" + state;
