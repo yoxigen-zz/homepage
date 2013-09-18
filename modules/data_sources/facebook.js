@@ -121,7 +121,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
                     fqlQuery += " AND notification_id > " + options.lastId;
                 }
 
-                FB.fql(fqlQuery).then(
+                fbFql(fqlQuery).then(
                     function(response){
                         var notifications = { items: [], unreadCount: 0 };
                         angular.forEach(response.data.data, function(fbNotification){
