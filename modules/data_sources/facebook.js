@@ -44,8 +44,17 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
             return $http.jsonp(graphApiUrl + object + "?" + getFbUrlCommons() + (paramsQuery.length ? "&" + paramsQuery.join("&") : ""));
         },
         fql: function(query){
-            var fqlUrl = graphApiUrl + "fql?q=" + encodeURIComponent(query) + "&" + getFbUrlCommons() + "&t=" + new Date().valueOf();
-            return $http.jsonp(fqlUrl);
+            var deferred = $q.defer();
+
+            FB.api({
+                    method: 'fql.query',
+                    query: query
+                }, function(data) {
+                    deferred.resolve(data);
+                }
+            );
+
+            return deferred.promise;
         },
         method: function(method, params){
             var paramsQuery = [];
@@ -69,70 +78,54 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
     var methods = {
         auth: {
             isLoggedIn: function(){
-                return fbOauth.isLoggedIn();
+                var deferred = $q.defer();
+
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        deferred.resolve(true);
+                    } else if (response.status === 'not_authorized') {
+                        deferred.resolve(false, response.status)
+                    } else {
+                        deferred.resolve(false);
+                    }
+                });
+
+                return deferred.promise;
             },
             login: function(){
                 var deferred = $q.defer();
 
-                fbOauth.login().then(function(oauthResult){
-                    deferred.resolve(fbOauth.oauthData);
-
-                    if (oauthResult.isNew){
-                        // Get a long-lived token:
-                        $http.get(graphApiUrl + "oauth/access_token", {
-                            params: {
-                                client_id: apiKey,
-                                client_secret: appSecret,
-                                grant_type: "fb_exchange_token",
-                                fb_exchange_token: fbOauth.oauthData.token
-                            }
-                        }).success(function(data){
-                                var responseParams = data.split("&"),
-                                    responseData = {},
-                                    paramParts;
-
-                                responseParams.forEach(function(param){
-                                    paramParts = param.split("=");
-                                    responseData[paramParts[0]] = paramParts[1];
-                                });
-
-                            fbOauth.setOauth({
-                                token: responseData.access_token,
-                                expires: new Date().valueOf() + parseInt(responseData.expires, 10) * 1000
-                            });
-                        })
+                FB.login(function(response) {
+                    if (response.authResponse) {
+                        deferred.resolve(response.authResponse);
+                    } else {
+                        deferred.reject('User cancelled login or did not fully authorize.');
                     }
-                }, function(error){
-                    console.error("Can't login to Facebook: ", error);
-                    deferred.reject(error);
-                });
+                }, { scope: fbOauth.scope });
 
                 return deferred.promise;
             },
             logout: function(){
                 currentUser = null;
-                fbOauth.logout();
-                fbOauth.destroy();
+                FB.logout();
             },
             getCurrentUser: function(){
                 var deferred = $q.defer();
                 if (currentUser)
                     deferred.resolve(currentUser);
                 else{
-                    FB.api("me").then(function(me){
+                    FB.api('/me', function(response) {
                         var user = {
-                            id: me.data.id,
-                            name: me.data.name,
+                            id: response.id,
+                            name: response.name,
                             //link: me.data.link,
                             link: "http://www.facebook.com", // For the current user, the news feed makes more sense than the user's own page.
-                            locale: me.data.locale,
-                            image: getProfileImage(me.data.id)
+                            locale: response.locale,
+                            image: getProfileImage(response.id)
                         };
 
                         deferred.resolve(user);
                         currentUser = user;
-                    }, function(error){
-                        deferred.reject(error);
                     });
                 }
 
