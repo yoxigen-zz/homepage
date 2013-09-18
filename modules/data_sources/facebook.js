@@ -182,7 +182,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
 
                 fbFql({
                     notifications: fqlQuery,
-                    photos: "SELECT src, width, height FROM photo_src WHERE photo_id IN (SELECT object_id FROM #notifications WHERE object_type = 'photo')"
+                    photos: "SELECT src_small, src_small_height, src_small_width, object_id FROM photo WHERE object_id IN (SELECT object_id FROM #notifications WHERE object_type = 'photo')"
                 }).then(function(response){
                         console.log("RES: ", response);
                     }, function(error){ console.error(error); });
