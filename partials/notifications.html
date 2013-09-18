@@ -22,7 +22,7 @@
                 <li ng-repeat="item in notification.items" ng-class="{read:!item.unread}">
                     <a href="{{item.link}}" target="_blank" class="notification-item-link"></a>
                     <div class="notification-item-content clearfix" dir="{{item.direction}}">
-                        <img ng-src="{{item.thumbnail.src}}" ng-show="item.thumbnail" class="notification-item-image" />
+                        <img ng-show="item.image" ng-src="{{item.image.src}}" class="notification-item-image" />
                         <img ng-src="{{item.avatar}}" class="notification-item-avatar" ng-show="item.avatar" />
                         <i class="icon-play item-expand" ng-class="{'item-expand-collapse':item==maximizedItem}" ng-click="toggleItem(item)" ng-show="item.summary"></i>
                         <div class="notification-item-text" ng-class="{'notification-item-text-with-image':item.avatar}">
