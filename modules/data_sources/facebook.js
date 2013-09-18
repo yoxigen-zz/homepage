@@ -12,7 +12,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
             tokenValidation: function(auth){
                 var deferred = $q.defer();
 
-                $http.jsonp("https://graph.facebook.com/oauth/access_token?callback=JSON_CALLBACK", {
+                $http.get("https://graph.facebook.com/oauth/access_token?callback=JSON_CALLBACK", {
                     params: {
                         client_id: apiKey,
                         client_secret: appSecret,
