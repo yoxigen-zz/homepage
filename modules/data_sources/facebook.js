@@ -156,7 +156,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                                 link.setAttribute("target", "_blank");
                             });
 
-                            notifications.items.push({
+                            var notification = {
                                 id: fbNotification.notification_id,
                                 icon: fbNotification.icon_url,
                                 unread: fbNotification.is_unread === "1",
@@ -165,10 +165,12 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                                 from: fbNotification.sender_id,
                                 image: getProfileImage(fbNotification.sender_id),
                                 date: Number(fbNotification.created_time) * 1000
-                            });
+                            };
 
-                            if (fbNotification.is_unread)
+                            if (notification.unread)
                                 notifications.unreadCount++;
+
+                            notifications.items.push(notification);
                         });
 
                         deferred.resolve(notifications);
