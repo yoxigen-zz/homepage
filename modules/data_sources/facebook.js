@@ -40,7 +40,9 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                 method: 'fql.query',
                 query: query
             }, function(data) {
-                deferred.resolve(data);
+                $rootScope.$apply(function(){
+                    deferred.resolve(data);
+                });
             }
         );
 
@@ -143,9 +145,9 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                 }
 
                 fbFql(fqlQuery).then(
-                    function(response){
+                    function(fbNotifications){
                         var notifications = { items: [], unreadCount: 0 };
-                        angular.forEach(response.data.data, function(fbNotification){
+                        angular.forEach(fbNotifications, function(fbNotification){
                             var tempDiv = document.createElement("div");
                             tempDiv.innerHTML = fbNotification.title_html;
 
