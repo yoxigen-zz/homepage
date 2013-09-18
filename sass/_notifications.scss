@@ -30,9 +30,10 @@
     min-width: 8px;
   }
 
-  .notificationsItems{
+  .notifications-items{
     background: $notificationsBackground;
     color: $notificationsColor;
+    width: 400px;
 
     ul{
       list-style: none;
