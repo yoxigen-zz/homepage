@@ -1,4 +1,4 @@
-angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", function(OAuth2, $q, $http){
+angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", function(OAuth2, $q, $http, $rootScope){
     var apiKey = "132603783569142",
         appSecret = "ba840592bd31f05bec737573893f939e",
         graphApiUrl = "https://graph.facebook.com/",
@@ -47,6 +47,23 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
         return deferred.promise;
     }
 
+    function fbApi(path, options){
+        var deferred = $q.defer();
+
+        options = options || {};
+
+        FB.api(path, options.method || "get", options.params || {}, function(response) {
+            $rootScope.$apply(function(){
+                if (!response || response.error)
+                    deferred.reject(response && response.error)
+                else
+                    deferred.resolve(response);
+            });
+        });
+
+        return deferred.promise;
+    }
+
     function getFbUrlCommons(){
         return "access_token=" + fbOauth.oauthData.token + "&callback=JSON_CALLBACK";
     }
@@ -76,11 +93,13 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
                 var deferred = $q.defer();
 
                 FB.login(function(response) {
-                    if (response.authResponse) {
-                        deferred.resolve(response.authResponse);
-                    } else {
-                        deferred.reject('User cancelled login or did not fully authorize.');
-                    }
+                    $rootScope.$apply(function(){
+                        if (response.authResponse) {
+                            deferred.resolve(response.authResponse);
+                        } else {
+                            deferred.reject('User cancelled login or did not fully authorize.');
+                        }
+                    });
                 }, { scope: fbOauth.scope });
 
                 return deferred.promise;
@@ -94,7 +113,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
                 if (currentUser)
                     deferred.resolve(currentUser);
                 else{
-                    FB.api('/me', function(response) {
+                    fbApi("/me").then(function(response){
                         var user = {
                             id: response.id,
                             name: response.name,
@@ -106,7 +125,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
 
                         deferred.resolve(user);
                         currentUser = user;
-                    });
+                    }, deferred.reject);
                 }
 
                 return deferred.promise;
