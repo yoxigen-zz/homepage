@@ -33,39 +33,19 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", functi
         }),
         currentUser;
 
-    var FB = {
-        api: function(object, params){
-            var paramsQuery = [];
-            if (params){
-                for(var key in params){
-                    paramsQuery.push([key, encodeURIComponent(params[key])].join("="));
-                }
-            }
-            return $http.jsonp(graphApiUrl + object + "?" + getFbUrlCommons() + (paramsQuery.length ? "&" + paramsQuery.join("&") : ""));
-        },
-        fql: function(query){
-            var deferred = $q.defer();
+    function fbFql(query){
+        var deferred = $q.defer();
 
-            FB.api({
-                    method: 'fql.query',
-                    query: query
-                }, function(data) {
-                    deferred.resolve(data);
-                }
-            );
-
-            return deferred.promise;
-        },
-        method: function(method, params){
-            var paramsQuery = [];
-            if (params){
-                for(var key in params){
-                    paramsQuery.push([key, encodeURIComponent(params[key])].join("="));
-                }
+        FB.api({
+                method: 'fql.query',
+                query: query
+            }, function(data) {
+                deferred.resolve(data);
             }
-            return $http.jsonp(legacyApiUrl + method + "?" + getFbUrlCommons() + (paramsQuery.length ? "&" + paramsQuery.join("&") : ""));
-        }
-    };
+        );
+
+        return deferred.promise;
+    }
 
     function getFbUrlCommons(){
         return "access_token=" + fbOauth.oauthData.token + "&callback=JSON_CALLBACK";
