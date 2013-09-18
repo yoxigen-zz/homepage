@@ -66,11 +66,17 @@
       }
     }
 
-    .notification-item-image{
+    .notification-item-avatar{
       float: left;
-      margin: 0 8px 0px 0;
+      margin: 3px 8px 0px 0;
       border: solid 1px $notificationsThumbnailBorderColor;
-      margin-top: 3px;
+      max-width: 50px;
+      max-height: 70px;
+    }
+    .notification-item-image{
+      float: right;
+      margin: 3px 0 0 8px;
+      border: solid 1px $notificationsThumbnailBorderColor;
       max-width: 50px;
       max-height: 70px;
     }

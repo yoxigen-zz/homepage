@@ -74,6 +74,10 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
         return "http://graph.facebook.com/" + userId + "/picture";
     }
 
+    function setThumbnailsToNotifications(notifications, thumbnails){
+
+    }
+
     var methods = {
         auth: {
             isLoggedIn: function(){
@@ -144,8 +148,14 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                     fqlQuery += " AND notification_id > " + options.lastId;
                 }
 
-                fbFql(fqlQuery).then(
-                    function(fbNotifications){
+                fbFql({
+                    notifications: fqlQuery,
+                    photos: "SELECT src_small, src_small_height, src_small_width, object_id FROM photo WHERE object_id IN (SELECT object_id FROM #notifications WHERE object_type = 'photo')"
+                }).then(function(response){
+                    var fbNotifications = response[0].fql_result_set,
+                        fbPhotos = response[1].fql_result_set,
+                        i, photo;
+
                         var notifications = { items: [], unreadCount: 0 };
                         angular.forEach(fbNotifications, function(fbNotification){
                             var tempDiv = document.createElement("div");
@@ -163,29 +173,29 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                                 link: fbNotification.href,
                                 html: tempDiv.innerHTML,
                                 from: fbNotification.sender_id,
-                                image: getProfileImage(fbNotification.sender_id),
+                                avatar: getProfileImage(fbNotification.sender_id),
                                 date: Number(fbNotification.created_time) * 1000
                             };
 
                             if (notification.unread)
                                 notifications.unreadCount++;
 
+                            if (fbNotification.object_type === "photo"){
+                                for(i=0; photo = fbPhotos[i]; i++){
+                                    if (photo.object_id === fbNotification.object_id){
+                                        notification.image = {
+                                            src: photo.src_small,
+                                            width: photo.src_small_width,
+                                            height: photo.src_small_height
+                                        }
+                                    }
+                                }
+                            }
                             notifications.items.push(notification);
                         });
 
                         deferred.resolve(notifications);
-                    },
-                    function(error){
-                        deferred.reject(error);
-                    }
-                );
-
-                fbFql({
-                    notifications: fqlQuery,
-                    photos: "SELECT src_small, src_small_height, src_small_width, object_id FROM photo WHERE object_id IN (SELECT object_id FROM #notifications WHERE object_type = 'photo')"
-                }).then(function(response){
-                        console.log("RES: ", response);
-                    }, function(error){ console.error(error); });
+                }, deferred.reject);
 
 
                 return deferred.promise;

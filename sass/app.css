@@ -85,7 +85,7 @@ li [class*=" icon-"] {
 
 ul.icons {
   list-style-type: none;
-  text-indent: -0.75em; }
+  text-indent: -.75em; }
   ul.icons li [class^="icon-"],
   ul.icons li [class*=" icon-"] {
     width: .75em; }
@@ -1030,7 +1030,7 @@ h1, h2, h3, h4, h5 {
   -webkit-transform: rotateY(180deg); }
 
 .dimmed {
-  opacity: .3; }
+  opacity: 0.3; }
 
 .centered {
   position: absolute;
@@ -1076,7 +1076,7 @@ h1, h2, h3, h4, h5 {
   margin-left: -11px;
   -webkit-user-select: none; }
   .item-expand:hover {
-    color: White; }
+    color: white; }
   .item-expand i {
     width: .8em;
     -webkit-transform: translateX(9px) translateY(2px) scaleX(0.55) scaleY(0.9);
@@ -1409,11 +1409,16 @@ h1, h2, h3, h4, h5 {
     width: 100%; }
     .notification .notificationsItems .notification-item-link:hover {
       background: #dae3e7; }
-  .notification .notificationsItems .notification-item-image {
+  .notification .notificationsItems .notification-item-avatar {
     float: left;
-    margin: 0 8px 0px 0;
+    margin: 3px 8px 0px 0;
     border: solid 1px rgba(0, 0, 0, 0.3);
-    margin-top: 3px;
+    max-width: 50px;
+    max-height: 70px; }
+  .notification .notificationsItems .notification-item-image {
+    float: right;
+    margin: 3px 0 0 8px;
+    border: solid 1px rgba(0, 0, 0, 0.3);
     max-width: 50px;
     max-height: 70px; }
   .notification .notificationsItems .notification-item-text-with-image {
