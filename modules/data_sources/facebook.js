@@ -1,4 +1,4 @@
-angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", function(OAuth2, $q, $http, $rootScope){
+angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$rootScope", function(OAuth2, $q, $http, $rootScope){
     var apiKey = "132603783569142",
         appSecret = "ba840592bd31f05bec737573893f939e",
         graphApiUrl = "https://graph.facebook.com/",
