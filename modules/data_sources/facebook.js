@@ -33,6 +33,58 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
         }),
         currentUser;
 
+    var convert = {
+        album: function(fbAlbum){
+            return {
+                id: fbAlbum.id,
+                name: fbAlbum.name,
+                imageCount: fbAlbum.count,
+                description: fbAlbum.description,
+                link: fbAlbum.link,
+                type: "album"
+            };
+        },
+        albums: function(fbAlbums){
+            var albums = [];
+            angular.forEach(fbPhotos, function(fbPhoto){
+                albums.push(convert.album(fbPhoto));
+            });
+
+            return albums;
+        },
+        photo: function(fbPhoto){
+            return {
+                src: fbPhoto.images[0].source,
+                width: fbPhoto.images[0].width,
+                height: fbPhoto.images[0].height,
+                title: fbPhoto.name,
+                link: fbPhoto.link,
+                date: new Date(fbPhoto)
+            }
+        },
+        photos: function(fbPhotos){
+            var photos = [];
+            angular.forEach(fbPhotos, function(fbPhoto){
+                photos.push(convert.photo(fbPhoto));
+            });
+
+            return photos;
+        }
+    };
+
+    var feedMethods = {
+        album: function(feed, options){
+            var deferred = $q.defer();
+
+            options = options || {};
+            fbApi("/" + feed.id + "/photos", options).then(function(response){
+                deferred.resolve(convert.photos(response.data));
+            }, deferred.reject);
+
+            return deferred.promise;
+        }
+    };
+
     function fbFql(query){
         var deferred = $q.defer(),
             params = angular.isObject(query)
@@ -74,11 +126,8 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
         return "http://graph.facebook.com/" + userId + "/picture";
     }
 
-    function setThumbnailsToNotifications(notifications, thumbnails){
-
-    }
-
     var methods = {
+        name: "Facebook",
         auth: {
             isLoggedIn: function(){
                 var deferred = $q.defer();
@@ -139,6 +188,52 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                 }
 
                 return deferred.promise;
+            }
+        },
+        images: {
+            getAlbums: function(userId){
+                var deferred = $q.defer();
+
+                fbFql({
+                    albums: "SELECT aid, object_id, cover_object_id, name, photo_count, can_upload, type, created, owner, link FROM album WHERE owner = " + (userId || "me()"),
+                    photos: "SELECT object_id, images FROM photo WHERE object_id in (SELECT cover_object_id FROM #albums)"
+                }).then(function(response){
+                    var albums = response[0].fql_result_set,
+                        photos = response[1].fql_result_set;
+
+                    function findPhoto(photoObjectId){
+                        for(var j= 0, photo; photo = photos[j]; j++){
+                            if (photo.object_id === photoObjectId){
+                                return photos.splice(j, 1)[0];
+                            }
+                        }
+
+                        return null;
+                    }
+
+                    var albumsData = [],
+                        albumData,
+                        thumbnail;
+
+                    for(var i= 0, album; album = albums[i]; i++){
+                        albumData = convert.album(album);
+                        thumbnail = findPhoto(album.cover_object_id);
+
+                        albumData.thumbnail = {
+                            src: thumbnail.src,
+                            width: thumbnail.width,
+                            height: thumbnail.height
+                        }
+                        albumsData.push(albumData);
+                    }
+
+                    deferred.resolve(albumsData);
+                }, deferred.reject);
+
+                return deferred.promise;
+            },
+            load: function(feed){
+                return feedMethods[feed.type](feed);
             }
         },
         notifications: {

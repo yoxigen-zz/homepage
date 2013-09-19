@@ -1,18 +1,12 @@
-angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeout", "utils", "imageCache", "dataImages", function ($scope, $timeout, utils, imageCache, dataImages) {
-    var defaultImages = ["1", "2", "3"],
-        imagesFolder = "modules/background/slideshow/images/",
-        currentImageIndex = 0,
+angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeout", "utils", "imageCache", "dataImages", "defaultImages", function ($scope, $timeout, utils, imageCache, dataImages, defaultImages) {
+    var currentImageIndex = 0,
         currentImagePosition = 1,
         images,
         playTimeoutPromise;
 
-    utils.images.webpSupported().then(function (supported) {
-        var imageExtension = supported ? ".webp" : ".jpg";
-        angular.forEach(defaultImages, function (image, index) {
-            defaultImages[index] = { src: imagesFolder + image + imageExtension };
-        });
-
-        images = defaultImages;
+    var slideshowSource = dataImages.flickr;
+    slideshowSource.images.load().then(function(data){
+        images = utils.arrays.shuffle(data);
         currentImageIndex = -1;
         advanceImage(1);
     });
@@ -24,14 +18,24 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     };
 
     $scope.sources = dataImages;
+    $scope.next = function(){
+        advanceImage(1);
+    };
+    $scope.prev = function(){
+        advanceImage(-1);
+    };
 
     $scope.selectSource = function(source){
         $scope.currentSource = source;
-        source.auth.isLoggedIn().then(function(isLoggedIn){
-            $scope.currentSourceIsLoggedIn = isLoggedIn;
-            if (isLoggedIn)
-                loadSourceItems(source);
-        });
+        if (source.auth){
+            source.auth.isLoggedIn().then(function(isLoggedIn){
+                $scope.currentSourceIsLoggedIn = isLoggedIn;
+                if (isLoggedIn)
+                    loadSourceItems(source);
+            });
+        }
+        else
+            loadSourceItems(source);
     };
 
     $scope.sourceLogin = function(source){
@@ -40,13 +44,21 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         });
     };
 
-    function loadSourceItems(source){
-        source.images.getUserAlbums().then(function(result){
-            $scope.currentSourceItems = result.items;
-        });
+    function loadSourceItems(source, feed){
+        if (feed){
+            source.images.getAlbums().then(function(result){
+                $scope.currentSourceItems = result.items;
+            });
+        }
+        else
+            source.images.load().then(function(result){
+                $scope.currentSourceItems = result.items;
+            });
     }
 
     function advanceImage(direction) {
+        $timeout.cancel(playTimeoutPromise);
+
         var prevImage = $scope.currentImages[currentImagePosition];
 
         currentImagePosition = currentImagePosition ? 0 : 1;

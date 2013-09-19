@@ -8,10 +8,12 @@
     },
     "resources": [
 		"slideshow.directive.js",
+        "background_images.js",
         "slideshow.controller.js"
     ],
     "dataSources": [
-        "picasa.js"
+        "picasa.js",
+        "flickr.js"
     ],
     "settings": {
         "interval": 60,

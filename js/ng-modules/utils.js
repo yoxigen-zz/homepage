@@ -1,5 +1,24 @@
 angular.module("Utils", []).factory("utils", ["$q", function($q){
     var methods = {
+        arrays: {
+            /**
+             * http://stackoverflow.com/questions/962802/is-it-correct-to-use-javascript-array-sort-method-for-shuffling
+             * @param array
+             * @returns {*}
+             */
+            shuffle: function(array){
+                var tmp, current, top = array.length;
+
+                if(top) while(--top) {
+                    current = Math.floor(Math.random() * (top + 1));
+                    tmp = array[current];
+                    array[current] = array[top];
+                    array[top] = tmp;
+                }
+
+                return array;
+            }
+        },
         images: {
             /**
              * From http://stackoverflow.com/questions/5573096/detecting-webp-support

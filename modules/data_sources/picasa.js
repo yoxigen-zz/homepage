@@ -319,7 +319,7 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
             }
         },
         images: {
-            getUserAlbums: function(){
+            getAlbums: function(){
                 return methods.images.load(feeds.albums);
             },
             getFeeds: function(){
