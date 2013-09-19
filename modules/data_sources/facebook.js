@@ -36,9 +36,9 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
     var convert = {
         album: function(fbAlbum){
             return {
-                id: fbAlbum.id,
+                id: fbAlbum.object_id,
                 name: fbAlbum.name,
-                imageCount: fbAlbum.count,
+                imageCount: fbAlbum.photo_count,
                 description: fbAlbum.description,
                 link: fbAlbum.link,
                 type: "album"
