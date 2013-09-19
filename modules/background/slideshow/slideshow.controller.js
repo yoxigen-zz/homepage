@@ -51,8 +51,8 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
             });
         }
         else
-            source.images.load().then(function(result){
-                $scope.currentSourceItems = result.items;
+            source.images.getAlbums().then(function(albums){
+                $scope.currentSourceItems = albums;
             });
     }
 
