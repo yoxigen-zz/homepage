@@ -84,14 +84,16 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                 var deferred = $q.defer();
 
                 FB.getLoginStatus(function(response) {
-                    $rootScope.$apply(function(){
-                        if (response.status === 'connected') {
-                            deferred.resolve(true);
-                        } else if (response.status === 'not_authorized') {
-                            deferred.resolve(false, response.status)
-                        } else {
-                            deferred.resolve(false);
-                        }
+                    setTimeout(function(){
+                        $rootScope.$apply(function(){
+                            if (response.status === 'connected') {
+                                deferred.resolve(true);
+                            } else if (response.status === 'not_authorized') {
+                                deferred.resolve(false, response.status)
+                            } else {
+                                deferred.resolve(false);
+                            }
+                        });
                     });
                 });
 

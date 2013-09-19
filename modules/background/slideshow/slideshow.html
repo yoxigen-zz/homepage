@@ -27,7 +27,7 @@
                 </div>
                 <div>
                     <a ng-repeat="item in currentSourceItems" ng-click="selectItem(item)">
-                        <img src="{{item.thumbnail.src}}" title="{{item.title}}" />
+                        <img ng-src="{{item.thumbnail.src}}" title="{{item.title}}" />
                     </a>
                 </div>
             </div>
