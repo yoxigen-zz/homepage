@@ -44,10 +44,15 @@
         height: 40px;
         line-height: 40px;
         padding: 0 7px; }
-  .slideshow .thumbnail {
-    float: left; }
-    .slideshow .thumbnail img {
-      height: 160px; }
+  .slideshow .thumbnail-img {
+    width: 120px;
+    height: 120px;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    float: left;
+    margin: 4px; }
   .slideshow .slideshow-menu-sources {
     padding: 0 10px; }
   .slideshow .slideshow-source-menu {

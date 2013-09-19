@@ -28,8 +28,11 @@
                     <a ng-click="currentSource.auth.logout()" ng-show="currentSourceIsLoggedIn">Logout from {{currentSource.name}}</a>
                 </div>
                 <div class="thumbnails slideshow-thumbnails">
-                    <a ng-repeat="item in currentSourceItems" ng-click="selectAlbum(item)" title="{{item.name}}" class="thumbnail">
-                        <img ng-src="{{item.thumbnail.src}}" title="{{item.title}}" class="thumbnail-img" />
+                    <a ng-repeat="item in currentSourceItems"
+                       ng-click="selectAlbum(item)"
+                       title="{{item.name}} ({{item.imageCount}})"
+                       class="thumbnail-img"
+                        ng-style="{ 'background-image': 'url(' + item.thumbnail.src + ')' }">
                     </a>
                 </div>
             </div>

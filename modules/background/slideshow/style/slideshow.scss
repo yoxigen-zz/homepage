@@ -70,12 +70,15 @@ $slideshowMenuPadding: 10px;
     }
   }
 
-  .thumbnail{
+  .thumbnail-img{
+    width: 120px;
+    height: 120px;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
     float: left;
-
-    img{
-      height: 160px;
-    }
+    margin: 4px;
   }
 
   .slideshow-menu-sources{
