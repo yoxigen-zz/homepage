@@ -7,6 +7,7 @@
              ng-class="{ active: currentImages[1].active }"
              ng-style="{ 'background-size': module.settings.mode, 'background-image': 'url(' + currentImages[1].src + ')', 'z-index': currentImages[1].order }"></div>
         <div class="slideshow-images-cover" ng-click="imageClick()"></div>
+        <div class="loading-indicator" ng-class="{active: slideshowImageLoading }"></div>
     </div>
     <div class="slideshow-menu" ng-class="{ open: slideshowMenuOpen }">
         <header class="slideshow-menu-header" ng-click="toggleMenu()">

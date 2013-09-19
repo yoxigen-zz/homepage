@@ -82,8 +82,10 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         else if (currentImageIndex < 0)
             currentImageIndex = images.length - 1;
 
+        $scope.slideshowImageLoading = true;
         imageCache.cacheImage(images[currentImageIndex].src).then(function(){
             $scope.currentImages[currentImagePosition].src = images[currentImageIndex].src;
+            $scope.slideshowImageLoading = false;
 
             $timeout(function(){
                 if (prevImage)
@@ -104,6 +106,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
             }
         }, function(error){
             console.error("Can't load image: %s. Error: ", images[currentImageIndex].src, error);
+            $scope.slideshowImageLoading = false;
             advanceImage(direction);
         });
     }
