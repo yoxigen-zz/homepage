@@ -1,6 +1,33 @@
 $slideshowMenuHeaderHeight: 40px;
+$slideshowMenuPadding: 10px;
 
 .slideshow{
+  overflow: hidden;
+
+  .slideshow-images, .slideshow-image, .slideshow-images-cover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slideshow-images-cover{
+    z-index: 8;
+  }
+
+  .slideshow-image{
+    opacity: 0;
+    -webkit-transition: opacity 1s ease-out;
+    -webkit-transition-delay: 500ms;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    &.active{
+      opacity: 1;
+    }
+  }
+
   .slideshow-menu{
     position: absolute;
     top: 100%;
@@ -9,6 +36,7 @@ $slideshowMenuHeaderHeight: 40px;
     height: 40%;
     opacity: 0;
     background: rgba(0,0,0,.6);
+    z-index: 10;
 
     -webkit-transform: translateY(-$slideshowMenuHeaderHeight);
     -webkit-transition: all 300ms ease-out;
@@ -20,7 +48,7 @@ $slideshowMenuHeaderHeight: 40px;
   .slideshow-menu-header{
     height: $slideshowMenuHeaderHeight;
     line-height: $slideshowMenuHeaderHeight;
-    padding: 0 10px;
+    padding: 0 $slideshowMenuPadding;
     background: rgba(0,0,0,.25);
     cursor: pointer;
 
@@ -41,6 +69,22 @@ $slideshowMenuHeaderHeight: 40px;
       }
     }
   }
+
+  .thumbnail{
+    float: left;
+
+    img{
+      height: 160px;
+    }
+  }
+
+  .slideshow-menu-sources{
+    padding: 0 $slideshowMenuPadding;
+  }
+  .slideshow-source-menu{
+    margin: 10px 0;
+    padding: 0 $slideshowMenuPadding;
+  }
 }
 
 .background-enabled{
@@ -57,5 +101,3 @@ $slideshowMenuHeaderHeight: 40px;
     }
   }
 }
-
-

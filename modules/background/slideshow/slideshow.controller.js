@@ -17,8 +17,16 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     $scope.next = function(){
         advanceImage(1);
     };
+
     $scope.prev = function(){
         advanceImage(-1);
+    };
+
+    $scope.imageClick = function(){
+        if ($scope.slideshowMenuOpen)
+            $scope.toggleMenu();
+        else
+            $scope.next();
     };
 
     $scope.selectSource = function(source){

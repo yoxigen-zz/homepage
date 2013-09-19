@@ -1,30 +1,58 @@
-.slideshow .slideshow-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 40%;
-  opacity: 0;
-  background: rgba(0, 0, 0, 0.6);
-  -webkit-transform: translateY(-40px);
-  -webkit-transition: all 300ms ease-out; }
-.slideshow .slideshow-menu-header {
-  height: 40px;
-  line-height: 40px;
-  padding: 0 10px;
-  background: rgba(0, 0, 0, 0.25);
-  cursor: pointer; }
-  .slideshow .slideshow-menu-header h2 {
-    font-size: 17px;
-    font-weight: bold; }
-  .slideshow .slideshow-menu-header .slideshow-menu-header-controls {
-    float: right; }
-    .slideshow .slideshow-menu-header .slideshow-menu-header-controls a {
-      color: White;
-      display: inline-block;
-      height: 40px;
-      line-height: 40px;
-      padding: 0 7px; }
+.slideshow {
+  overflow: hidden; }
+  .slideshow .slideshow-images, .slideshow .slideshow-image, .slideshow .slideshow-images-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+  .slideshow .slideshow-images-cover {
+    z-index: 8; }
+  .slideshow .slideshow-image {
+    opacity: 0;
+    -webkit-transition: opacity 1s ease-out;
+    -webkit-transition-delay: 500ms;
+    background-position: center center;
+    background-repeat: no-repeat; }
+    .slideshow .slideshow-image.active {
+      opacity: 1; }
+  .slideshow .slideshow-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10;
+    -webkit-transform: translateY(-40px);
+    -webkit-transition: all 300ms ease-out; }
+  .slideshow .slideshow-menu-header {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    background: rgba(0, 0, 0, 0.25);
+    cursor: pointer; }
+    .slideshow .slideshow-menu-header h2 {
+      font-size: 17px;
+      font-weight: bold; }
+    .slideshow .slideshow-menu-header .slideshow-menu-header-controls {
+      float: right; }
+      .slideshow .slideshow-menu-header .slideshow-menu-header-controls a {
+        color: White;
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 7px; }
+  .slideshow .thumbnail {
+    float: left; }
+    .slideshow .thumbnail img {
+      height: 160px; }
+  .slideshow .slideshow-menu-sources {
+    padding: 0 10px; }
+  .slideshow .slideshow-source-menu {
+    margin: 10px 0;
+    padding: 0 10px; }
 
 .background-enabled .slideshow-menu {
   opacity: 0.4; }

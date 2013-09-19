@@ -1818,21 +1818,6 @@ h1, h2, h3, h4, h5 {
     .gallery-thumbnails a:last-child {
       margin-right: 0; }
 
-.slideshow .slideshow-images, .slideshow .slideshow-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; }
-.slideshow .slideshow-image {
-  opacity: 0;
-  -webkit-transition: opacity 1s ease-out;
-  -webkit-transition-delay: 500ms;
-  background-position: center center;
-  background-repeat: no-repeat; }
-  .slideshow .slideshow-image.active {
-    opacity: 1; }
-
 /* Scrollbars */
 *::-webkit-scrollbar {
   width: 6px; }

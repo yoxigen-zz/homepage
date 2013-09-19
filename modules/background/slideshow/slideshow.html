@@ -2,12 +2,11 @@
     <div class="slideshow-images">
         <div class="slideshow-image"
              ng-class="{ active: currentImages[0].active }"
-             ng-click="next()"
              ng-style="{ 'background-size': module.settings.mode, 'background-image': 'url(' + currentImages[0].src + ')', 'z-index': currentImages[0].order }"></div>
         <div class="slideshow-image"
              ng-class="{ active: currentImages[1].active }"
-             ng-click="next()"
              ng-style="{ 'background-size': module.settings.mode, 'background-image': 'url(' + currentImages[1].src + ')', 'z-index': currentImages[1].order }"></div>
+        <div class="slideshow-images-cover" ng-click="imageClick()"></div>
     </div>
     <div class="slideshow-menu" ng-class="{ open: slideshowMenuOpen }">
         <header class="slideshow-menu-header" ng-click="toggleMenu()">
@@ -23,13 +22,13 @@
                 <a ng-repeat="source in sources" ng-click="selectSource(source)">{{source.name}}</a>
             </menu>
             <div class="slideshow-source-contents" ng-show="currentSource">
-                <div>
+                <div class="slideshow-source-menu">
                     <a ng-click="sourceLogin(currentSource)" ng-show="!currentSourceIsLoggedIn">Login to {{currentSource.name}}</a>
                     <a ng-click="currentSource.auth.logout()" ng-show="currentSourceIsLoggedIn">Logout from {{currentSource.name}}</a>
                 </div>
-                <div>
-                    <a ng-repeat="item in currentSourceItems" ng-click="selectAlbum(item)">
-                        <img ng-src="{{item.thumbnail.src}}" title="{{item.title}}" />
+                <div class="slideshow-thumbnails">
+                    <a ng-repeat="item in currentSourceItems" ng-click="selectAlbum(item)" title="{{item.title}}" class="thumbnail">
+                        <img ng-src="{{item.thumbnail.src}}" title="{{item.title}}" class="thumbnail-img" />
                     </a>
                 </div>
             </div>
