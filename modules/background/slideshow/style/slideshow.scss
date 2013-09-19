@@ -79,6 +79,11 @@ $slideshowMenuPadding: 10px;
     display: block;
     float: left;
     margin: 4px;
+    border: solid 1px #666;
+
+    &:hover{
+      border-color: $linkColor;
+    }
   }
 
   .slideshow-menu-sources{

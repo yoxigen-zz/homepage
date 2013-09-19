@@ -1,77 +1,84 @@
-.slideshow {
-  overflow: hidden; }
-  .slideshow .slideshow-images, .slideshow .slideshow-image, .slideshow .slideshow-images-cover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; }
-  .slideshow .slideshow-images-cover {
-    z-index: 8; }
-  .slideshow .slideshow-image {
-    opacity: 0;
-    -webkit-transition: opacity 1s ease-out;
-    -webkit-transition-delay: 500ms;
-    background-position: center center;
-    background-repeat: no-repeat; }
-    .slideshow .slideshow-image.active {
-      opacity: 1; }
-  .slideshow .slideshow-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 40%;
-    opacity: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 10;
-    -webkit-transform: translateY(-40px);
-    -webkit-transition: all 300ms ease-out; }
-  .slideshow .slideshow-menu-header {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 10px;
-    background: rgba(0, 0, 0, 0.25);
-    cursor: pointer; }
-    .slideshow .slideshow-menu-header h2 {
-      font-size: 17px;
-      font-weight: bold; }
-    .slideshow .slideshow-menu-header .slideshow-menu-header-controls {
-      float: right; }
-      .slideshow .slideshow-menu-header .slideshow-menu-header-controls a {
-        color: White;
-        display: inline-block;
-        height: 40px;
-        line-height: 40px;
-        padding: 0 7px; }
-  .slideshow .thumbnail-img {
-    width: 120px;
-    height: 120px;
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: block;
-    float: left;
-    margin: 4px; }
-  .slideshow .slideshow-menu-sources {
-    padding: 0 10px; }
-  .slideshow .slideshow-source-menu {
-    margin: 10px 0;
-    padding: 0 10px; }
-  .slideshow .slideshow-thumbnails {
-    position: absolute;
-    bottom: 5px;
-    top: 120px;
-    left: 0;
-    right: 5px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-left: 10px; }
+/*
+Syntax error: Undefined variable: "$linkColor".
+        on line 85 of slideshow.scss
 
-.background-enabled .slideshow-menu {
-  opacity: 0.4; }
-  .background-enabled .slideshow-menu:hover {
-    opacity: 1; }
-  .background-enabled .slideshow-menu.open {
-    opacity: 1;
-    -webkit-transform: translateY(-100%); }
+80:     float: left;
+81:     margin: 4px;
+82:     border: solid 1px #666;
+83: 
+84:     &:hover{
+85:       border-color: $linkColor;
+86:     }
+87:   }
+88: 
+89:   .slideshow-menu-sources{
+90:     padding: 0 $slideshowMenuPadding;
+
+Backtrace:
+slideshow.scss:85
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/script/variable.rb:49:in `_perform'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/script/node.rb:40:in `perform'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:298:in `visit_prop'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:100:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `map'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:320:in `visit_rule'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:100:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `map'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:320:in `visit_rule'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:100:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `map'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:320:in `visit_rule'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:100:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `map'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:128:in `visit_root'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:100:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:7:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/tree/root_node.rb:20:in `render'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/engine.rb:315:in `_render'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/engine.rb:262:in `render'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:362:in `update_stylesheet'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:203:in `block in update_stylesheets'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:201:in `each'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:201:in `update_stylesheets'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/plugin.rb:81:in `update_stylesheets'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/exec.rb:432:in `watch_or_update'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/exec.rb:315:in `process_result'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/exec.rb:41:in `parse'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/lib/sass/exec.rb:21:in `parse!'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.9/bin/scss:9:in `<top (required)>'
+C:/Ruby200-x64/bin/scss:23:in `load'
+C:/Ruby200-x64/bin/scss:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$linkColor\".\A         on line 85 of slideshow.scss\A \A 80:     float: left;\A 81:     margin: 4px;\A 82:     border: solid 1px #666;\A 83: \A 84:     &:hover{\A 85:       border-color: $linkColor;\A 86:     }\A 87:   }\A 88: \A 89:   .slideshow-menu-sources{\A 90:     padding: 0 $slideshowMenuPadding;"; }
