@@ -85,6 +85,16 @@ $slideshowMenuPadding: 10px;
     margin: 10px 0;
     padding: 0 $slideshowMenuPadding;
   }
+  .slideshow-thumbnails{
+    position: absolute;
+    bottom: 5px;
+    top: 120px;
+    left: 0;
+    right: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: $slideshowMenuPadding;
+  }
 }
 
 .background-enabled{

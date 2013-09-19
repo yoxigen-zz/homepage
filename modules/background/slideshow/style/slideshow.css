@@ -53,6 +53,15 @@
   .slideshow .slideshow-source-menu {
     margin: 10px 0;
     padding: 0 10px; }
+  .slideshow .slideshow-thumbnails {
+    position: absolute;
+    bottom: 5px;
+    top: 120px;
+    left: 0;
+    right: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 10px; }
 
 .background-enabled .slideshow-menu {
   opacity: 0.4; }
