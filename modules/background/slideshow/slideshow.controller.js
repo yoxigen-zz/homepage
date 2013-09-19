@@ -5,11 +5,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         playTimeoutPromise;
 
     var slideshowSource = dataImages.flickr;
-    slideshowSource.images.load().then(function(data){
-        images = utils.arrays.shuffle(data);
-        currentImageIndex = -1;
-        advanceImage(1);
-    });
+    slideshowSource.images.load().then(loadImages);
 
     $scope.currentImages = [{}, {}];
     $scope.play = true;
@@ -38,11 +34,21 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
             loadSourceItems(source);
     };
 
+    $scope.selectAlbum = function(album){
+        $scope.currentSource.images.load(album).then(loadImages);
+    };
+
     $scope.sourceLogin = function(source){
         source.auth.login().then(function(){
             loadSourceItems(source);
         });
     };
+
+    function loadImages(imagesData){
+        images = utils.arrays.shuffle(imagesData);
+        currentImageIndex = -1;
+        advanceImage(1);
+    }
 
     function loadSourceItems(source, feed){
         if (feed){

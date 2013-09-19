@@ -28,7 +28,7 @@
                     <a ng-click="currentSource.auth.logout()" ng-show="currentSourceIsLoggedIn">Logout from {{currentSource.name}}</a>
                 </div>
                 <div>
-                    <a ng-repeat="item in currentSourceItems" ng-click="selectItem(item)">
+                    <a ng-repeat="item in currentSourceItems" ng-click="selectAlbum(item)">
                         <img ng-src="{{item.thumbnail.src}}" title="{{item.title}}" />
                     </a>
                 </div>

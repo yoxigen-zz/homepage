@@ -217,10 +217,10 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
 
                     for(var i= 0, album; album = albums[i]; i++){
                         albumData = convert.album(album);
-                        thumbnail = findPhoto(album.cover_object_id);
+                        thumbnail = findPhoto(album.cover_object_id).images[5];
 
                         albumData.thumbnail = {
-                            src: thumbnail.src,
+                            src: thumbnail.source,
                             width: thumbnail.width,
                             height: thumbnail.height
                         }
