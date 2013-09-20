@@ -54,6 +54,14 @@ angular.module("Utils", []).factory("utils", ["$q", function($q){
                 return deferred.promise;
             }
         },
+        objects: {
+            removeAngularHashKey: function(obj){
+                var newObj = angular.copy(obj);
+                delete newObj.$$hashKey;
+
+                return newObj;
+            }
+        },
         strings: {
             getDirection: function(str){
                 return this.isRtl(str) ? "rtl" : "ltr"
