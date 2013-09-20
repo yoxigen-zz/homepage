@@ -55,6 +55,11 @@ angular.module("Utils", []).factory("utils", ["$q", function($q){
             }
         },
         objects: {
+            /**
+             * Removes the $$hashKey property from an object and returns a new object.
+             * @param obj
+             * @returns {*}
+             */
             removeAngularHashKey: function(obj){
                 var newObj = angular.copy(obj);
                 delete newObj.$$hashKey;
