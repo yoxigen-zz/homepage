@@ -107,7 +107,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
 
         options = options || {};
 
-        FB.api(path, options.method || "get", options.params || {}, function(response) {
+        FB.api(path, options.method || "get", options, function(response) {
             $rootScope.$apply(function(){
                 if (!response || response.error)
                     deferred.reject(response && response.error)
