@@ -77,6 +77,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
             var deferred = $q.defer();
 
             options = options || {};
+            options.limit = 100;
             fbApi("/" + feed.id + "/photos", options).then(function(response){
                 deferred.resolve(convert.photos(response.data));
             }, deferred.reject);
