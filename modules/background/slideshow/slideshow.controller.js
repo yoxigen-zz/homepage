@@ -69,13 +69,13 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
     function saveConfigToCloud(){
         if (configData){
-            configData.set("source", utils.objects.removeAngularHashKey($scope.currentSource.name));
+            configData.set("source", utils.objects.removeAngularHashKey($scope.currentSource.id));
             configData.set("feed", utils.objects.removeAngularHashKey($scope.currentFeed));
             configData.save();
         }
         else{
             storage.cloud.setItem("config", {
-                source: utils.objects.removeAngularHashKey($scope.currentSource.name),
+                source: utils.objects.removeAngularHashKey($scope.currentSource.id),
                 feed: utils.objects.removeAngularHashKey($scope.currentFeed)
             }).then(function(data){
                 configData = data;

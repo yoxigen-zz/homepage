@@ -289,6 +289,7 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
 
     var methods = {
         name: "Picasa",
+        id: "picasa",
         auth: {
             isLoggedIn: function(){
                 return picasaOauth.isLoggedIn();

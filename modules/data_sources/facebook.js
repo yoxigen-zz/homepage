@@ -128,6 +128,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
 
     var methods = {
         name: "Facebook",
+        id: "facebook",
         auth: {
             isLoggedIn: function(){
                 var deferred = $q.defer();
