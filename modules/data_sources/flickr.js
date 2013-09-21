@@ -18,7 +18,9 @@ angular.module("Homepage").factory("flickr", ["$q", "$http", function($q, $http)
     }
 
     var feeds = {
-        featured: { method: "flickr.interestingness.getList", extras: "media, path_alias, url_sq, url_t, url_l, url_o" }
+        public: [
+            { name: "Featured Photos", method: "flickr.interestingness.getList", extras: "media, path_alias, url_sq, url_t, url_l, url_o" }
+        ]
     };
 
     var convert = {
@@ -35,7 +37,10 @@ angular.module("Homepage").factory("flickr", ["$q", "$http", function($q, $http)
     }
 
     return {
+        name: "Flickr",
+        id: "flickr",
         images: {
+            feeds: feeds,
             load: function(feed){
                 if (!feed)
                     feed = feeds.featured;

@@ -104,6 +104,8 @@ angular.module("Homepage").factory("instagram", ["OAuth2", "$q", "$http", "Cache
     };
 
     var methods = {
+        name: "Instagram",
+        id: "instagram",
         auth: {
             isLoggedIn: function(){
                 return igOauth.isLoggedIn();

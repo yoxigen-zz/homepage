@@ -12,7 +12,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         if (configData){
             var data = configData.getData();
             $scope.selectSource(dataImages[data.source]);
-            $scope.selectAlbum(data.feed, false);
+            $scope.selectFeed(data.feed, false);
         }
         else
             loadDefaultFeed();
@@ -42,20 +42,28 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
     $scope.selectSource = function(source){
         $scope.currentSource = source;
+        $scope.currentSourceItems = [];
+
         if (source.auth){
             source.auth.isLoggedIn().then(function(isLoggedIn){
                 $scope.currentSourceIsLoggedIn = isLoggedIn;
-                if (isLoggedIn)
+                if (isLoggedIn){
                     loadSourceItems(source);
+                    setCurrentUser();
+                }
             });
         }
         else
             loadSourceItems(source);
     };
 
-    $scope.selectAlbum = function(album, saveToCloud){
-        $scope.currentSource.images.load(album).then(loadImages);
-        $scope.currentFeed = album;
+    $scope.selectFeed = function(feed, saveToCloud){
+        showLoader();
+        $scope.currentSource.images.load(feed).then(function(data){
+            loadImages(data);
+            hideLoader();
+        });
+        $scope.currentFeed = feed;
 
         if (saveToCloud !== false)
             saveConfigToCloud();
@@ -64,8 +72,21 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     $scope.sourceLogin = function(source){
         source.auth.login().then(function(){
             loadSourceItems(source);
+            setCurrentUser();
         });
     };
+
+    $scope.sourceLogout = function(){
+        if (confirm("Are you sure you wish to log out from " + $scope.currentSource.name + "?")){
+            $scope.currentSource.auth.logout();
+            $scope.currentUserName = null;
+        }
+    };
+    function setCurrentUser(){
+        $scope.currentSource.auth.getCurrentUser().then(function(user){
+            $scope.currentUserName = user.name;
+        });
+    }
 
     function saveConfigToCloud(){
         if (configData){
@@ -90,6 +111,9 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     }
 
     function loadSourceItems(source, feed){
+        if (!source.images.getAlbums)
+            return false;
+
         if (feed){
             source.images.getAlbums().then(function(result){
                 $scope.currentSourceItems = result.items;
@@ -102,10 +126,22 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     }
 
     function loadDefaultFeed(){
-        var slideshowSource = dataImages.flickr;
-        slideshowSource.images.load().then(loadImages);
+        $scope.selectSource(dataImages.flickr);
+        $scope.selectFeed($scope.currentSource.images.feeds.public[0], false);
     }
 
+    var loaderTimeoutPromise;
+    function showLoader(){
+        $timeout.cancel(loaderTimeoutPromise);
+        loaderTimeoutPromise = $timeout(function(){
+            $scope.slideshowImageLoading = true;
+        }, 200);
+    }
+
+    function hideLoader(){
+        $timeout.cancel(loaderTimeoutPromise);
+        $scope.slideshowImageLoading = false;
+    }
     function advanceImage(direction) {
         $timeout.cancel(playTimeoutPromise);
 
@@ -118,10 +154,11 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         else if (currentImageIndex < 0)
             currentImageIndex = images.length - 1;
 
+        showLoader();
         $scope.slideshowImageLoading = true;
         imageCache.cacheImage(images[currentImageIndex].src).then(function(){
             $scope.currentImages[currentImagePosition].src = images[currentImageIndex].src;
-            $scope.slideshowImageLoading = false;
+            hideLoader();
 
             $timeout(function(){
                 if (prevImage)

@@ -1,5 +1,8 @@
 $slideshowMenuHeaderHeight: 40px;
 $slideshowMenuPadding: 10px;
+$slideshowMenuSourcesWidth: 160px;
+$slideshowMenuSourcesItemHeight: 40px;
+$slideshowMenuContentsMargins: 2px;
 
 .slideshow{
   overflow: hidden;
@@ -56,17 +59,16 @@ $slideshowMenuPadding: 10px;
       font-size: 17px;
       font-weight: bold;
     }
+  }
 
-    .slideshow-menu-header-controls{
-      float: right;
+  .slideshow-menu-header-controls{
+    float: right;
 
-      a{
-        color: White;
-        display: inline-block;
-        height: $slideshowMenuHeaderHeight;
-        line-height: $slideshowMenuHeaderHeight;
-        padding: 0 7px;
-      }
+    a{
+      display: inline-block;
+      height: $slideshowMenuHeaderHeight;
+      line-height: $slideshowMenuHeaderHeight;
+      padding: 0 7px;
     }
   }
 
@@ -87,16 +89,63 @@ $slideshowMenuPadding: 10px;
   }
 
   .slideshow-menu-sources{
-    padding: 0 $slideshowMenuPadding;
+    position: absolute;
+    top: $slideshowMenuHeaderHeight;
+    bottom: 0;
+    left: 0;
+    width: $slideshowMenuSourcesWidth;
+    padding: 0;
+    margin: 0;
+
+    & > a{
+      display: block;
+      height: $slideshowMenuSourcesItemHeight;
+      line-height: $slideshowMenuSourcesItemHeight;
+      padding: 0 $slideshowMenuPadding + 10;
+      background: rgba(0,0,0,.2);
+      margin-top: $slideshowMenuContentsMargins;
+
+      &:hover{
+        background: rgba(0, 96, 146, 0.45);
+      }
+
+      &.selected{
+        background: rgba(11, 119, 175, 0.7);
+        color: white;
+      }
+    }
   }
-  .slideshow-source-menu{
-    margin: 10px 0;
-    padding: 0 $slideshowMenuPadding;
+
+  .slideshow-source-contents{
+    position: absolute;
+    top: $slideshowMenuHeaderHeight + $slideshowMenuContentsMargins;
+    bottom: 0;
+    left: $slideshowMenuSourcesWidth + $slideshowMenuContentsMargins;
+    right: 0;
+    background: rgba(0,0,0,.2);
   }
+
+  .slideshow-source-header{
+    height: $slideshowMenuHeaderHeight;
+    line-height: $slideshowMenuHeaderHeight;
+    padding: 0 $slideshowMenuPadding;
+
+    h3{
+      display: inline;
+      font-size: 1em;
+      font-weight: normal;
+    }
+
+    .icon-caret-right{
+      font-size: .8em;
+      color: #aaa;
+    }
+  }
+
   .slideshow-thumbnails{
     position: absolute;
     bottom: 5px;
-    top: 120px;
+    top: 40px;
     left: 0;
     right: 5px;
     overflow-y: auto;

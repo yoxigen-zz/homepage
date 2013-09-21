@@ -88,7 +88,7 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
 
                     if (module.css){
                         module.css.forEach(function(cssUrl){
-                            styles.push(["modules", moduleType, module.type, cssUrl].join("/"));
+                            styles.push(["modules", moduleType, module.type, cssUrl].join("/") + "?version=" + version);
                         });
                     }
                 }

@@ -11,25 +11,33 @@
     </div>
     <div class="slideshow-menu" ng-class="{ open: slideshowMenuOpen }">
         <header class="slideshow-menu-header" ng-click="toggleMenu()">
-            <div class="slideshow-menu-header-controls">
-                <a ng-click="toggleMenu()" title="{{ slideshowMenuOpen && 'Close' || 'Open' }}">
-                    <i ng-class="{ 'icon-double-angle-up': !slideshowMenuOpen, 'icon-double-angle-down': slideshowMenuOpen }"></i>
-                </a>
-            </div>
+            <div class="slideshow-menu-header-controls"></div>
             <h2>Slideshow</h2>
         </header>
         <div class="slideshow-menu-contents">
             <menu class="slideshow-menu-sources">
-                <a ng-repeat="source in sources" ng-click="selectSource(source)">{{source.name}}</a>
+                <a ng-repeat="source in sources"
+                   ng-click="selectSource(source)"
+                   ng-class="{ selected: currentSource == source}">{{source.name}}</a>
             </menu>
             <div class="slideshow-source-contents" ng-show="currentSource">
-                <div class="slideshow-source-menu">
-                    <a ng-click="sourceLogin(currentSource)" ng-show="!currentSourceIsLoggedIn">Login to {{currentSource.name}}</a>
-                    <a ng-click="currentSource.auth.logout()" ng-show="currentSourceIsLoggedIn">Logout from {{currentSource.name}}</a>
+                <div class="slideshow-source-header">
+                    <div class="slideshow-menu-header-controls">
+                        <a ng-click="sourceLogin(currentSource)" ng-show="!currentSourceIsLoggedIn"><i class="icon-signin"></i> Login to {{currentSource.name}}</a>
+                        <a ng-click="sourceLogout()" ng-show="currentSourceIsLoggedIn"><i class="icon-signout"></i> Logout from {{currentSource.name}}</a>
+                    </div>
+
+                    <h3>{{currentSource.name}}</h3>
+                    <span ng-show="currentFeed.type == 'album'">
+                        <i class="icon-caret-right"></i>
+                        <a ng-click="getAlbumsForCurrentSource()">Albums</a>
+                    </span>
+                    <i class="icon-caret-right"></i>
+                    {{currentFeed.name}}
                 </div>
                 <div class="slideshow-thumbnails">
                     <a ng-repeat="item in currentSourceItems"
-                       ng-click="selectAlbum(item)"
+                       ng-click="selectFeed(item)"
                        title="{{item.name}} ({{item.imageCount}})"
                        class="thumbnail-img"
                         ng-style="{ 'background-image': 'url(' + item.thumbnail.src + ')' }">

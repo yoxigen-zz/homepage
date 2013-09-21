@@ -36,14 +36,13 @@
     .slideshow .slideshow-menu-header h2 {
       font-size: 17px;
       font-weight: bold; }
-    .slideshow .slideshow-menu-header .slideshow-menu-header-controls {
-      float: right; }
-      .slideshow .slideshow-menu-header .slideshow-menu-header-controls a {
-        color: White;
-        display: inline-block;
-        height: 40px;
-        line-height: 40px;
-        padding: 0 7px; }
+  .slideshow .slideshow-menu-header-controls {
+    float: right; }
+    .slideshow .slideshow-menu-header-controls a {
+      display: inline-block;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 7px; }
   .slideshow .thumbnail-img {
     width: 120px;
     height: 120px;
@@ -57,14 +56,47 @@
     .slideshow .thumbnail-img:hover {
       border-color: #57c6ff; }
   .slideshow .slideshow-menu-sources {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    width: 160px;
+    padding: 0;
+    margin: 0; }
+    .slideshow .slideshow-menu-sources > a {
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 20px;
+      background: rgba(0, 0, 0, 0.2);
+      margin-top: 2px; }
+      .slideshow .slideshow-menu-sources > a:hover {
+        background: rgba(0, 96, 146, 0.45); }
+      .slideshow .slideshow-menu-sources > a.selected {
+        background: rgba(11, 119, 175, 0.7);
+        color: white; }
+  .slideshow .slideshow-source-contents {
+    position: absolute;
+    top: 42px;
+    bottom: 0;
+    left: 162px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.2); }
+  .slideshow .slideshow-source-header {
+    height: 40px;
+    line-height: 40px;
     padding: 0 10px; }
-  .slideshow .slideshow-source-menu {
-    margin: 10px 0;
-    padding: 0 10px; }
+    .slideshow .slideshow-source-header h3 {
+      display: inline;
+      font-size: 1em;
+      font-weight: normal; }
+    .slideshow .slideshow-source-header .icon-caret-right {
+      font-size: .8em;
+      color: #aaa; }
   .slideshow .slideshow-thumbnails {
     position: absolute;
     bottom: 5px;
-    top: 120px;
+    top: 40px;
     left: 0;
     right: 5px;
     overflow-y: auto;
