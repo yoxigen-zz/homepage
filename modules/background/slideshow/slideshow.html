@@ -20,7 +20,7 @@
                    ng-click="selectSource(source)"
                    ng-class="{ selected: currentSource == source}">{{source.name}}</a>
             </menu>
-            <div class="slideshow-source-contents" ng-show="currentSource">
+            <div class="slideshow-source-contents" ng-show="currentSource" ng-switch="contentsType">
                 <div class="slideshow-source-header">
                     <div class="slideshow-menu-header-controls">
                         <a ng-click="sourceLogin(currentSource)" ng-show="!currentSourceIsLoggedIn"><i class="icon-signin"></i> Login to {{currentSource.name}}</a>
@@ -35,12 +35,22 @@
                     <i class="icon-caret-right"></i>
                     {{currentFeed.name}}
                 </div>
-                <div class="slideshow-thumbnails">
+                <div class="slideshow-thumbnails" ng-switch-when="albums">
                     <a ng-repeat="item in currentSourceItems"
                        ng-click="selectFeed(item)"
                        title="{{item.name}} ({{item.imageCount}})"
                        class="thumbnail-img"
+                       ng-class="{ selected: currentFeed == item }"
                         ng-style="{ 'background-image': 'url(' + item.thumbnail.src + ')' }">
+                    </a>
+                </div>
+                <div class="slideshow-thumbnails" ng-switch-when="album">
+                    <a ng-repeat="image in currentFeedImages"
+                       ng-click="selectImage(image)"
+                       title="{{image.title}}"
+                       class="thumbnail-img"
+                       ng-class="{ selected: currentImage == image }"
+                       ng-style="{ 'background-image': 'url(' + image.thumbnail.src + ')' }">
                     </a>
                 </div>
             </div>

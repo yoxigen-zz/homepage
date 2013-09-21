@@ -5,8 +5,20 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         images,
         playTimeoutPromise,
         storage = new Storage("slideshow"),
-        configData;
+        configData,
+        loadedLastImage;
 
+    $scope.currentImages = [{}, {}];
+        /*
+    storage.local.getItem("lastImage").then(function(lastImage){
+        if (lastImage){
+            loadedLastImage = true;
+            $scope.currentImages[currentImagePosition].src = lastImage.src;
+            $scope.currentImages[currentImagePosition].active = true;
+            $scope.currentImages[currentImagePosition].order = 2;
+        }
+    });
+          */
     storage.cloud.getItem("config").then(function(data){
         configData = data;
         if (configData){
@@ -18,7 +30,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
             loadDefaultFeed();
     }, loadDefaultFeed);
 
-    $scope.currentImages = [{}, {}];
+
     $scope.play = true;
     $scope.toggleMenu = function(){
         $scope.slideshowMenuOpen = !$scope.slideshowMenuOpen;
@@ -62,6 +74,8 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         $scope.currentSource.images.load(feed).then(function(data){
             loadImages(data);
             hideLoader();
+
+            $scope.contentsType = feed.type;
         });
         $scope.currentFeed = feed;
 
@@ -106,6 +120,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
     function loadImages(imagesData){
         images = utils.arrays.shuffle(imagesData);
+        $scope.currentFeedImages = images;
         currentImageIndex = -1;
         advanceImage(1);
     }
@@ -117,11 +132,13 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         if (feed){
             source.images.getAlbums().then(function(result){
                 $scope.currentSourceItems = result.items;
+                $scope.contentsType = "albums";
             });
         }
         else
             source.images.getAlbums().then(function(albums){
                 $scope.currentSourceItems = albums;
+                $scope.contentsType = "albums";
             });
     }
 
@@ -136,6 +153,10 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         loaderTimeoutPromise = $timeout(function(){
             $scope.slideshowImageLoading = true;
         }, 200);
+    }
+
+    function setLastImage(image){
+        storage.local.setItem("lastImage", image);
     }
 
     function hideLoader(){
@@ -170,6 +191,8 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
                     $scope.currentImages[currentImagePosition].order = 1;
                     $scope.currentImages[currentImagePosition ? 0 : 1].order = 2;
                 }, $scope.module.settings.transition * 500);
+
+                setLastImage(images[currentImageIndex]);
             }, 50);
 
             if ($scope.play){

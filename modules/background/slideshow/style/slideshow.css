@@ -55,6 +55,8 @@
     border: solid 1px #666; }
     .slideshow .thumbnail-img:hover {
       border-color: #57c6ff; }
+    .slideshow .thumbnail-img.selected {
+      border-color: White; }
   .slideshow .slideshow-menu-sources {
     position: absolute;
     top: 40px;
@@ -95,7 +97,7 @@
       color: #aaa; }
   .slideshow .slideshow-thumbnails {
     position: absolute;
-    bottom: 5px;
+    bottom: 0;
     top: 40px;
     left: 0;
     right: 5px;
