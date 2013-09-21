@@ -47,7 +47,7 @@
                         ng-style="{ 'background-image': 'url(' + item.thumbnail.src + ')' }">
                     </a>
                 </div>
-                <div class="slideshow-thumbnails" ng-switch-when="album">
+                <div class="slideshow-thumbnails slideshow-thumbnails-images" ng-switch-when="album">
                     <a ng-repeat="image in currentFeedImages"
                        ng-click="selectImage(image)"
                        title="{{image.title}}"

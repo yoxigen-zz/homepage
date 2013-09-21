@@ -53,13 +53,19 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
             return albums;
         },
         photo: function(fbPhoto){
+            var thumbnailImage = fbPhotos.length >= 6 ? fbPhoto.images[5] : fbPhoto.images[fbPhoto.images.length - 1];
             return {
                 src: fbPhoto.images[0].source,
                 width: fbPhoto.images[0].width,
                 height: fbPhoto.images[0].height,
                 title: fbPhoto.name,
                 link: fbPhoto.link,
-                date: new Date(fbPhoto)
+                date: new Date(fbPhoto),
+                thumbnail: {
+                    src: thumbnailImage.source,
+                    width: thumbnailImage.width,
+                    height: thumbnailImage.height
+                }
             }
         },
         photos: function(fbPhotos){

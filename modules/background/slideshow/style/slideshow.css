@@ -57,6 +57,10 @@
       border-color: #57c6ff; }
     .slideshow .thumbnail-img.selected {
       border-color: White; }
+  .slideshow .slideshow-thumbnails-images .thumbnail-img {
+    width: 60px;
+    height: 60px;
+    margin: 2px; }
   .slideshow .slideshow-menu-sources {
     position: absolute;
     top: 40px;

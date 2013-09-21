@@ -92,6 +92,11 @@ $slideshowMenuContentsMargins: 2px;
     }
   }
 
+  .slideshow-thumbnails-images .thumbnail-img{
+    width: 60px;
+    height: 60px;
+    margin: 2px;
+  }
   .slideshow-menu-sources{
     position: absolute;
     top: $slideshowMenuHeaderHeight;
