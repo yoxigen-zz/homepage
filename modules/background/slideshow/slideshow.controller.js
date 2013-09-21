@@ -31,7 +31,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     }, loadDefaultFeed);
 
 
-    $scope.play = true;
+    $scope.isPlaying = true;
     $scope.toggleMenu = function(){
         $scope.slideshowMenuOpen = !$scope.slideshowMenuOpen;
     };
@@ -40,7 +40,16 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     $scope.next = function(){
         advanceImage(1);
     };
+    $scope.pause = function(){
+        $scope.isPlaying = false;
+        $timeout.cancel(playTimeoutPromise);
+    };
 
+    $scope.play = function(){
+        $scope.isPlaying = true;
+        $timeout.cancel(playTimeoutPromise);
+        $scope.next();
+    };
     $scope.prev = function(){
         advanceImage(-1);
     };
@@ -195,7 +204,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
                 setLastImage(images[currentImageIndex]);
             }, 50);
 
-            if ($scope.play){
+            if ($scope.isPlaying){
                 playTimeoutPromise = $timeout(function(){
                     advanceImage(direction);
                 }, $scope.module.settings.interval * 1000);

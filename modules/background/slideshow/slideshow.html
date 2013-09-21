@@ -11,7 +11,10 @@
     </div>
     <div class="slideshow-menu" ng-class="{ open: slideshowMenuOpen }">
         <header class="slideshow-menu-header" ng-click="toggleMenu()">
-            <div class="slideshow-menu-header-controls"></div>
+            <div class="slideshow-menu-header-controls">
+                <a ng-click="pause()" ng-show="isPlaying"><i class="icon-pause"></i> Pause slideshow</a>
+                <a ng-click="play()" ng-show="!isPlaying"><i class="icon-play"></i> Start slideshow</a>
+            </div>
             <h2>Slideshow</h2>
         </header>
         <div class="slideshow-menu-contents">
