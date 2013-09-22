@@ -23,12 +23,13 @@
                 <a ng-repeat="source in sources"
                    ng-click="selectSource(source)"
                    ng-class="{ selected: currentSource == source}">{{source.name}}</a>
+                <div class="slideshow-menu-sources-bottom"></div>
             </menu>
             <div class="slideshow-source-contents" ng-show="currentSource" ng-switch="contentsType">
                 <div class="slideshow-source-header">
                     <div class="slideshow-menu-header-controls">
                         <a ng-click="sourceLogin(currentSource)" ng-show="!currentSourceIsLoggedIn"><i class="icon-signin"></i> Login to {{currentSource.name}}</a>
-                        <a ng-click="sourceLogout()" ng-show="currentSourceIsLoggedIn"><i class="icon-signout"></i> Logout from {{currentSource.name}}</a>
+                        <a ng-click="sourceLogout()" ng-show="currentSourceIsLoggedIn"><i class="icon-signout"></i> Logout {{currentUserName}} from {{currentSource.name}}</a>
                     </div>
 
                     <h3>{{currentSource.name}}</h3>
@@ -43,7 +44,7 @@
                     </span>
                 </div>
                 <div class="slideshow-thumbnails" ng-switch-when="top">
-                    <ul class="unstyle">
+                    <ul class="unstyled">
                         <li ng-repeat="feed in feeds">
                             <a ng-click="selectFeed(feed)">{{feed.name}}</a>
                         </li>

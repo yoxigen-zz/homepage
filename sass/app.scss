@@ -1,5 +1,6 @@
 @import "dark";
 @import "font-awesome";
+@import "bourbon/bourbon";
 
 $headerHeight: 45px;
 $headerPadding: 0 0 0 15px;
@@ -15,8 +16,7 @@ $modalHeaderHeight: 40px;
 @font-face{
   font-family: 'Alef';
   src: url('fonts/AlefAlef-regular.eot');
-  src: url('fonts/Alef-regular.eot?#iefix')
-  format('embedded-opentype'),
+  src: url('fonts/Alef-regular.eot?#iefix') format('embedded-opentype'),
   url('fonts/Alef-regular.woff') format('woff'),
   url('fonts/Alef-regular.ttf') format('truetype'),
   url('fonts/Alef-regular.svg#webfont') format('svg');
@@ -29,7 +29,7 @@ body{
   background: $background;
   color: $color;
   font-family: 'Calibri', 'Muli', 'Alef', Arial, sans-serif;
-  -webkit-perspective: 800px;
+  @include perspective(800px);
   overflow: hidden
 }
 .clearfix::after{
@@ -55,8 +55,8 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
 .content-text{ padding: $contentPadding; }
 @-webkit-keyframes rotating {
-  from{ -webkit-transform: rotate(0deg); }
-  to{ -webkit-transform: rotate(360deg); }
+  from{ @include transform(rotate(0deg)); }
+  to{ @include transform(rotate(360deg)); }
 }
 
 .btn, .small-btn{
@@ -83,12 +83,12 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 }
 
 .rotating{
-  -webkit-animation: rotating 2s linear infinite;
+  @include animation(rotating 2s linear infinite);
 }
 .pull-right{ float: right }
 .pull-left{ float: left }
 .inverted{
-  -webkit-transform: rotateY(180deg);
+  @include transform(rotateY(180deg));
 }
 .dimmed{ opacity: .3 }
 .centered{
@@ -129,7 +129,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
 .login{
   font-size: 1.4em;
-  -webkit-transform: translateY(-.5em);
+  @include transform(translateY(-.5em));
 }
 
 .item-expand{
@@ -140,19 +140,16 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   height: 1.4em;
   width: 2em;
   margin-left: -11px;
-  -webkit-user-select: none;
+  @include user-select(none);
 
   &:hover{ color: White }
   i{
     width: .8em;
-    -webkit-transform: translateX(9px) translateY(2px) scaleX(.55) scaleY(.9);
-    transform: translateX(9px) translateY(2px) scaleX(.55) scaleY(.9);
-    -webkit-transition: -webkit-transform 200ms ease-out;
-    transition: -webkit-transform 200ms ease-out;
+    @include transform(translateX(9px) translateY(2px) scaleX(.55) scaleY(.9));
+    @include transition(transform 200ms ease-out);
   }
   &.item-expand-collapse i{
-    -webkit-transform: translateX(9px) translateY(1px) scaleX(.9) scaleY(.55) rotateZ(90deg);
-    transform: translateX(9px) translateY(1px) scaleX(.9) scaleY(.55) rotateZ(90deg);
+    @include transform(translateX(9px) translateY(1px) scaleX(.9) scaleY(.55) rotateZ(90deg));
   }
 }
 [dir=rtl]{
@@ -163,12 +160,10 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     i{
       float: right;
       text-align: right;
-      -webkit-transform: translateX(-9px) translateY(2px) scaleX(-.55) scaleY(.9);
-      transform: translateX(-9px) translateY(2px) scaleX(-.55) scaleY(.9);
+      @include transform(translateX(-9px) translateY(2px) scaleX(-.55) scaleY(.9));
     }
     &.item-expand-collapse i{
-      -webkit-transform: translateX(-9px) translateY(3px) scaleX(-.9) scaleY(.55) rotateZ(90deg);
-      transform: translateX(-9px) translateY(3px) scaleX(-.9) scaleY(.55) rotateZ(90deg);
+      @include transform(translateX(-9px) translateY(3px) scaleX(-.9) scaleY(.55) rotateZ(90deg));
     }
   }
 }
@@ -197,7 +192,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 #content{
   top: $headerHeight + $contentsPadding;
   z-index: 10;
-  -webkit-transition: all 800ms ease-out;
+  @include transition(all 800ms ease-out);
   left: $contentsPadding;
   right: $contentsPadding;
   bottom: $contentsPadding;
@@ -213,7 +208,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 }
 
 .background-enabled #content{
-  -webkit-transform: translateZ(820px);
+  @include transform(translateZ(820px));
   opacity: 0;
 }
 .module-wrapper{
@@ -238,7 +233,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     border-radius: $moduleRadius $moduleRadius 0 0;
     white-space: nowrap;
     cursor: move;
-    -webkit-transition: background 200ms ease-out;
+    @include transition(background 200ms ease-out);
     -moz-transition: background 200ms ease-out;
     transition: background 200ms ease-out;
 
@@ -267,7 +262,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
         color: $headerBtnColorActive;
       }
       &.refreshing .icon-refresh{
-        -webkit-animation: rotating 2s linear infinite;
+        @include animation(rotating 2s linear infinite);
       }
     }
     [dir=rtl] .module-settings-btn{ float: left }
@@ -317,8 +312,8 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     border-bottom: solid 1px $moduleSettingsBorderColor;
     padding: $contentPadding;
 
-    -webkit-transform: translateY(-100%);
-    -webkit-transition: -webkit-transform 300ms ease-out;
+    @include transform(translateY(-100%));
+    @include transition(-webkit-transform 300ms ease-out);
 
     .module-settings-remove{
       float: right;
@@ -360,7 +355,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
       outline: none;
       margin: 0;
 
-      -webkit-transition: background 200ms ease-out;
+      @include transition(background 200ms ease-out);
       -moz-transition: background 200ms ease-out;
       transition: background 200ms ease-out;
     }
@@ -372,7 +367,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     .long-text{ width: 90% }
   }
 
-  .settings-enabled .module-settings{ -webkit-transform: translateY(0); box-shadow: 0 3px 12px rgba(0,0,0,.8); }
+  .settings-enabled .module-settings{ @include transform(translateY(0)); box-shadow: 0 3px 12px rgba(0,0,0,.8); }
 }
 
 .module-resize-drag{
@@ -404,7 +399,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   margin-left: -22px;
   z-index: 1000;
   background: url(../img/loader.png) no-repeat 0 0;
-  &.active{ display: block; -webkit-animation: rotating 2s linear infinite; }
+  &.active{ display: block; @include animation(rotating 2s linear infinite); }
 }
 
 #main_loader{
@@ -425,7 +420,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   margin-bottom: 5px;
 
   img{
-    -webkit-animation: rotating 2s linear infinite;
+    @include animation(rotating 2s linear infinite);
     -moz-animation: rotating 2s linear infinite;
     -ms-animation: rotating 2s linear infinite;
     width: 42px;
@@ -441,6 +436,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 @import "items-list";
 @import "popup";
 @import "gallery";
+@import "forms";
 
 /* Scrollbars */
 *::-webkit-scrollbar {

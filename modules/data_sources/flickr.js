@@ -27,7 +27,7 @@ angular.module("Homepage").factory("flickr", ["$q", "$http", function($q, $http)
     var convert = {
         photos: function(flickrPhotos){
             var photos = [];
-            angular.forEach(flickrPhotos, function(flickrPhoto){console.log(flickrPhoto)
+            angular.forEach(flickrPhotos, function(flickrPhoto){
                 photos.push({
                     title: flickrPhoto.title,
                     src: flickrPhoto.url_o || flickrPhoto.url_l,

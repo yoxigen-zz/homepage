@@ -82,5 +82,8 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
         $scope.$emit("loadError", { module: $scope.module.name, error: error });
     }
 
-    $scope.loadFeeds();
+    if ($scope.module.settings.feed || $scope.module.settings.feeds)
+        $scope.loadFeeds();
+    else
+        $scope.module.icon = "img/rss_16x16.png";
 }]);

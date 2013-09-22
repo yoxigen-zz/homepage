@@ -1,1 +1,12 @@
-<ng-include src="includes.itemsList" ng-controller="RssController"></ng-include>
+<div class="rss-add-box" ng-show="!module.settings.feed && !module.settings.feeds">
+    <form ng-submit="searchRss(rssSearchValue)">
+        <input type="text" class="search" ng-model="rssSearchValue" placeholder="URL or name of RSS to add" />
+        <input type="submit" value="Search" />
+    </form>
+    <ul class="unstyled rss-add-list">
+        <li>
+            <a ng-repeat="feed in searchFeeds" ng-click="addFeed(feed)">{{feed.name}}</a>
+        </li>
+    </ul>
+</div>
+<ng-include src="includes.itemsList" ng-controller="RssController" ng-show="module.settings.feed || module.settings.feeds"></ng-include>

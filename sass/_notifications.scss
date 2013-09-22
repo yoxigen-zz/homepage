@@ -45,7 +45,7 @@
       border-bottom: $notificationBorderBottom;
       position: relative;
       background: darken($notificationsHoverBackground, 20%);
-      -webkit-transition: background 1s ease-out;
+      @include transition(background 1s ease-out);
       -webkit-transition-delay: 5s;
       &:last-child{ border-bottom: none; padding-bottom: 0 }
 

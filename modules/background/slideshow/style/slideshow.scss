@@ -4,6 +4,8 @@ $slideshowMenuSourcesWidth: 160px;
 $slideshowMenuSourcesItemHeight: 40px;
 $slideshowMenuContentsMargins: 2px;
 
+@import "../../../../sass/bourbon/bourbon";
+
 .slideshow{
   overflow: hidden;
 
@@ -21,9 +23,9 @@ $slideshowMenuContentsMargins: 2px;
 
   .slideshow-image{
     opacity: 0;
-    -webkit-transition: opacity 1s ease-out;
-    -webkit-transition-delay: 500ms;
-    background-position: center center;
+    @include transition(opacity 1s ease-out);
+    @include transition-delay(500ms);
+    background-position: center 20%;
     background-repeat: no-repeat;
 
     &.active{
@@ -41,8 +43,8 @@ $slideshowMenuContentsMargins: 2px;
     background: rgba(0,0,0,.6);
     z-index: 10;
 
-    -webkit-transform: translateY(-$slideshowMenuHeaderHeight);
-    -webkit-transition: all 300ms ease-out;
+    @include transform(translateY(-$slideshowMenuHeaderHeight));
+    @include transition(all 300ms ease-out);
 
     &.open{
     }
@@ -124,7 +126,7 @@ $slideshowMenuContentsMargins: 2px;
       margin-top: $slideshowMenuContentsMargins;
 
       &:hover{
-        background: rgba(0, 96, 146, 0.45);
+        background: none;
       }
 
       &.selected{
@@ -132,6 +134,12 @@ $slideshowMenuContentsMargins: 2px;
         color: white;
       }
     }
+  }
+
+  .slideshow-menu-sources-bottom{
+    background: rgba(0,0,0,.2);
+    margin-top: $slideshowMenuContentsMargins;
+    height: 100%;
   }
 
   .slideshow-source-contents{
@@ -182,7 +190,7 @@ $slideshowMenuContentsMargins: 2px;
 
     &.open{
       opacity: 1;
-      -webkit-transform: translateY(-100%);
+      @include transform(translateY(-100%));
     }
   }
 }

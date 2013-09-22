@@ -40,10 +40,9 @@ $galleryTextHeight: 25px;
 }
 .gallery-thumbnails{
   height: $galleryThumbnailsHeight;
-  bottom: 0;
+  bottom: 1px;
   text-align: center;
   border-top: solid 1px rgba(255,255,255,.1);
-  box-sizing: border-box;
 
   a{
     height: $galleryThumbnailsHeight - $galleryThumbnailsPadding * 2;

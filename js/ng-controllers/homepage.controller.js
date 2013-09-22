@@ -96,13 +96,23 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         $scope.callService("module_settings", "open");
     };
 
+    var hideContentsTimeoutPromise;
+
     $scope.background = {
         enabled: false,
         enable: function(){
+            $timeout.cancel(hideContentsTimeoutPromise);
             $scope.background.enabled = true;
+            hideContentsTimeoutPromise = $timeout(function(){
+                $scope.hideContents = true;
+            }, 800);
         },
         disable: function(){
-            $scope.background.enabled = false;
+            $timeout.cancel(hideContentsTimeoutPromise);
+            $scope.hideContents = false;
+            $timeout(function(){
+                $scope.background.enabled = false;
+            });
         }
     };
 
@@ -129,16 +139,6 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
             setModel(data[0], data[1]);
         });
     }
-
-    var totalWidgetsLoaded = 0,
-        totalWidgetsToLoad = 0;
-
-    var widgetsOnLoadDeregister = $scope.$on("load", function(e, data){
-        if (++totalWidgetsLoaded === totalWidgetsToLoad){
-            widgetsOnLoadDeregister();
-            $scope.homepageLoaded = true;
-        }
-    });
 
     function setModel(_modelData, layoutData){
         modelData = _modelData;
@@ -170,11 +170,12 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
             row.columns.forEach(function(column){
                 column.width = column.width || (100 / row.columns.length) + "%";
                 column.widgets.forEach(function(widget, i){
-                    totalWidgetsToLoad++;
                     column.widgets[i] = findWidgetById(widget.id);
                     column.widgets[i].height = widget.height || (100 / column.widgets.length) + "%";
                 });
             });
         });
+
+        $scope.homepageLoaded = true;
     }
 }]);

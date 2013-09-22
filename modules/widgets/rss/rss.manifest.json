@@ -11,6 +11,7 @@
 	"html": {
 		"widget": "rss_reader.html"
 	},
+    "css": ["rss.css" ],
 	"settingsOptions": [
 		{
 			"label": "Display mode",

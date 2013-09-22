@@ -1,0 +1,12 @@
+input[type=text], input[type=password]{
+  border: solid 1px $linkColor;
+  padding: 0 7px;
+  border-radius: 3px;
+  background: rgba(255,255,255,.9);
+  @include transition(all 200ms ease-out);
+  outline: none;
+
+  &:focus{
+    background: White;
+  }
+}

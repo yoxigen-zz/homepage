@@ -1,6 +1,6 @@
 .thumbnails{
-  -webkit-column-width: 120px;
-  -webkit-column-gap: 10px;
+  @include column-width(120px);
+  @include column-gap(10px);
   padding: 5px 10px;
 
   &:after{ content: ""; display: block; clear: both; }

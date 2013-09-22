@@ -4,7 +4,7 @@
   padding: $headerPadding;
   background: $headerBackgroundColor;
   color: $headerColor;
-  -webkit-transition: opacity 600ms ease-out;
+  @include transition(opacity 600ms ease-out);
   position: relative;
   z-index: 15;
 

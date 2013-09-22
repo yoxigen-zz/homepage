@@ -5,6 +5,7 @@
     <link href='http://fonts.googleapis.com/css?family=Muli:400,400italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="sass/app.css" />
     <link rel="icon" href="img/icon128.png" type="image/x-icon">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="js/lib/jquery-ui-1.10.1.custom.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -34,7 +35,7 @@
         <h1>Homepage</h1>
     </header>
     <div id="backgroundOverlay" class="fill" ng-click="background.enable()" ng-show="!background.enabled"></div>
-    <div id="content" class="fill">
+    <div id="content" class="fill" ng-show="!hideContents">
         <div ng-repeat="row in layout.rows" class="layout-row" ng-style="{ height: row.height }">
             <div ng-repeat="column in row.columns"
                  class="layout-column"

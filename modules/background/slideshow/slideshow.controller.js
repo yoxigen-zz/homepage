@@ -67,6 +67,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
         $scope.currentSource = source;
         $scope.currentSourceItems = [];
+        $scope.currentUserName = null;
 
         if (source.auth){
             source.auth.isLoggedIn().then(function(isLoggedIn){
@@ -85,6 +86,11 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     };
 
     $scope.selectFeed = function(feed, saveToCloud){
+        if (!feed){
+            console.error("No feed specified.");
+            return;
+        }
+
         if (feed === lastFeed){
             $scope.contentsType = "images";
             currentImageIndex = -1;
@@ -175,7 +181,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
     function loadDefaultFeed(){
         $scope.selectSource(dataImages.flickr);
-        $scope.selectFeed($scope.currentSource.images.feeds.public[0], false);
+        $scope.selectFeed($scope.currentSource.images.getFeeds().publicFeeds[0], false);
     }
 
     var loaderTimeoutPromise;
@@ -196,6 +202,10 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     }
 
     $scope.selectImage = function(imageIndex){
+        if (!images || !images.length){
+            console.error("No images to select from.");
+            return;
+        }
         $timeout.cancel(playTimeoutPromise);
 
         var prevImage = $scope.currentImages[currentImagePosition];

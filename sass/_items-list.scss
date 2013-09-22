@@ -63,7 +63,7 @@ $itemDetailsWidth: 120px;
       }
       .item-text{ margin: 0 !important }
       .item-header .icon-double-angle-right{
-        -webkit-transform: rotateZ(90deg);
+        @include transform(rotateZ(90deg));
       }
     }
     &:after{
@@ -152,7 +152,7 @@ $itemDetailsWidth: 120px;
   [dir=rtl]{
     text-align: right;
     .item-header .item-header-btn{ float: left; }
-    .item-header .icon-double-angle-right{ -webkit-transform: scaleX(-1) }
+    .item-header .icon-double-angle-right{ @include transform(scaleX(-1)); }
     .item-details{
       float: right;
       .icon, .favicon{ margin-right: 0; margin-left: 6px; }
