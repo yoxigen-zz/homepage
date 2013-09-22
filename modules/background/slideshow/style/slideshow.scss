@@ -61,6 +61,10 @@ $slideshowMenuContentsMargins: 2px;
     }
   }
 
+  .slideshow-main-menu-header-controls{
+    i{ font-size: .8em; margin-right: 4px; }
+  }
+
   .slideshow-menu-header-controls{
     float: right;
 
@@ -69,6 +73,11 @@ $slideshowMenuContentsMargins: 2px;
       height: $slideshowMenuHeaderHeight;
       line-height: $slideshowMenuHeaderHeight;
       padding: 0 7px;
+      color: White;
+
+      &:hover{
+        color: rgb(87, 198, 255);
+      }
     }
   }
 

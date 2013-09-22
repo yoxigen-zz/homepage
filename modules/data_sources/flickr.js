@@ -18,17 +18,30 @@ angular.module("Homepage").factory("flickr", ["$q", "$http", function($q, $http)
     }
 
     var feeds = {
-        public: [
-            { name: "Featured Photos", method: "flickr.interestingness.getList", extras: "media, path_alias, url_sq, url_t, url_l, url_o" }
+        privateFeeds: [],
+        publicFeeds: [
+            { name: "Featured Photos", method: "flickr.interestingness.getList", extras: "path_alias, url_sq, url_t, url_l, url_o, owner_name" }
         ]
     };
 
     var convert = {
         photos: function(flickrPhotos){
             var photos = [];
-            angular.forEach(flickrPhotos, function(flickrPhoto){
+            angular.forEach(flickrPhotos, function(flickrPhoto){console.log(flickrPhoto)
                 photos.push({
-                    src: flickrPhoto.url_o || flickrPhoto.url_l
+                    title: flickrPhoto.title,
+                    src: flickrPhoto.url_o || flickrPhoto.url_l,
+                    width: Number(flickrPhoto.width_o || flickrPhoto.width_l),
+                    height: Number(flickrPhoto.height_o || flickrPhoto.width_l),
+                    thumbnail: {
+                        src: flickrPhoto.url_sq,
+                        width: Number(flickrPhoto.width_sq),
+                        height: Number(flickrPhoto.height_sq)
+                    },
+                    author: {
+                        name: flickrPhoto.owner_name,
+                        link: "http://flickr.com/photos/" + (flickrPhoto.pathalias || flickrPhoto.owner)
+                    }
                 });
             })
 
@@ -40,7 +53,9 @@ angular.module("Homepage").factory("flickr", ["$q", "$http", function($q, $http)
         name: "Flickr",
         id: "flickr",
         images: {
-            feeds: feeds,
+            getFeeds: function(){
+                return feeds;
+            },
             load: function(feed){
                 if (!feed)
                     feed = feeds.featured;

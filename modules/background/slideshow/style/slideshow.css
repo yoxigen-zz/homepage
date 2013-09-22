@@ -36,13 +36,19 @@
     .slideshow .slideshow-menu-header h2 {
       font-size: 17px;
       font-weight: bold; }
+  .slideshow .slideshow-main-menu-header-controls i {
+    font-size: .8em;
+    margin-right: 4px; }
   .slideshow .slideshow-menu-header-controls {
     float: right; }
     .slideshow .slideshow-menu-header-controls a {
       display: inline-block;
       height: 40px;
       line-height: 40px;
-      padding: 0 7px; }
+      padding: 0 7px;
+      color: White; }
+      .slideshow .slideshow-menu-header-controls a:hover {
+        color: #57c6ff; }
   .slideshow .thumbnail-img {
     width: 120px;
     height: 120px;

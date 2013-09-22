@@ -62,6 +62,9 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     };
 
     $scope.selectSource = function(source){
+        $scope.currentFeed = null;
+        $scope.contentsType = "top";
+
         $scope.currentSource = source;
         $scope.currentSourceItems = [];
 
@@ -69,32 +72,49 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
             source.auth.isLoggedIn().then(function(isLoggedIn){
                 $scope.currentSourceIsLoggedIn = isLoggedIn;
                 if (isLoggedIn){
-                    loadSourceItems(source);
                     setCurrentUser();
+                    var feeds = source.images.getFeeds();
+                    $scope.feeds = feeds.privateFeeds.concat(feeds.publicFeeds);
                 }
+                else
+                    $scope.feeds = source.images.getFeeds().publicFeeds;
             });
         }
         else
-            loadSourceItems(source);
+            $scope.feeds = source.images.getFeeds().publicFeeds;
     };
 
     $scope.selectFeed = function(feed, saveToCloud){
-        showLoader();
-        $scope.currentSource.images.load(feed).then(function(data){
-            loadImages(data);
-            hideLoader();
+        if (feed === lastFeed){
+            $scope.contentsType = "images";
+            currentImageIndex = -1;
+            $scope.next();
+        }
+        else{
+            if (feed.type === "albums"){
+                $scope.getAlbumsForCurrentSource();
+                $scope.currentFeed = null;
+            }
+            else{
+                showLoader();
+                $scope.currentSource.images.load(feed).then(function(data){
+                    loadImages(data);
+                    hideLoader();
 
-            $scope.contentsType = feed.type;
-        });
-        $scope.currentFeed = feed;
+                    $scope.contentsType = "images";
+                    lastFeed = feed;
+                });
 
-        if (saveToCloud !== false)
-            saveConfigToCloud();
+                $scope.currentFeed = feed;
+
+                if (saveToCloud !== false)
+                    saveConfigToCloud();
+            }
+        }
     };
 
     $scope.sourceLogin = function(source){
         source.auth.login().then(function(){
-            loadSourceItems(source);
             setCurrentUser();
         });
     };
@@ -107,13 +127,15 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
     };
 
     var currentSourceAlbums,
-        albumsSource;
+        albumsSource,
+        lastFeed;
 
     $scope.getAlbumsForCurrentSource = function(){
         if (!$scope.currentSource.images.getAlbums)
             return false;
 
         $scope.contentsType = "albums";
+        $scope.currentFeed = null;
 
         if (albumsSource !== $scope.currentSource || !currentSourceAlbums){
             $scope.currentSource.images.getAlbums().then(function(albums){
@@ -148,24 +170,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         images = utils.arrays.shuffle(imagesData);
         $scope.currentFeedImages = images;
         currentImageIndex = -1;
-        advanceImage(1);
-    }
-
-    function loadSourceItems(source, feed){
-        if (!source.images.getAlbums)
-            return false;
-
-        if (feed){
-            source.images.getAlbums().then(function(result){
-                $scope.currentSourceItems = result.items;
-                $scope.contentsType = "albums";
-            });
-        }
-        else
-            source.images.getAlbums().then(function(albums){
-                $scope.currentSourceItems = albums;
-                $scope.contentsType = "albums";
-            });
+        $scope.next();
     }
 
     function loadDefaultFeed(){

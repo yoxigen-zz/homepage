@@ -92,6 +92,13 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
         }
     };
 
+    var feeds = {
+        publicFeeds: [],
+        privateFeeds: [
+            { name: "My Albums", type: "albums" }
+        ]
+    };
+
     function fbFql(query){
         var deferred = $q.defer(),
             params = angular.isObject(query)
@@ -239,6 +246,9 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                 }, deferred.reject);
 
                 return deferred.promise;
+            },
+            getFeeds: function(){
+               return feeds;
             },
             load: function(feed){
                 return feedMethods[feed.type](feed);

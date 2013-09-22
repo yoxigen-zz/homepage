@@ -11,9 +11,10 @@
     </div>
     <div class="slideshow-menu" ng-class="{ open: slideshowMenuOpen }">
         <header class="slideshow-menu-header" ng-click="toggleMenu()">
-            <div class="slideshow-menu-header-controls">
+            <div class="slideshow-menu-header-controls slideshow-main-menu-header-controls">
                 <a ng-click="pause()" ng-show="isPlaying"><i class="icon-pause"></i> Pause slideshow</a>
                 <a ng-click="play()" ng-show="!isPlaying"><i class="icon-play"></i> Start slideshow</a>
+                <a ng-click="background.disable()" title="Close slideshow"><i class="icon-remove icon-large"></i></a>
             </div>
             <h2>Slideshow</h2>
         </header>
@@ -31,12 +32,22 @@
                     </div>
 
                     <h3>{{currentSource.name}}</h3>
-                    <span ng-show="currentFeed.type == 'album'">
+                    <span ng-show="currentFeed.type == 'album' || contentsType == 'albums'" ng-switch="contentsType">
                         <i class="icon-caret-right"></i>
-                        <a ng-click="getAlbumsForCurrentSource()">Albums</a>
+                        <a ng-switch-when="album" ng-click="getAlbumsForCurrentSource()">Albums</a>
+                        <span ng-switch-when="albums">Albums</span>
                     </span>
-                    <i class="icon-caret-right"></i>
-                    {{currentFeed.name}}
+                    <span ng-show="currentFeed">
+                        <i class="icon-caret-right"></i>
+                        {{currentFeed.name}}
+                    </span>
+                </div>
+                <div class="slideshow-thumbnails" ng-switch-when="top">
+                    <ul class="unstyle">
+                        <li ng-repeat="feed in feeds">
+                            <a ng-click="selectFeed(feed)">{{feed.name}}</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="slideshow-thumbnails" ng-switch-when="albums">
                     <a ng-repeat="album in currentSourceAlbums"
@@ -47,7 +58,7 @@
                         ng-style="{ 'background-image': 'url(' + album.thumbnail.src + ')' }">
                     </a>
                 </div>
-                <div class="slideshow-thumbnails slideshow-thumbnails-images" ng-switch-when="album">
+                <div class="slideshow-thumbnails slideshow-thumbnails-images" ng-switch-when="images">
                     <a ng-repeat="image in currentFeedImages"
                        ng-click="selectImage($index)"
                        title="{{image.title}}"
