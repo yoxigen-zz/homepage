@@ -39,17 +39,17 @@
                     {{currentFeed.name}}
                 </div>
                 <div class="slideshow-thumbnails" ng-switch-when="albums">
-                    <a ng-repeat="item in currentSourceItems"
-                       ng-click="selectFeed(item)"
-                       title="{{item.name}} ({{item.imageCount}})"
+                    <a ng-repeat="album in currentSourceAlbums"
+                       ng-click="selectFeed(album)"
+                       title="{{album.name}} ({{album.imageCount}})"
                        class="thumbnail-img"
-                       ng-class="{ selected: currentFeed == item }"
-                        ng-style="{ 'background-image': 'url(' + item.thumbnail.src + ')' }">
+                       ng-class="{ selected: currentFeed == album }"
+                        ng-style="{ 'background-image': 'url(' + album.thumbnail.src + ')' }">
                     </a>
                 </div>
                 <div class="slideshow-thumbnails slideshow-thumbnails-images" ng-switch-when="album">
                     <a ng-repeat="image in currentFeedImages"
-                       ng-click="selectImage(image)"
+                       ng-click="selectImage($index)"
                        title="{{image.title}}"
                        class="thumbnail-img"
                        ng-class="{ selected: currentImage == image }"

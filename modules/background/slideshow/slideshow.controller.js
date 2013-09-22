@@ -105,6 +105,23 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
             $scope.currentUserName = null;
         }
     };
+
+    var currentSourceAlbums,
+        albumsSource;
+
+    $scope.getAlbumsForCurrentSource = function(){
+        if (!$scope.currentSource.images.getAlbums)
+            return false;
+
+        $scope.contentsType = "albums";
+
+        if (albumsSource !== $scope.currentSource || !currentSourceAlbums){
+            $scope.currentSource.images.getAlbums().then(function(albums){
+                $scope.currentSourceAlbums = albums;
+            });
+        }
+    };
+
     function setCurrentUser(){
         $scope.currentSource.auth.getCurrentUser().then(function(user){
             $scope.currentUserName = user.name;
@@ -161,31 +178,29 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         $timeout.cancel(loaderTimeoutPromise);
         loaderTimeoutPromise = $timeout(function(){
             $scope.slideshowImageLoading = true;
-        }, 200);
-    }
-
-    function setLastImage(image){
-        storage.local.setItem("lastImage", image);
+        }, 120);
     }
 
     function hideLoader(){
         $timeout.cancel(loaderTimeoutPromise);
         $scope.slideshowImageLoading = false;
     }
-    function advanceImage(direction) {
+
+    function setLastImage(image){
+        storage.local.setItem("lastImage", image);
+    }
+
+    $scope.selectImage = function(imageIndex){
         $timeout.cancel(playTimeoutPromise);
 
         var prevImage = $scope.currentImages[currentImagePosition];
 
         currentImagePosition = currentImagePosition ? 0 : 1;
-        currentImageIndex += direction;
-        if (currentImageIndex === images.length)
-            currentImageIndex = 0;
-        else if (currentImageIndex < 0)
-            currentImageIndex = images.length - 1;
+        currentImageIndex = imageIndex;
+
+        $scope.currentImage = images[currentImageIndex];
 
         showLoader();
-        $scope.slideshowImageLoading = true;
         imageCache.cacheImage(images[currentImageIndex].src).then(function(){
             $scope.currentImages[currentImagePosition].src = images[currentImageIndex].src;
             hideLoader();
@@ -206,14 +221,25 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
             if ($scope.isPlaying){
                 playTimeoutPromise = $timeout(function(){
-                    advanceImage(direction);
+                    $scope.next();
                 }, $scope.module.settings.interval * 1000);
             }
         }, function(error){
             console.error("Can't load image: %s. Error: ", images[currentImageIndex].src, error);
-            $scope.slideshowImageLoading = false;
-            advanceImage(direction);
+            hideLoader();
+            $scope.next();
         });
+    }
+
+    function advanceImage(direction) {
+        var nextImageIndex = currentImageIndex + direction;
+
+        if (nextImageIndex === images.length)
+            nextImageIndex = 0;
+        else if (nextImageIndex < 0)
+            nextImageIndex = images.length - 1;
+
+        $scope.selectImage(nextImageIndex);
     }
 }]);
 
