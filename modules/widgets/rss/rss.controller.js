@@ -49,6 +49,9 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
             rss.search(query).then(function(feeds){
                 $scope.feedSearchResults = feeds;
                 $scope.hiddenIcons = {};
+
+                if (!feeds || !feeds.length)
+                    $scope.noResultsFound = true;
             });
         }
     };
@@ -74,6 +77,9 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
         }
         else{
             $scope.rssFeeds[feed.url] = true;
+            if (!$scope.module.settings.feeds)
+                $scope.module.settings.feeds = [];
+
             $scope.module.settings.feeds.push(feed);
         }
 
@@ -92,12 +98,15 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
     $scope.onAddInputChange = function(value){
         if (!value){
             $scope.feedSearchResults = null;
+            $scope.noResultsFound = false;
         }
     };
 
     $scope.closeAddFeeds = function(){
         $scope.addFeeds = false;
         $scope.feedSearchResults = null;
+        $scope.noResultsFound = false;
+        $scope.rssSearchValue = null;
     };
 
     $scope.$on("updateSettings", function(e, data){
@@ -147,7 +156,7 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
         $scope.$emit("loadError", { module: $scope.module.name, error: error });
     }
 
-    if ($scope.module.settings.feed || $scope.module.settings.feeds.length){
+    if ($scope.module.settings.feed || ($scope.module.settings.feeds && $scope.module.settings.feeds.length)){
         $scope.loadFeeds();
         if ($scope.module.settings.feeds){
             angular.forEach($scope.module.settings.feeds, function(feed){
