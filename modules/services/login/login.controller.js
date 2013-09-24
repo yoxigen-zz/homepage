@@ -47,6 +47,14 @@ angular.module("Login").controller("LoginController", ["$scope", "users", functi
 
     };
 
+    $scope.facebookLogin = function(){
+        users.facebookLogin().then(function(user){
+            onLogin(user);
+        }, function(error){
+            $scope.loginError = error.message;
+        });
+    };
+
     function onLogin(user){
         $scope.loginOpen = false;
         $scope.loginError = null;

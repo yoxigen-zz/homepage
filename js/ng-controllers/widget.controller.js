@@ -7,6 +7,12 @@ angular.module("Homepage").controller("WidgetController", ["$scope", "$timeout",
     };
 
     $scope.settings = {
+        broadcast: function(event, data){
+            $scope.$broadcast(event, data);
+        },
+        close: function(){
+            $scope.settingsEnabled = false;
+        },
         getSettingTemplateId: function(setting){
             return "setting." + setting.type;
         },

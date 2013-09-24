@@ -53,6 +53,12 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   padding: 0;
 }
 
+.hidden{
+  visibility: hidden;
+}
+.right{
+  text-align: right;
+}
 .content-text{ padding: $contentPadding; }
 @-webkit-keyframes rotating {
   from{ @include transform(rotate(0deg)); }
@@ -80,6 +86,26 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   line-height: 26px;
   font-size: 1em;
   padding: 0 10px;
+}
+
+.facebook-login-btn{
+  @include linear-gradient(to bottom, #5074B0, #405786);
+  border: solid 1px #394A6A;
+  color: white;
+  white-space: nowrap;
+  padding-left: 0;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  width: auto !important;
+  margin-left: 20px;
+
+  span{
+    display: inline-block;
+    border-right: solid 1px #394A6A;
+    padding: 0 15px;
+    font-size: 22px;
+    margin-right: 7px;
+  }
 }
 
 .rotating{
@@ -233,9 +259,8 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     border-radius: $moduleRadius $moduleRadius 0 0;
     white-space: nowrap;
     cursor: move;
+    position: relative;
     @include transition(background 200ms ease-out);
-    -moz-transition: background 200ms ease-out;
-    transition: background 200ms ease-out;
 
     &:hover{
       background: $moduleHeaderBackgroundHover
@@ -268,6 +293,15 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
     [dir=rtl] .module-settings-btn{ float: left }
   }
 
+  .module-header-link{
+    position: absolute;
+    top: 0;
+    left: 12px;
+    right: 67px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .module-content{
     position: absolute;
     overflow: hidden;
@@ -297,77 +331,6 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   .module-content-with-header{
     top: $moduleHeaderHeight + $scrollbarMargin;
   }
-
-  .module-settings{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    background: $moduleSettingsBackground;
-    color: $moduleSettingsColor;
-    bottom: auto;
-    -webkit-mask-image: none;
-    z-index: 2;
-    border-bottom: solid 1px $moduleSettingsBorderColor;
-    padding: $contentPadding;
-
-    @include transform(translateY(-100%));
-    @include transition(-webkit-transform 300ms ease-out);
-
-    .module-settings-remove{
-      float: right;
-      margin-top: 4px;
-    }
-
-    h3{
-      height: 28px;
-      margin-bottom: 1em;
-      border-bottom: solid 1px darken($moduleSettingsColor, 65%);
-    }
-    label{
-      display: block;
-      width: $moduleSettingsLabelWidth;
-      position: absolute;
-      top: 4px;
-      left: 0;
-      margin-right: 10px;
-    }
-    .module-settings-options{
-      list-style: none;
-      margin: 0;
-      padding: 0;
-
-      & > li{
-        margin-bottom: .5em;
-        position: relative;
-      }
-    }
-    .setting-inputs{
-      padding-left: $moduleSettingsLabelWidth + 15;
-    }
-
-    input[type=text], input[type=number], select{
-      border: solid 1px $moduleSettingsInputBorderColor;
-      color: $moduleSettingsInputColor;
-      background: $moduleSettingsInputBackground;
-      padding: 3px 8px;
-      outline: none;
-      margin: 0;
-
-      @include transition(background 200ms ease-out);
-      -moz-transition: background 200ms ease-out;
-      transition: background 200ms ease-out;
-    }
-
-    input[type=text]:focus, input[type=number]:focus{
-      background: White;
-    }
-
-    .long-text{ width: 90% }
-  }
-
-  .settings-enabled .module-settings{ @include transform(translateY(0)); box-shadow: 0 3px 12px rgba(0,0,0,.8); }
 }
 
 .module-resize-drag{
@@ -435,6 +398,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 @import "thumbnails";
 @import "items-list";
 @import "popup";
+@import "module_settings";
 @import "gallery";
 @import "forms";
 

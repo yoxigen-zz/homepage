@@ -2,6 +2,9 @@ angular.module("HomepageUsers", ["Storage"]).factory("users", ["$q", "parse", "S
     var usersStorage = new Storage("users");
 
     var methods = {
+        facebookLogin: function(){
+            return parse.facebookLogin();
+        },
         getCurrentUser: function(){
             return parse.getCurrentUser();
         },

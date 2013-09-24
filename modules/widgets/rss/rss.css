@@ -1,0 +1,55 @@
+.rss-add-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  -webkit-transform: translateY(100%);
+  -moz-transform: translateY(100%);
+  -ms-transform: translateY(100%);
+  -o-transform: translateY(100%);
+  transform: translateY(100%);
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+  height: 50%;
+  margin-top: -20px;
+  padding: 0 20px;
+  box-sizing: border-box; }
+  .rss-add-box form {
+    height: 30px;
+    margin-bottom: 15px;
+    text-align: center; }
+  .rss-add-box input[type=text] {
+    height: 30px;
+    width: 80%;
+    max-width: 300px; }
+  .rss-add-box.rss-add-with-feeds {
+    -webkit-transform: translateY(24px);
+    -moz-transform: translateY(24px);
+    -ms-transform: translateY(24px);
+    -o-transform: translateY(24px);
+    transform: translateY(24px); }
+
+.rss-add-done {
+  float: right;
+  position: relative;
+  z-index: 11;
+  margin-right: 10px; }
+
+.rss-add-empty {
+  text-align: center;
+  margin-top: 20px; }
+
+.rss-add-list {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse; }
+  .rss-add-list tr:hover {
+    background: rgba(255, 255, 255, 0.1); }
+  .rss-add-list td {
+    border: none; }
+  .rss-add-list a {
+    display: inline-block;
+    padding: 5px 0; }
+  .rss-add-list .rss-add-feed-icon {
+    margin-right: 10px; }

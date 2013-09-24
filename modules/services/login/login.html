@@ -20,6 +20,10 @@
                 </p>
                 <div class="form-element">
                     <input class="btn" type="submit" value="{{ newUser && 'Create user' || 'Sign In' }}" />
+                    or
+                    <a class="btn facebook-login-btn" ng-click="facebookLogin()">
+                        <span><i class="icon-facebook"></i></span>
+                        Login with Facebook</a>
                 </div>
             </form>
         </div>

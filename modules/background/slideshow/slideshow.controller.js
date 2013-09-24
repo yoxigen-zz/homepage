@@ -4,7 +4,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         currentImagePosition = 1,
         images,
         playTimeoutPromise,
-        storage = new Storage("slideshow"),
+        storage = new Storage("slideshow", { reuseId: true }),
         configData,
         loadedLastImage;
 

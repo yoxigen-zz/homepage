@@ -16,6 +16,17 @@ angular.module("Homepage").controller("SettingsController", ["$scope", function(
         $scope.settings.onUpdate(setting)
     };
 
+    $scope.addRemoveList = {
+        add: function(eventName){
+            $scope.settings.broadcast(eventName);
+            $scope.settings.close();
+        },
+        remove: function(setting, index){
+            setting.splice(index, 1);
+            $scope.settings.onUpdate(setting);
+        }
+    };
+
     $scope.removeStringFromArraySetting = function(settingName, index){
         var setting = getSetting(settingName);
         if (confirm("Are you sure you wish to remove feed \"" + setting[index] + "\"?")){

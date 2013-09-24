@@ -1,12 +1,21 @@
+@import "../../../sass/bourbon/bourbon";
+$rssFooterHeight: 30px;
+
 .rss-add-box{
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 30px;
+  @include transform(translateY(100%));
+  @include transition(all 300ms ease-out);
+  height: 50%;
+  margin-top: -20px;
+  padding: 0 20px;
+  box-sizing: border-box;
 
   form{
     height: 30px;
+    margin-bottom: 15px;
     text-align: center;
   }
 
@@ -14,5 +23,41 @@
     height: 30px;
     width: 80%;
     max-width: 300px;
+  }
+
+  &.rss-add-with-feeds{
+    @include transform(translateY(24px));
+  }
+}
+
+.rss-add-done{
+  float: right;
+  position: relative;
+  z-index: 11;
+  margin-right: 10px;
+}
+
+.rss-add-empty{
+  text-align: center;
+  margin-top: 20px;
+}
+
+.rss-add-list{
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+
+  tr:hover{
+    background: rgba(255,255,255,.1);
+  }
+
+  td{ border: none }
+  a{
+    display: inline-block;
+    padding: 5px 0;
+  }
+
+  .rss-add-feed-icon{
+    margin-right: 10px;
   }
 }

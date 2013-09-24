@@ -94,16 +94,50 @@ angular.module("GoogleFeed", [])
         return itemText;
     }
 
+    /**
+     * Since the Google Feed API returns feed items from RSS feeds, some feeds might be duplicate.
+     * This function returns only unique feeds.
+     * @param feeds
+     */
+    function getUniqueFeeds(feeds){
+        var found = {},
+            uniqueFeeds = [];
+
+        angular.forEach(feeds, function(feed){
+            if (!found[feed.url]){
+                uniqueFeeds.push(feed);
+                found[feed.url] = true;
+            }
+        });
+
+        return uniqueFeeds;
+    }
+
     var methods = {
         load: function(feedUrls, forceRefresh, options){
             var feeds = angular.isArray(feedUrls) ? feedUrls : [feedUrls],
                 promises = [];
 
             angular.forEach(feeds, function(feed){
-                promises.push(loadFeed(feed, forceRefresh, options));
+                var feedUrl = angular.isObject(feed) ? feed.url : feed;
+                promises.push(loadFeed(feedUrl, forceRefresh, options));
             });
 
             return $q.all(promises);
+        },
+        search: function(query){
+            var deferred = $q.defer();
+
+            google.feeds.findFeeds(query, function(result){
+                $rootScope.$apply(function(){
+                    if (result.error)
+                        deferred.reject(result.error);
+                    else
+                        deferred.resolve(getUniqueFeeds(result.entries));
+                });
+            });
+
+            return deferred.promise;
         }
     };
 

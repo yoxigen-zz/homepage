@@ -87,6 +87,17 @@
         </ul>
         <a class="small-btn module-settings-array-add" ng-click="addStringToArraySetting(setting.name, '')">+ Add more</a>
     </script>
+    <script type="text/ng-template" id="setting.addRemoveList">
+        <ul class="unstyled module-settings-addRemoveList">
+            <li ng-repeat="settingItem in module.settings[setting.name]">
+                <a ng-click="addRemoveList.remove(module.settings[setting.name], $index)" class="module-settings-addRemoveList-remove">Remove</a>
+                <span ng-bind-html-unsafe="settingItem[setting.displayField]"></span>
+            </li>
+            <li>
+                <a ng-click="addRemoveList.add(setting.addEvent)">{{setting.addText}}</a>
+            </li>
+        </ul>
+    </script>
 
     <div id="fb-root"></div>
     <script>

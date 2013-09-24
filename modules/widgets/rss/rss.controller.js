@@ -1,4 +1,8 @@
 angular.module("Rss").controller("RssController", ["$scope", "rss", function($scope, rss){
+    var defaultRssIconUrl = "img/rss_16x16.png";
+
+    $scope.rssFeeds = {};
+
     $scope.loadFeeds = function(forceRefresh){
         rss.load($scope.module.settings.feed || $scope.module.settings.feeds, forceRefresh, { count: $scope.module.settings.count }).then(function(feeds){
             var items = getAllItems(feeds);
@@ -17,13 +21,19 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
 
             if ($scope.module.settings.title){
                 $scope.module.name = $scope.module.settings.title;
-                $scope.module.icon = "img/rss_16x16.png";
+                $scope.module.icon = defaultRssIconUrl;
             }
             else{
-                $scope.module.name = feeds[0].title;
+                if (!feeds.length){
+                    $scope.module.name = "RSS";
+                    $scope.module.icon = defaultRssIconUrl;
+                }
+                else
+                    $scope.module.name = feeds[0].title;
+
                 if (feeds.length > 1){
                     $scope.module.name += " + " + (feeds.length - 1) + " more";
-                    $scope.module.icon = "img/rss_16x16.png";
+                    $scope.module.icon = defaultRssIconUrl;
                 }
             }
             $scope.module.link = !$scope.module.settings.title && $scope.feeds.length === 1 ? $scope.feeds[0].link : null;
@@ -33,7 +43,62 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
         }, handleError);
     };
 
+    $scope.feedSearch = function(query){
+        $scope.feedSearchResults = null;
+        if (query){
+            rss.search(query).then(function(feeds){
+                $scope.feedSearchResults = feeds;
+                $scope.hiddenIcons = {};
+            });
+        }
+    };
+
+    function getFeed(feed){
+        var foundFeed;
+        for(var i= 0, settingsFeed; (settingsFeed = $scope.module.settings.feeds[i]) && !foundFeed; i++){
+            if ((angular.isObject(settingsFeed) && settingsFeed.url === feed.url) || (feed.url === settingsFeed)){
+                foundFeed = settingsFeed;
+            }
+        }
+
+        if (foundFeed)
+            return foundFeed;
+
+        return null;
+    }
+
+    $scope.addOrRemoveFeed = function(feed){
+        if ($scope.rssFeeds[feed.url]){
+            delete $scope.rssFeeds[feed.url];
+            $scope.module.settings.feeds.splice($scope.module.settings.feeds.indexOf(getFeed(feed)), 1);
+        }
+        else{
+            $scope.rssFeeds[feed.url] = true;
+            $scope.module.settings.feeds.push(feed);
+        }
+
+        $scope.settings.onUpdate($scope.module.settings.feeds);
+    };
+
+    $scope.hideIcon = function(feed){
+        $scope.hiddenIcons[feed.link] = true;
+    };
+
     $scope.$on("refresh", function(){ $scope.loadFeeds(true); });
+    $scope.$on("addFeeds", function(){
+        $scope.addFeeds = true;
+    });
+
+    $scope.onAddInputChange = function(value){
+        if (!value){
+            $scope.feedSearchResults = null;
+        }
+    };
+
+    $scope.closeAddFeeds = function(){
+        $scope.addFeeds = false;
+        $scope.feedSearchResults = null;
+    };
 
     $scope.$on("updateSettings", function(e, data){
         $scope.loadFeeds(true);
@@ -82,8 +147,16 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
         $scope.$emit("loadError", { module: $scope.module.name, error: error });
     }
 
-    if ($scope.module.settings.feed || $scope.module.settings.feeds)
+    if ($scope.module.settings.feed || $scope.module.settings.feeds.length){
         $scope.loadFeeds();
-    else
-        $scope.module.icon = "img/rss_16x16.png";
+        if ($scope.module.settings.feeds){
+            angular.forEach($scope.module.settings.feeds, function(feed){
+                $scope.rssFeeds[angular.isObject(feed) ? feed.title : feed] = true;
+            });
+        }
+    }
+    else{
+        $scope.module.icon = defaultRssIconUrl;
+        $scope.addFeeds = true;
+    }
 }]);

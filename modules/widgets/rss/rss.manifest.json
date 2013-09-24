@@ -35,7 +35,10 @@
 		{
 			"label": "Feed URLs",
 			"name": "feeds",
-			"type": "textArray",
+			"type": "addRemoveList",
+            "displayField": "title",
+            "addText": "Add feeds",
+            "addEvent": "addFeeds",
 			"style": "long"
 		},
         {

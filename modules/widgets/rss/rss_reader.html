@@ -1,12 +1,37 @@
-<div class="rss-add-box" ng-show="!module.settings.feed && !module.settings.feeds">
-    <form ng-submit="searchRss(rssSearchValue)">
-        <input type="text" class="search" ng-model="rssSearchValue" placeholder="URL or name of RSS to add" />
-        <input type="submit" value="Search" />
-    </form>
-    <ul class="unstyled rss-add-list">
-        <li>
-            <a ng-repeat="feed in searchFeeds" ng-click="addFeed(feed)">{{feed.name}}</a>
-        </li>
-    </ul>
+<div ng-controller="RssController">
+    <a class="rss-add-done"
+       ng-click="closeAddFeeds()"
+       ng-show="addFeeds && module.settings.feeds.length">Done</a>
+    <div class="rss-add-box" ng-show="addFeeds" ng-class="{ 'rss-add-with-feeds': feedSearchResults.length }">
+        <form ng-submit="feedSearch(rssSearchValue)">
+            <input type="text"
+                   class="search"
+                   ng-change="onAddInputChange(rssSearchValue)"
+                   ng-model="rssSearchValue"
+                   placeholder="URL or name of RSS to add" />
+            <input type="submit" value="Search" />
+        </form>
+        <div ng-show="feedSearchResults.length">
+            Results:
+            <table class="unstyled rss-add-list">
+                <tr ng-repeat="feed in feedSearchResults">
+                    <td>
+                        <a ng-click="addOrRemoveFeed(feed)">
+                            <img ng-src="{{feed.link | favicon}}" class="favicon rss-add-feed-icon" ng-error="hideIcon(feed)" ng-class="{ hidden: hiddenIcons[feed.link] }" />
+                            <span ng-bind-html-unsafe="feed.title"></span>
+                        </a>
+                    </td>
+                    <td class="right">
+                        <a ng-click="addOrRemoveFeed(feed)">
+                            {{rssFeeds[feed.url] && "Remove" || "Add"}}
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="rss-add-empty" ng-show="feedSearchResults && !feedSearchResults.length">
+            No feeds found for &quot;{{rssSearchValue}}&quot.
+        </div>
+    </div>
+    <ng-include src="includes.itemsList" ng-show="!addFeeds"></ng-include>
 </div>
-<ng-include src="includes.itemsList" ng-controller="RssController" ng-show="module.settings.feed || module.settings.feeds"></ng-include>

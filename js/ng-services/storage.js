@@ -1,8 +1,9 @@
 (function(){
     angular.module("Storage", ["Parse"]).factory('Storage', ["$injector", "$q", "$rootScope", "parse", function ($injector, $q, $rootScope, parse) {
-        function Storage(id){
+        function Storage(id, options){
             // Make sure this Storage is unique, to avoid conflicts between two storage users:
-            this.registerId(id);
+            this.options = options || {};
+            this.registerId(id, this.options.reuseId);
             this.id = id;
 
             this.__defineGetter__("local", function(){
@@ -38,8 +39,8 @@
                     delete registeredIds[this.id];
                     this.id = null;
                 },
-                registerId: function(id){
-                    if (registeredIds[id])
+                registerId: function(id, reuseId){
+                    if (registeredIds[id] && !reuseId)
                         throw new Error("Can't initiate Storage with ID " + id + ". A storage with this ID already exists.");
 
                     registeredIds[id] = true;
@@ -257,6 +258,6 @@
             }
         };
         
-        return function(id) { return $injector.instantiate(Storage, { id: id }); };
+        return function(id, options) { return $injector.instantiate(Storage, { id: id, options: options }); };
     }]);
 })();
