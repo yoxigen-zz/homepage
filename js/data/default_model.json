@@ -4,10 +4,16 @@
 	],
 	"widgets": [
 		{ "type": "instagram", "id": "3jc8dj" },
-		{ "type": "rss", "id": "m3dk49", "settings": { "feed": "http://feeds.feedburner.com/TechCrunch/" }},
-		{ "type": "rss", "id": "ncf35s", "settings": { "feed": "http://feeds.wired.com/wired/index" }},
-		{ "type": "rss", "id": "lag561", "settings": { "feed": "http://xkcd.com/rss.xml", "count": 3, "display": "gallery" }},
-		{ "type": "rss", "id": "ug1fs2", "settings": { "feed": "http://feeds.feedburner.com/SputnikmusicNews", "count": 10 } }
+		{ "type": "rss", "id": "m3dk49", "settings": { "count": 5, "feeds": [
+            { "url": "http://feeds.feedburner.com/TechCrunch/", "name": "TechCrunch" }
+        ]}},
+		{ "type": "rss", "id": "ncf35s", "settings": { "feeds": [{
+            "url": "http://feeds.wired.com/wired/index", "name": "Wired"
+            }]
+        }},
+		{ "type": "rss", "id": "lag561", "settings": { "feeds": [
+            { "url": "http://xkcd.com/rss.xml", "name": "XKCD" }], "count": 3, "display": "gallery" }},
+		{ "type": "rss", "id": "ug1fs2", "settings": {  } }
 	],
 	"services": [
 		{ "type": "viewer", "id": "7t3lhv" },
