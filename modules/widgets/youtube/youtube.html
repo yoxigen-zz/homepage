@@ -1,0 +1,13 @@
+<div ng-controller="YouTubeController">
+    <a ng-click="showNotifications()">Show notifications</a>
+    <ul class="unstyled">
+        <li ng-repeat="item in items">
+            <a ng-click="selectVideo(item)">
+                <img ng-src="{{item.thumbnails.small.src}}" title="{{item.title}}" />
+            </a>
+        </li>
+    </ul>
+    <div class="youtube-player">
+        <iframe ng-src="{{currentVideoEmbedUrl}}" frameborder="0" type="text/html" />
+    </div>
+</div>

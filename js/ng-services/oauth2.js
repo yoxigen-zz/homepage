@@ -14,7 +14,7 @@
         }
 
         OAuth2.prototype = (function(){
-            var redirectUri = document.location.href + "/oauth2.html";
+            var redirectUri = "http://yoxigen.github.io/homepage/oauth2.html";
 
             function getUrl(state){
                 var url = this.options.baseUrl + (~this.options.baseUrl.indexOf("?") ? "&" : "?") +
@@ -92,6 +92,9 @@
                         OAuth2.prototype.lastOauthState = 0;
 
                     return ++OAuth2.prototype.lastOauthState;
+                },
+                hasValidAccessToken: function(){
+                    return this.oauthData && new Date(this.oauthData) > new Date();
                 },
                 isLoggedIn: function(){
                     var deferred = $q.defer();

@@ -1,4 +1,4 @@
-angular.module("GoogleFeed", [])
+ angular.module("GoogleFeed", [])
     .factory("rss", ["$http", "$q", "utils", "Cache", "$rootScope", function($http, $q, utils, Cache, $rootScope){
     var cache = new Cache({
             id: "rss",

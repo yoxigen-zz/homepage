@@ -28,11 +28,18 @@
             "rss_open.png"
         ]
 	},
-	{
-		"id": "slideshow",
-		"name": "Background Images",
-		"icon": "http://cdn1.iconfinder.com/data/icons/mnml/slideshow.png",
-		"description": "Use an image or a whole gallery as your Homepage's background.",
-		"types": ["background"]
-	}
+    {
+        "id": "slideshow",
+        "name": "Background Images",
+        "icon": "http://cdn1.iconfinder.com/data/icons/mnml/slideshow.png",
+        "description": "Use an image or a whole gallery as your Homepage's background.",
+        "types": ["background"]
+    },
+    {
+        "id": "youtube",
+        "name": "YouTube",
+        "icon": "http://youtube.com/favicon.ico",
+        "description": "View your YouTube subscriptions",
+        "types": ["widgets"]
+    }
 ]

@@ -5,7 +5,7 @@ angular.module("Homepage").directive("ngLoad", ["$parse", function($parse){
             var loadHandler = $parse(attrs.ngLoad);
 
             element.on("load", function(event){
-                scope.$apply(function(){
+                scope.safeApply(function(){
                     loadHandler(scope, {$event: event});
                 });
             });

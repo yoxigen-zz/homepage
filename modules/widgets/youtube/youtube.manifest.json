@@ -1,0 +1,28 @@
+{
+	"modules": [
+		{ "name": "YouTube" }
+	],
+    "name": "YouTube",
+	"link": "http://youtube.com",
+	"icon": "http://youtube.com/favicon.ico",
+    "resources": [
+		"youtube.controller.js"
+    ],
+    "dataSources": [
+        "youtube_data.js"
+    ],
+	"html": {
+		"widget": "youtube.html"
+	},
+	"settingsOptions": [
+		{
+			"label": "Refresh rate",
+			"name": "refreshRate",
+			"type": "number",
+			"appendix": " seconds"
+		}
+	],
+	"settings": {
+		"refreshRate": 1800
+	}
+}
