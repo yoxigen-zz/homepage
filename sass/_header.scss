@@ -34,24 +34,35 @@
       padding: 0;
       text-align: left;
     }
-    .menu-link{
-      display: inline-block;
-      height: 100%;
-      text-align: center;
-      line-height: $headerHeight;
-      position: relative;
-      color: $headerColor;
-      padding: 0 12px;
+  }
 
-      .icon-caret-down{
-        font-size: 0.75em;
-        margin-left: 5px;
-      }
-      &:hover{
-        background: rgba(255,255,255,.2);
-        color: $headerBtnColorHover;
-      }
+  .menu-link{
+    display: inline-block;
+    height: 100%;
+    text-align: center;
+    line-height: $headerHeight;
+    position: relative;
+    color: $headerColor;
+    padding: 0 12px;
+
+    .icon-caret-down{
+      font-size: 0.75em;
+      margin-left: 5px;
     }
+    &:hover{
+      background: rgba(255,255,255,.2);
+      color: $headerBtnColorHover;
+    }
+
+    &.active{
+      background: rgba(255,255,255,.4)
+    }
+  }
+
+  .menu-link-square{
+    padding: 0;
+    width: $headerHeight;
+    text-align: center;
   }
 }
 

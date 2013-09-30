@@ -113,6 +113,12 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
             $timeout(function(){
                 $scope.background.enabled = false;
             });
+        },
+        toggle: function(){
+            if (this.enabled)
+                this.disable();
+            else
+                this.enable();
         }
     };
 
@@ -129,6 +135,12 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     };
 
     loadLayout();
+
+    window.addEventListener("online", function(e) {
+        $scope.safeApply(function(){
+            $scope.$broadcast("refresh");
+        });
+    });
 
     model.onModelChange.addListener(function(e){
         window.location.reload();

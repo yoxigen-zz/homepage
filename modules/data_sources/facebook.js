@@ -106,11 +106,13 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                 : { method: 'fql.query', query: query };
 
         FB.api(params, function(data) {
-                $rootScope.$apply(function(){
+            $rootScope.$apply(function(){
+                if (data.error)
+                    deferred.reject(data.error);
+                else
                     deferred.resolve(data);
-                });
-            }
-        );
+            });
+        });
 
         return deferred.promise;
     }

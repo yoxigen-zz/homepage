@@ -28,8 +28,14 @@
         <div class="header-menu">
             <menu id="notifications">
                 <ng-include src="includes.notifications" ng-repeat="notification in notifications"></ng-include>
-            </menu><menu id="user-menu" ng-include="includes.userMenu">
             </menu>
+            <a class="menu-link menu-link-square"
+               ng-class="{ active: background.enabled }"
+               ng-click="background.toggle()"
+               title="{{background.enabled && 'Hide background' || 'Show background'}}">
+                <i class="icon-picture"></i>
+            </a>
+            <menu id="user-menu" ng-include="includes.userMenu"></menu>
         </div>
         <img class="logo" src="img/logo.png" />
         <h1>Homepage</h1>

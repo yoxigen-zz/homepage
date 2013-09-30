@@ -16,6 +16,11 @@
         feed.setNumEntries(loadOptions.count);
 
         function getRemoteData(){
+            if (navigator.onLine === false){
+                deferred.reject("Can't load feed - not online.");
+                return deferred.promise;
+            }
+
             feed.load(function(result) {
                 $rootScope.safeApply(function(){
                     if (!result.error) {

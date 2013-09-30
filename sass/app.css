@@ -1368,20 +1368,26 @@ h1, h2, h3, h4, h5 {
       margin: 0;
       padding: 0;
       text-align: left; }
-    #header .header-menu .menu-link {
-      display: inline-block;
-      height: 100%;
-      text-align: center;
-      line-height: 45px;
-      position: relative;
-      color: white;
-      padding: 0 12px; }
-      #header .header-menu .menu-link .icon-caret-down {
-        font-size: 0.75em;
-        margin-left: 5px; }
-      #header .header-menu .menu-link:hover {
-        background: rgba(255, 255, 255, 0.2);
-        color: white; }
+  #header .menu-link {
+    display: inline-block;
+    height: 100%;
+    text-align: center;
+    line-height: 45px;
+    position: relative;
+    color: white;
+    padding: 0 12px; }
+    #header .menu-link .icon-caret-down {
+      font-size: 0.75em;
+      margin-left: 5px; }
+    #header .menu-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: white; }
+    #header .menu-link.active {
+      background: rgba(255, 255, 255, 0.4); }
+  #header .menu-link-square {
+    padding: 0;
+    width: 45px;
+    text-align: center; }
 
 .background-enabled #header {
   opacity: .2; }
