@@ -815,6 +815,8 @@ h1, h2, h3, h4, h5 {
     .items-list [dir=rtl] .item-text {
       margin-left: 0;
       margin-right: 130px; }
+      .items-list [dir=rtl] .item-text img {
+        max-width: 100%; }
     .items-list [dir=rtl] .item-thumbnail {
       float: right;
       margin-right: 0;

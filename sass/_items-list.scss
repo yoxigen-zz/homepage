@@ -163,6 +163,10 @@ $itemDetailsWidth: 120px;
     .item-text{
       margin-left: 0;
       margin-right: $itemDetailsWidth + 10;
+
+      img{
+        max-width: 100%;
+      }
     }
 
     .item-thumbnail{
