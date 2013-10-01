@@ -43,16 +43,28 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
         }, handleError);
     };
 
+    function onSearchFeeds(feeds){
+        $scope.feedSearchResults = feeds;
+        $scope.hiddenIcons = {};
+
+        if (!feeds || !feeds.length)
+            $scope.noResultsFound = true;
+    }
+
+    function onSearchFeedsError(error){
+        console.error("Error searching for feeds: ", error);
+        $scope.noResultsFound = true;
+    }
+
     $scope.feedSearch = function(query){
         $scope.feedSearchResults = null;
         if (query){
-            rss.search(query).then(function(feeds){
-                $scope.feedSearchResults = feeds;
-                $scope.hiddenIcons = {};
-
-                if (!feeds || !feeds.length)
-                    $scope.noResultsFound = true;
-            });
+            if (/^https?:\/\//i.test(query)){
+                rss.load(query).then(onSearchFeeds, onSearchFeedsError);
+            }
+            else{
+                rss.search(query).then(onSearchFeeds, onSearchFeedsError);
+            }
         }
     };
 

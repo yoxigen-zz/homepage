@@ -109,7 +109,6 @@ angular.module("Homepage").factory("youtube", [ "OAuth2", "$q", "$http", "$rootS
                         deferred.resolve(cachedData);
                     else{
                         callApi("activities", true, { part: "snippet,contentDetails", home: true, maxResults: 20 }).then(function(activities){
-                            console.log("ac: ", activities)
                             var result = {
                                 paging: {
                                     nextPageToken: activities.nextPageToken,

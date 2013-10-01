@@ -26,11 +26,13 @@
                     if (!result.error) {
                         result.feed.items = formatItems(result.feed.entries)
                         delete result.feed.entries;
+                        result.feed.url = result.feed.feedUrl;
+
                         deferred.resolve(result.feed);
                         cache.setItem(feedUrl, result.feed);
                     }
                     else{
-                        deferred.reject({ error: result.error })
+                        deferred.reject({ error: result.error, feed: feedUrl })
                         console.error("Feed load error: ", result);
                     }
                 });

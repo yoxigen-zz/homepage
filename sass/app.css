@@ -751,6 +751,8 @@ h1, h2, h3, h4, h5 {
     float: left;
     width: 120px;
     font-size: 10pt; }
+    .items-list .item-details .icon {
+      display: inline-block; }
     .items-list .item-details .icon, .items-list .item-details .favicon {
       margin-right: 6px; }
     .items-list .item-details > span {
@@ -804,7 +806,6 @@ h1, h2, h3, h4, h5 {
     .items-list [dir=rtl] .item-details {
       float: right; }
       .items-list [dir=rtl] .item-details .icon, .items-list [dir=rtl] .item-details .favicon {
-        margin-right: 0;
         margin-left: 6px; }
     .items-list [dir=rtl] .items-list-headline .item-details {
       float: left;

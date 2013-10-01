@@ -90,6 +90,7 @@ $itemDetailsWidth: 120px;
     width: $itemDetailsWidth;
     font-size: 10pt;
 
+    .icon{ display: inline-block; }
     .icon, .favicon{ margin-right: 6px }
     & > span{
       display: block;
@@ -155,7 +156,7 @@ $itemDetailsWidth: 120px;
     .item-header .icon-double-angle-right{ @include transform(scaleX(-1)); }
     .item-details{
       float: right;
-      .icon, .favicon{ margin-right: 0; margin-left: 6px; }
+      .icon, .favicon{ margin-left: 6px; }
     }
     .items-list-headline .item-details{ float: left; text-align: left; }
     .item-text-with-image{ margin: 0 40px 0 0; }
