@@ -824,6 +824,8 @@ h1, h2, h3, h4, h5 {
     .items-list [dir=rtl] .item-text-summary {
       margin-right: 20px;
       margin-left: 0; }
+      .items-list [dir=rtl] .item-text-summary img {
+        max-width: 100%; }
   .items-list .item-feed {
     margin-bottom: 10px; }
 

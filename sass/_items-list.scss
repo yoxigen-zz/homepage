@@ -175,7 +175,14 @@ $itemDetailsWidth: 120px;
       margin-left: 10px;
     }
 
-    .item-text-summary{ margin-right: 20px; margin-left: 0}
+    .item-text-summary{
+      margin-right: 20px;
+      margin-left: 0;
+
+      img{
+        max-width: 100%;
+      }
+    }
   }
   .item-feed{
     margin-bottom: 10px;
