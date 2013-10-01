@@ -18,7 +18,8 @@
     "settings": {
         "interval": 60,
         "mode": "cover",
-        "transition": 1000
+        "transition": 1000,
+        "fitMode": false
     },
     "css": [
         "style/slideshow.css"

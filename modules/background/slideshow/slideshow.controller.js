@@ -32,8 +32,14 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
 
     $scope.isPlaying = true;
-    $scope.toggleMenu = function(){
-        $scope.slideshowMenuOpen = !$scope.slideshowMenuOpen;
+    $scope.toggleMenu = function($event){
+        if (!$event || $event.target.className === "slideshow-menu-header" || $event.target.nodeName === "H2")
+            $scope.slideshowMenuOpen = !$scope.slideshowMenuOpen;
+    };
+
+    $scope.closeSlideshow = function(){
+        $scope.slideshowMenuOpen = false;
+        $scope.background.disable();
     };
 
     $scope.sources = dataImages;
@@ -132,6 +138,11 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         }
     };
 
+    $scope.toggleFitFill = function(){
+        $scope.module.settings.fitMode = !$scope.module.settings.fitMode;
+        setBackgroundSize();
+    };
+
     var currentSourceAlbums,
         albumsSource,
         lastFeed;
@@ -149,6 +160,12 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
             });
         }
     };
+
+    function setBackgroundSize(){
+        $scope.imageBackgroundSize = $scope.module.settings.fitMode ? "contain" : "cover";
+    }
+
+    setBackgroundSize();
 
     function setCurrentUser(){
         $scope.currentSource.auth.getCurrentUser().then(function(user){

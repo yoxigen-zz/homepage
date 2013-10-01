@@ -1,5 +1,4 @@
 @import "dark";
-@import "font-awesome";
 @import "bourbon/bourbon";
 
 $headerHeight: 45px;
@@ -170,6 +169,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
 
   &:hover{ color: White }
   i{
+    display: inline-block;
     width: .8em;
     @include transform(translateX(9px) translateY(2px) scaleX(.55) scaleY(.9));
     @include transition(transform 200ms ease-out);
