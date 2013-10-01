@@ -1,0 +1,38 @@
+.youtube-widget{
+  .youtube-thumbnails-wrapper{
+    width: 80px;
+    float: left;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+  .minimized-thumbnails{
+    padding: 0 5px;
+
+    .thumbnail{
+      margin-bottom: 4px;
+    }
+  }
+
+  .youtube-player{
+    position: absolute;
+    top: 0;
+    left: 88px;
+    right: 5px;
+    bottom: 0;
+  }
+
+  .youtube-embed{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    min-height: 200px;
+    min-width: 200px;
+  }
+}

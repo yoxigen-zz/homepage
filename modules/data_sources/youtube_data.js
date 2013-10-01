@@ -1,17 +1,21 @@
-angular.module("Homepage").factory("youtube", [ "OAuth2", "$q", "$http", "$rootScope", "utils", function(OAuth2, $q, $http, $rootScope, utils){
+angular.module("Homepage").factory("youtube", [ "OAuth2", "$q", "$http", "$rootScope", "utils", "Cache", function(OAuth2, $q, $http, $rootScope, utils, Cache){
     var apiKey = "225561981539-vrlluijrg9h9gvq6ghbnnv59rcerkrh8.apps.googleusercontent.com",
-        apiUrl = "https://www.googleapis.com/youtube/v3/";
-
-    var ytOauth = new OAuth2({
-        apiName: "youtube",
-        baseUrl: "https://accounts.google.com/o/oauth2/auth",
-        clientId: apiKey,
-        scope: "https://www.googleapis.com/auth/youtube.readonly",
-        oauthWindowDimensions: {
-            width: 765,
-            height: 450
-        }
-    });
+        apiUrl = "https://www.googleapis.com/youtube/v3/",
+        cache = new Cache({
+            id: "youtube",
+            hold: true,
+            itemsExpireIn: 60 * 10 // cache items expire in 5 minutes
+        }),
+        ytOauth = new OAuth2({
+            apiName: "youtube",
+            baseUrl: "https://accounts.google.com/o/oauth2/auth",
+            clientId: apiKey,
+            scope: "https://www.googleapis.com/auth/youtube.readonly",
+            oauthWindowDimensions: {
+                width: 765,
+                height: 450
+            }
+        });
 
     var convert = {
         activity: function(activity){
@@ -100,19 +104,27 @@ angular.module("Homepage").factory("youtube", [ "OAuth2", "$q", "$http", "$rootS
             getNotifications: function(options){
                 var deferred = $q.defer();
 
-                callApi("activities", true, { part: "snippet,contentDetails", home: true, maxResults: 10 }).then(function(activities){
-                    console.log("ac: ", activities)
-                    var result = {
-                        paging: {
-                            nextPageToken: activities.nextPageToken,
-                            pageSize: activities.pageInfo.resultsPerPage,
-                            totalResults: activities.pageInfo.totalResults
-                        },
-                        notifications: convertItems(activities.items, convert.activity)
-                    };
+                cache.getItem("activities").then(function(cachedData){
+                    if (cachedData)
+                        deferred.resolve(cachedData);
+                    else{
+                        callApi("activities", true, { part: "snippet,contentDetails", home: true, maxResults: 20 }).then(function(activities){
+                            console.log("ac: ", activities)
+                            var result = {
+                                paging: {
+                                    nextPageToken: activities.nextPageToken,
+                                    pageSize: activities.pageInfo.resultsPerPage,
+                                    totalResults: activities.pageInfo.totalResults
+                                },
+                                notifications: convertItems(activities.items, convert.activity)
+                            };
 
-                    deferred.resolve(result);
-                }, deferred.reject);
+                            cache.setItem("activities", result);
+
+                            deferred.resolve(result);
+                        }, deferred.reject);
+                    }
+                });
 
                 return deferred.promise;
             }
