@@ -49,16 +49,20 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
 
         if (!feeds || !feeds.length)
             $scope.noResultsFound = true;
+
+        $scope.rssSearching = false;
     }
 
     function onSearchFeedsError(error){
         console.error("Error searching for feeds: ", error);
         $scope.noResultsFound = true;
+        $scope.rssSearching = false;
     }
 
     $scope.feedSearch = function(query){
         $scope.feedSearchResults = null;
         if (query){
+            $scope.rssSearching = true;
             if (/^https?:\/\//i.test(query)){
                 rss.load(query).then(onSearchFeeds, onSearchFeedsError);
             }

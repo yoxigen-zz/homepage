@@ -386,14 +386,19 @@ h1, h2, h3, h4, h5 {
 
 #main_loader_animation {
   margin-bottom: 5px; }
-  #main_loader_animation img {
-    -webkit-animation: rotating 2s linear infinite;
-    -moz-animation: rotating 2s linear infinite;
-    animation: rotating 2s linear infinite;
-    -moz-animation: rotating 2s linear infinite;
-    -ms-animation: rotating 2s linear infinite;
-    width: 42px;
-    height: 42px; }
+
+.main-loader-animation-image {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  width: 42px;
+  height: 42px; }
+
+.main-loader-animation-image-small {
+  width: 28px;
+  height: 28px; }
 
 #header {
   height: 45px;

@@ -10,6 +10,11 @@
                    ng-model="rssSearchValue"
                    placeholder="URL or name of RSS to add" />
             <input type="submit" value="Search" class="btn rss-search-btn" />
+            <div class="rss-add-loader-panel" ng-show="rssSearching">
+                <div id="main_loader_animation">
+                    <img src="img/cyan_loader.png" class="main-loader-animation-image main-loader-animation-image-small" />
+                </div>
+            </div>
         </form>
         <div ng-show="feedSearchResults.length">
             Results:
