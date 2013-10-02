@@ -101,11 +101,16 @@ angular.module("Homepage").factory("youtube", [ "OAuth2", "$q", "$http", "$rootS
             }
         },
         notifications: {
-            getNotifications: function(options){
+            getNotifications: function(options, forceRefresh){
                 var deferred = $q.defer();
 
+                if (options === true || options === false){
+                    forceRefresh = options;
+                    options = null;
+                }
+
                 cache.getItem("activities").then(function(cachedData){
-                    if (cachedData)
+                    if (cachedData && !forceRefresh)
                         deferred.resolve(cachedData);
                     else{
                         callApi("activities", true, { part: "snippet,contentDetails", home: true, maxResults: 20 }).then(function(activities){

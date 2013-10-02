@@ -14,7 +14,7 @@ angular.module("YouTube").controller("YouTubeController", ["$scope", "youtube", 
     };
 
     $scope.$on("refresh", function(){
-        youtube.notifications.getNotifications().then(function(data){
+        youtube.notifications.getNotifications(true).then(function(data){
             $scope.items = data.notifications;
             $scope.$emit("load", { module: $scope.module, count: $scope.items.length });
         });

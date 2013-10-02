@@ -55,9 +55,14 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                 var dependencies = [],
                     resources = [],
                     styles = [],
-                    ngModule;
+                    ngModule,
+                    loadedModuleTypes = [];
+
 
                 function getDependenciesAndResources(module, moduleType){
+                    if (!~loadedModuleTypes.indexOf(module.type))
+                        loadedModuleTypes.push(module.type);
+
                     if (module.modules){
                         module.modules.forEach(function(module){
                             if (module.dependencies && angular.isArray(module.dependencies)){
@@ -115,6 +120,8 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                             getDependenciesAndResources(module, typeName);
                     });
                 });
+
+                window.homepageLoadedModuleTypes = loadedModuleTypes;
 
                 ngModule = angular.module("Homepage", appDependencies.concat(dependencies));
                 ngModule.run(function($rootScope){

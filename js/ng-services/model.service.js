@@ -13,7 +13,13 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
         storageModel,
         storageLayout,
         eventBus = new EventBus(),
-        setLayoutTimeoutPromise;
+        setLayoutTimeoutPromise,
+        loadedModuleTypes;
+
+    if (window.homepageLoadedModuleTypes){
+        loadedModuleTypes = window.homepageLoadedModuleTypes;
+        delete window.homepageLoadedModuleTypes;
+    }
 
     function getModelData (){
         var deferred = $q.defer();
@@ -99,15 +105,21 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
     }
 
     function getMostAvailableColumn(){
-        var mostAvailableColumn;
-        storageLayout.attributes.rows.forEach(function(row){
-            row.columns.forEach(function(column){
-                if (!mostAvailableColumn || column.widgets.length < mostAvailableColumn.widgets.length)
-                    mostAvailableColumn = column;
+        var result;
+        storageLayout.attributes.rows.forEach(function(row, rowIndex){
+            row.columns.forEach(function(column, columnIndex){
+                if (!result || column.widgets.length < result.column.widgets.length){
+                    result = {
+                        column: column,
+                        row: row,
+                        columnIndex: columnIndex,
+                        rowIndex: rowIndex
+                    };
+                }
             })
         });
 
-        return mostAvailableColumn;
+        return result;
     }
 
     function createSettings(settings){
@@ -130,17 +142,23 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
     return {
         addModule: function(type, moduleType){
             var module = { type: moduleType, id: getUniqueModuleId() },
-                modelModuleType = angular.copy(storageModel.getData()[type]);
+                modelModuleType = angular.copy(storageModel.getData()[type]),
+                widgetPosition;
 
             modelModuleType.push(module);
 
             if (type === "widgets"){
-                var column = getMostAvailableColumn();
-                column.widgets.push({ id: module.id });
+                var availablePosition = getMostAvailableColumn();
+                var column = availablePosition.column;
+                widgetPosition = { row: availablePosition.rowIndex, column: availablePosition.columnIndex };
+
                 column.widgets.forEach(function(widget){
                     delete widget.height;
                 });
+
+                column.widgets.splice(0, 0, { id: module.id });
             }
+
             this.getModel(users.getCurrentUser() ? storageModel.getData() : storageModel.attributes).then(function(modulesData){
                 var module = modulesData[type][modulesData[type].length - 1],
                     resources = [];
@@ -148,20 +166,25 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
                 if (module.resources){
                     module.resources.forEach(function(resource){
                         resources.push(getModuleFilePath(type, module.type, resource));
-                    })
+                    });
                 }
 
                 if (module.modules){
                     module.modules.forEach(function(ngModule){
                         angular.module(ngModule.name, ngModule.dependencies || []);
-                    })
+                    });
                 }
 
-                requirejs(resources, function() {
-                    //self.destroy();
-                    //angular.bootstrap(document, ["Homepage"]);
-                    eventBus.triggerEvent("onModelChange", { added: { type: type, module: module }, model: modulesData, layout: storageLayout });
-                });
+                if (!~loadedModuleTypes.indexOf(module.type)){
+                    requirejs(resources, function() {
+                        //self.destroy();
+                        //angular.bootstrap(document, ["Homepage"]);
+                        eventBus.triggerEvent("onModelChange", { reload: true, added: { type: type, module: module }, model: modulesData, layout: storageLayout });
+                    });
+                }
+                else{
+                    eventBus.triggerEvent("onModelChange", { reload: false, module: { type: type, data: module }, model: modulesData, layout: storageLayout, position: widgetPosition });
+                }
                 //eventBus.triggerEvent("onModelChange", { added: { type: type, module:  }, model: modulesData, layout: storageLayout });
             });
 

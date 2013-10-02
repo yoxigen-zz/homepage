@@ -28,6 +28,14 @@ $rssFooterHeight: 30px;
   &.rss-add-with-feeds{
     @include transform(translateY(24px));
   }
+
+  .rss-search-btn{
+    position: relative;
+    top: 1px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 15px
+  }
 }
 
 .rss-add-done{

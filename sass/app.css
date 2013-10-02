@@ -266,7 +266,13 @@ h1, h2, h3, h4, h5 {
   background: rgba(0, 0, 0, 0.7);
   border-radius: 5px;
   margin: 0 10px;
-  bottom: 20px; }
+  bottom: 20px;
+  opacity: 1;
+  -webkit-transition: opacity 1s ease-out;
+  -moz-transition: opacity 1s ease-out;
+  transition: opacity 1s ease-out; }
+  .module.new-module {
+    opacity: 0; }
   .module .module-header {
     height: 40px;
     line-height: 40px;

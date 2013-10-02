@@ -4,7 +4,7 @@
     <title ng-bind="pageTitle">Homepage</title>
     <link href='http://fonts.googleapis.com/css?family=Muli:400,400italic' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
-
+    <meta name=description" content="Homepage is a free widget-oriented dashboard, like iGoogle, but open-sourced." />
     <link rel="stylesheet" type="text/css" href="sass/app.css" />
     <link rel="icon" href="img/icon128.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -53,7 +53,10 @@
                  update-layout-on="column.widgets.length"
                  on-layout-change="onColumnLayoutChange(column, heights, refreshLayout)"
                  ng-style="{ width: column.width }">
-                <div ng-repeat="module in column.widgets" class="module-wrapper" ng-style="{ height: module.height }" ng-include="includes.widget">
+                <div ng-repeat="module in column.widgets"
+                     class="module-wrapper"
+                     ng-style="{ height: module.height }"
+                     ng-include="includes.widget">
                 </div>
             </div>
         </div>

@@ -29,6 +29,12 @@
     -ms-transform: translateY(24px);
     -o-transform: translateY(24px);
     transform: translateY(24px); }
+  .rss-add-box .rss-search-btn {
+    position: relative;
+    top: 1px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 15px; }
 
 .rss-add-done {
   float: right;

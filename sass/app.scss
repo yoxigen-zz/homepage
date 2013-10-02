@@ -249,6 +249,12 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   border-radius: $moduleRadius;
   margin: 0 $contentsPadding / 2;
   bottom: $contentsPadding;
+  opacity: 1;
+  @include transition(opacity 1s ease-out);
+
+  &.new-module{
+    opacity: 0;
+  }
 
   .module-header{
     height: $moduleHeaderHeight;

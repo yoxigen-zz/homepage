@@ -13,6 +13,7 @@ angular.module("ModuleSettings").controller("ModuleSettingsController", ["$scope
 
     $scope.addModule = function(module){
         moduleSettings.addModule(module);
+        $scope.moduleSettingsOpen = false;
     };
 
     $scope.$on($scope.service.type, function(e, eventData){

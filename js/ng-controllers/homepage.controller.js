@@ -143,16 +143,45 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     });
 
     model.onModelChange.addListener(function(e){
-        window.location.reload();
+        if (e.reload)
+            window.location.reload();
+        else{
+            if (e.module.type === "widgets"){
+                var columnWidgets = $scope.layout.rows[e.position.row].columns[e.position.column].widgets,
+                    widgetHeight = (100 / (columnWidgets.length + 1)) + "%";
+
+                $scope.widgets.push(e.module.data);
+                columnWidgets.splice(0, 0, e.module.data);
+
+                angular.forEach(columnWidgets, function(widget){
+                    widget.height = widgetHeight;
+                });
+
+                e.module.data.isNewModule = true;
+
+                $timeout(function(){
+                    delete e.module.data.isNewModule;
+                }, 1000);
+            }
+        }
     });
 
     function loadLayout(){
         $q.all([model.getModel(), model.getLayout()]).then(function(data){
-            setModel(data[0], data[1]);
+            applyModelAndLayout(data[0], data[1]);
         });
     }
 
-    function setModel(_modelData, layoutData){
+    function findWidgetById(widgetId){
+        for(var i= 0, widget; widget = $scope.widgets[i]; i++){
+            if (widget.id === widgetId)
+                return widget;
+        }
+
+        return null;
+    }
+
+    function applyModelAndLayout(_modelData, layoutData){
         modelData = _modelData;
         $scope.notifications = modelData.notifications;
         $scope.widgets = modelData.widgets;
@@ -165,15 +194,6 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
                 if (service.html)
                     $scope.services.push(service);
             })
-        }
-
-        function findWidgetById(widgetId){
-            for(var i= 0, widget; widget = $scope.widgets[i]; i++){
-                if (widget.id === widgetId)
-                    return widget;
-            }
-
-            return null;
         }
 
         $scope.layout = layoutData;
