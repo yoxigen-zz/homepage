@@ -20,16 +20,20 @@ angular.module('ui.directives').directive('ncUiSortable', [
 
                 opts = angular.extend({}, options, scope.$eval(attrs.uiOptions));
 
+                function getItemIndex(item){
+                    return item.parent().children(opts.items).filter(":not(.ui-sortable-placeholder)").index(item);
+                }
+
                 if (ngModel != null) {
                     onStart = function(e, ui) {
                         return ui.item.data({
-                            'ui-sortable-start': ui.item.index(),
+                            'ui-sortable-start': getItemIndex(ui.item),
                             'ui-sortable-source': ui.item.closest("[nc-ui-sortable]").data("nc-ui-model")
                         });
                     };
                     onUpdate = function(e, ui) {
                         var startIndex = ui.item.data('ui-sortable-start'),
-                            endIndex = ui.item.index(),
+                            endIndex = getItemIndex(ui.item),
                             sourceModel = ui.item.data('ui-sortable-source'),
                             targetModel = ui.item.closest("[nc-ui-sortable]").data("nc-ui-model");
 

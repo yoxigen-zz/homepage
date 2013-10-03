@@ -48,11 +48,17 @@
             <div ng-repeat="column in row.columns"
                  class="layout-column"
                  nc-ui-sortable="nc-ui-sortable"
-                 ui-options="{ connectWith: '.layout-column', scroll: false, out: sortOver, stop: updateLayout, handle: '.module-header'}"
+                 ui-options="{ connectWith: '.layout-column', scroll: false, out: sortOver, stop: updateLayout, handle: '.module-header', items: '.module-wrapper' }"
                  ng-model="column.widgets"
                  update-layout-on="column.widgets.length"
                  on-layout-change="onColumnLayoutChange(column, heights, refreshLayout)"
                  ng-style="{ width: column.width }">
+                <div
+                    ng-class="{ active: !column.widgets.length }"
+                     class="layout-column-empty-add">
+                    <a class="btn" ng-click="openModuleSettings()"><i class="icon-plus"></i> Add widgets</a>
+                </div>
+
                 <div ng-repeat="module in column.widgets"
                      class="module-wrapper"
                      ng-style="{ height: module.height }"
@@ -134,7 +140,7 @@
         }(document, 'script', 'facebook-jssdk'));
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
     <script src="js/lib/angular-ui.min.js"></script>
     <script src="js/lib/require.js"></script>
     <script src="js/ng-services/storage.js"></script>

@@ -248,6 +248,24 @@ h1, h2, h3, h4, h5 {
       margin-left: 0; }
     #content .layout-column:last-child .module {
       margin-right: 0; }
+    #content .layout-column .layout-column-empty-add {
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      margin-top: -15px;
+      display: none; }
+      #content .layout-column .layout-column-empty-add.active {
+        display: block; }
+      #content .layout-column .layout-column-empty-add .btn {
+        background: none; }
+        #content .layout-column .layout-column-empty-add .btn:hover {
+          background: #0081c3; }
 
 .background-enabled #content {
   -webkit-transform: translateZ(820px);

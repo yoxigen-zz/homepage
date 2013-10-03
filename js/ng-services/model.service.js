@@ -24,11 +24,17 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
     function getModelData (){
         var deferred = $q.defer();
 
-        $q.all([storage.cloud.getItem(storageKeys.MODEL_STORAGE_KEY, { fallbackOnLocal: true }), storage.cloud.getItem(storageKeys.SETTINGS_STORAGE_KEY)]).then(function(data){
+        var storageType = users.getCurrentUser() ? storage.cloud : storage.local,
+            storagePromises = [
+                storageType.getItem(storageKeys.MODEL_STORAGE_KEY),
+                storageType.getItem(storageKeys.SETTINGS_STORAGE_KEY)
+            ];
+
+        $q.all(storagePromises).then(function(data){
             storageModel = data[0];
             storageSettings = data[1];
             if (storageModel){
-                deferred.resolve(users.getCurrentUser() ? storageModel.getData() : storageModel.attributes);
+                deferred.resolve(getStorageModelData());
             }
             else{
                 $http.get(defaultModelUrl).then(function(defaultModel){
@@ -78,11 +84,15 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
         return ["modules", moduleType, moduleName, file].join("/");
     }
 
+    function getStorageModelData(){
+        return storageModel.getData ? storageModel.getData() : storageModel.attributes;
+    }
+
     function getUniqueModuleId(){
         var randomStr = utils.strings.getRandomString(6),
             moduleType,
             idExists = false,
-            modelData = storageModel.getData();
+            modelData = getStorageModelData();
 
         for(var moduleTypeName in modelData){
             moduleType = modelData[moduleTypeName];
@@ -142,10 +152,15 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
     return {
         addModule: function(type, moduleType){
             var module = { type: moduleType, id: getUniqueModuleId() },
-                modelModuleType = angular.copy(storageModel.getData()[type]),
+                modelModuleType = angular.copy(getStorageModelData()[type]),
                 widgetPosition;
 
             modelModuleType.push(module);
+
+            if (users.getCurrentUser())
+                storageModel.set(type, modelModuleType);
+            else
+                storageModel.attributes[type] = modelModuleType;
 
             if (type === "widgets"){
                 var availablePosition = getMostAvailableColumn();
@@ -159,7 +174,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
                 column.widgets.splice(0, 0, { id: module.id });
             }
 
-            this.getModel(users.getCurrentUser() ? storageModel.getData() : storageModel.attributes).then(function(modulesData){
+            this.getModel(getStorageModelData()).then(function(modulesData){
                 var module = modulesData[type][modulesData[type].length - 1],
                     resources = [];
 
@@ -189,9 +204,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
             });
 
             if (users.getCurrentUser()){
-                storageModel.set(type, modelModuleType);
                 storageModel.save();
-
                 storageLayout.update();
             }
             else{
@@ -213,7 +226,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
                 storage.cloud.getItem(storageKeys.LAYOUT_STORAGE_KEY).then(function(layoutData){
                     if (layoutData){
                         storageLayout = layoutData;
-                        deferred.resolve(layoutData.getData());
+                        deferred.resolve(layoutData.getData ? layoutData.getData() : layoutData.attributes);
                     }
                     else{
                         $http.get(defaultLayoutUrl)
@@ -233,7 +246,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
                 storage.local.getItem(storageKeys.LAYOUT_STORAGE_KEY).then(function(layoutData){
                     if (layoutData){
                         storageLayout = layoutData;
-                        deferred.resolve(layoutData.attributes);
+                        deferred.resolve(angular.copy(layoutData.attributes));
                     }
                     else{
                         $http.get(defaultLayoutUrl)
@@ -241,7 +254,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
                                 var layoutData = { attributes: data };
                                 storage.local.setItem(storageKeys.LAYOUT_STORAGE_KEY, layoutData);
                                 storageLayout = layoutData;
-                                deferred.resolve(layoutData.attributes);
+                                deferred.resolve(angular.copy(layoutData.attributes));
                             })
                             .error(function(error){
                                 deferred.reject(error);
@@ -314,7 +327,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
             var deferred = $q.defer();
 
             var usedModuleIds = [];
-            angular.forEach(storageModel.getData(), function(moduleType){
+            angular.forEach(getStorageModelData(), function(moduleType){
                 moduleType.forEach(function(module){
                     usedModuleIds.push(module.type);
                 })
@@ -328,7 +341,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
             // Remove the module from model
             var foundModule,
                 moduleType,
-                storageData = storageModel.getData();
+                storageData = getStorageModelData();
 
             for(var moduleTypeName in storageData){
                 moduleType = storageData[moduleTypeName];
@@ -345,7 +358,8 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
 
             if (users.getCurrentUser()){
                 storageModel.update();
-                if (storageSettings.getData().moduleSettings[moduleToRemove.id]){
+                var storageModelData = getStorageModelData();
+                if (storageModelData.moduleSettings && storageModelData.moduleSettings[moduleToRemove.id]){
                     delete storageSettings.attributes.moduleSettings[moduleToRemove.id];
                     storageSettings.update();
                 }
