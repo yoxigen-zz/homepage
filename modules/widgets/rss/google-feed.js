@@ -71,15 +71,30 @@
                 direction: utils.strings.getDirection(item.content)
             };
 
-            var imageUrls = item.content.match(/([^\"']+(?:png|gif|jpg|jpeg))/ig);
-            if (imageUrls){
-                for(var imageIndex= 0, imgSrc; (imgSrc = imageUrls[imageIndex]) && !formattedItem.image; imageIndex++){
-                    if (/^[\/\\]/.test(imgSrc)){
-                        imgSrc = utils.url.getDomain(item.link) + imgSrc;
-                    }
+            var images = item.content.match(/<img [^>]+>/ig),
+                imgSrc,
+                srcRegExp = /([^\"']+(?:png|gif|jpg|jpeg))/i;
 
-                    formattedItem.image = {
-                        src: imgSrc
+            if (images){
+                for(var imageIndex= 0, image; image = images[imageIndex]; imageIndex++){
+                    imgSrc = image.match(srcRegExp);
+                    if (imgSrc){
+                        imgSrc = imgSrc[1];
+
+                        if (/^[\/\\]/.test(imgSrc))
+                            imgSrc = utils.url.getDomain(item.link) + imgSrc;
+
+                        image.replace(srcRegExp, "");
+                        var imgElementWrapper = document.createElement("span");
+                        imgElementWrapper.innerHTML = image;
+                        var imgElement = imgElementWrapper.firstElementChild;
+
+                        formattedItem.image = {
+                            src: imgSrc,
+                            title: imgElement.getAttribute("title")
+                        };
+
+                        break;
                     }
                 }
             }
