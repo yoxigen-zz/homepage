@@ -148,6 +148,10 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
         var items = [];
 
         angular.forEach(feeds, function(feed){
+            angular.forEach(feed.items, function(item){
+                item.feed = feed;
+            });
+
             items = items.concat(feed.items);
         });
 

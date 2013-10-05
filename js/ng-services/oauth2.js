@@ -125,7 +125,7 @@ angular.module("OAuth2", ["Parse"]).factory('OAuth2', ["$injector", "$rootScope"
                         return deferred.promise;
                     }
 
-                    self.logout();
+                    //self.logout();
 
                     var state = self.getOauthState();
 
