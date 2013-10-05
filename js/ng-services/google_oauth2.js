@@ -45,8 +45,8 @@ angular.module("GoogleOAuth2", ["Parse", "OAuth2"]).factory('GoogleOAuth2', ["$i
                     var now = new Date();
 
                     deferred.resolve({
-                        access_token: result.access_token,
-                        expires: now.setSeconds(now.getSeconds() + result.expires_in)
+                        token: result.access_token,
+                        expires: now.setSeconds(now.getSeconds() + result.expires_in).valueOf()
                     });
                 }, deferred.reject);
 

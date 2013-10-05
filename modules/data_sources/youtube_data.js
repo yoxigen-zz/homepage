@@ -53,8 +53,14 @@ angular.module("Homepage").factory("youtube", [ "GoogleOAuth2", "$q", "$http", "
     function callApi(endpoint, requiresAuth, params){
         var deferred = $q.defer();
 
-        if (requiresAuth)
-            public.auth.login().then(doApiCall);
+        if (requiresAuth){
+            public.auth.isLoggedIn().then(function(isLoggedIn){
+                if (isLoggedIn)
+                    doApiCall();
+                else
+                    deferred.reject("Can't call YouTube API " + endpoint + ", the user must be logged in.");
+            });
+        }
         else
             doApiCall();
 

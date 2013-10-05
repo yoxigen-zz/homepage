@@ -60,9 +60,10 @@ angular.module("OAuth2", ["Parse"]).factory('OAuth2', ["$injector", "$rootScope"
                     }
                     else if (self.options.refreshToken){
                         self.options.refreshToken(existingOauth).then(function(newTokenData){
-                            self.oauthData = newTokenData;
-                            deferred.resolve(self.oauthData);
-                        }, deferred.resolve(null))
+                            angular.extend(existingOauth, newTokenData);
+                            deferred.resolve(existingOauth);
+                            self.setOauth(existingOauth);
+                        }, function(){ deferred.resolve(null); });
                     }
                     else{
                         deferred.resolve(null);
@@ -105,6 +106,7 @@ angular.module("OAuth2", ["Parse"]).factory('OAuth2', ["$injector", "$rootScope"
                 this.getOauth().then(function(auth){
                     deferred.resolve(!!auth);
                 }, function(error){
+                    console.error("is logged in error: ", error);
                     deferred.resolve(false)
                 });
 
