@@ -792,9 +792,9 @@ h1, h2, h3, h4, h5 {
       text-overflow: ellipsis; }
   .items-list .item-text-header {
     font-size: .8em;
-    padding: 10px 0 0;
+    padding: 10px 4px 0;
     border-top: solid 1px rgba(255, 255, 255, 0.2);
-    margin: 5px 20px 5px 0; }
+    margin: 5px 0 5px 20px; }
     .items-list .item-text-header i {
       display: inline-block;
       margin-right: 4px; }
@@ -850,12 +850,13 @@ h1, h2, h3, h4, h5 {
     .items-list [dir=rtl] .items-list-headline .item-details {
       float: left;
       text-align: left; }
-    .items-list [dir=rtl] .item-text-header span {
-      margin-right: 0;
-      margin-left: 10px; }
-    .items-list [dir=rtl] .item-text-header i {
-      margin-right: 0;
-      margin-left: 4px; }
+    .items-list [dir=rtl] .item-text-header {
+      margin: 5px 20px 5px 0 span;
+        margin-margin-right: 0;
+        margin-margin-left: 10px; }
+      .items-list [dir=rtl] .item-text-header i {
+        margin-right: 0;
+        margin-left: 4px; }
     .items-list [dir=rtl] .item-text-with-image {
       margin: 0 40px 0 0; }
     .items-list [dir=rtl] .item-text {
