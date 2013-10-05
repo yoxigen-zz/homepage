@@ -4,14 +4,24 @@
     <title></title>
     <script>
         if (window.opener){
-            var auth = { token: document.location.href.match(/access_token=([^&#]+)/)[1] },
-                expiresMatch = document.location.href.match(/expires_in=(\d+)/),
-                stateMatch = document.location.href.match(/state=(\d+)/);
+            // First, parse the query string
+            var params = {}, queryString = location.href.split(/[\?#]/)[1],
+                regex = /([^&=]+)=([^&]*)/g, m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
 
-            if (expiresMatch)
-                auth.expires = new Date().valueOf() + parseInt(expiresMatch[1], 10) * 1000;
+            if (!params.state)
+                console.error("No state!");
+            else{
+                var state = params.state;
+                delete params.state;
 
-            window.opener["setOauth2_" + stateMatch[1]](auth);
+                if (params.expires_in)
+                    params.expires =  new Date().valueOf() + parseInt(params.expires_in, 10) * 1000;
+
+                window.opener["setOauth2_" + state](params);
+            }
         }
     </script>
 </head>

@@ -1,4 +1,5 @@
-angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", "utils", function(OAuth2, $q, $http, Cache, utils){
+angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", "utils", "parse", function(OAuth2, $q, $http, Cache, utils, parse){
+
     var clientId = "225561981539-vrlluijrg9h9gvq6ghbnnv59rcerkrh8.apps.googleusercontent.com",
         cache = new Cache({
             id: "picasa",
@@ -7,7 +8,7 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
         }),
         picasaOauth = new OAuth2({
             apiName: "picasa",
-            baseUrl: "https://accounts.google.com/o/oauth2/auth", //?access_type=offline&approval_prompt=force
+            baseUrl: "https://accounts.google.com/o/oauth2/auth?access_type=offline&approval_prompt=force",
             redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
             responseType: "code",
             clientId: clientId,
@@ -19,16 +20,18 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
             tokenValidation: function(auth){
                 var deferred = $q.defer();
 
-                $http.jsonp("https://www.googleapis.com/oauth2/v1/tokeninfo?callback=JSON_CALLBACK", {
-                    params: { access_token: auth.token }}).then(function(result){
-                        if (result.data.error)
-                            deferred.reject(result.data.error);
-                        else if (result.data.audience === clientId)
-                            deferred.resolve(result.data);
-                    },
-                    function(error){
-                        deferred.reject(error);
-                    });
+                parse.runFunction("googleAuth", {
+                    code: auth.code,
+                    client_id: clientId,
+                    redirect_uri: "http://yoxigen.github.io/homepage/oauth2.html",
+                    grant_type: "authorization_code"
+                }).then(function(result){
+                    auth.access_token = result.access_token;
+                    auth.refresh_token = result.refresh_token;
+
+                    var now = new Date();
+                    auth.expires = now.setSeconds(now.getSeconds() + result.expires_in);
+                }, deferred.reject);
 
                 return deferred.promise;
             }

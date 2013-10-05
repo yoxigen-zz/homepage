@@ -25,6 +25,7 @@ angular.module("HomepageInit", ["HomepageModel"]).factory("homepageInit", ["$htt
                     "OAuth2",
                     "Cache",
                     "Parse",
+                    "GoogleOAuth2",
                     "HomepageUsers",
                     "HomepageModel",
                     "ImageDirectives",

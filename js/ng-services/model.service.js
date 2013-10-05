@@ -219,6 +219,40 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
             storage = null;
             model = null;
         },
+        // TODO: remove this method, it's temporary until 17/10/2013:
+        fixModel: function(){
+            if (localStorage.fixedModel)
+                return;
+
+            var layoutModuleIds = {},
+                updateModel = false;
+
+            storageLayout.attributes.rows.forEach(function(row){
+                row.columns.forEach(function(column){
+                    column.widgets.forEach(function(widget){
+                        layoutModuleIds[widget.id] = true;
+                    });
+                });
+            });
+
+
+            if(users.getCurrentUser()){
+                for (var i=storageModel.attributes.widgets.length - 1, model; model = storageModel.attributes.widgets[i]; i--){
+                    if (!layoutModuleIds[model.id]){
+                        updateModel = true;
+                        storageModel.attributes.widgets.splice(i, 1);
+                        delete storageSettings.attributes.moduleSettings[model.id];
+                    }
+                }
+
+                if (updateModel){
+                    storageModel.update();
+                    storageSettings.update();
+                }
+            }
+
+            localStorage.setItem("fixedModel", "1");
+        },
         getLayout: function(){
             var deferred = $q.defer();
 
@@ -341,7 +375,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
             // Remove the module from model
             var foundModule,
                 moduleType,
-                storageData = getStorageModelData();
+                storageData = users.getCurrentUser() ? storageModel.attributes : storageModel;
 
             for(var moduleTypeName in storageData){
                 moduleType = storageData[moduleTypeName];
@@ -358,9 +392,9 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
 
             if (users.getCurrentUser()){
                 storageModel.update();
-                var storageModelData = getStorageModelData();
-                if (storageModelData.moduleSettings && storageModelData.moduleSettings[moduleToRemove.id]){
-                    delete storageSettings.attributes.moduleSettings[moduleToRemove.id];
+                var settingsData = storageSettings.attributes.moduleSettings;
+                if (settingsData && settingsData[moduleToRemove.id]){
+                    delete settingsData[moduleToRemove.id];
                     storageSettings.update();
                 }
             }

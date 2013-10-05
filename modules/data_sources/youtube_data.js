@@ -1,4 +1,4 @@
-angular.module("Homepage").factory("youtube", [ "OAuth2", "$q", "$http", "$rootScope", "utils", "Cache", function(OAuth2, $q, $http, $rootScope, utils, Cache){
+angular.module("Homepage").factory("youtube", [ "GoogleOAuth2", "$q", "$http", "$rootScope", "utils", "Cache", function(GoogleOAuth2, $q, $http, $rootScope, utils, Cache){
     var apiKey = "225561981539-vrlluijrg9h9gvq6ghbnnv59rcerkrh8.apps.googleusercontent.com",
         apiUrl = "https://www.googleapis.com/youtube/v3/",
         cache = new Cache({
@@ -6,15 +6,9 @@ angular.module("Homepage").factory("youtube", [ "OAuth2", "$q", "$http", "$rootS
             hold: true,
             itemsExpireIn: 60 * 10 // cache items expire in 5 minutes
         }),
-        ytOauth = new OAuth2({
+        ytOauth = new GoogleOAuth2({
             apiName: "youtube",
-            baseUrl: "https://accounts.google.com/o/oauth2/auth",
-            clientId: apiKey,
-            scope: "https://www.googleapis.com/auth/youtube.readonly",
-            oauthWindowDimensions: {
-                width: 765,
-                height: 450
-            }
+            scope: "https://www.googleapis.com/auth/youtube.readonly"
         });
 
     var convert = {

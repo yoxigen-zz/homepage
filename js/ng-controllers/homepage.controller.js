@@ -169,6 +169,9 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     function loadLayout(){
         $q.all([model.getModel(), model.getLayout()]).then(function(data){
             applyModelAndLayout(data[0], data[1]);
+
+            // TODO: remove this line, it's temporary until 17/10/2013:
+            model.fixModel();
         });
     }
 

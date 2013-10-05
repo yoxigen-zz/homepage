@@ -174,6 +174,24 @@ angular.module("Parse", []).factory("parse", ["$q", "$rootScope", function($q, $
 
             return deferred.promise;
         },
+        runFunction: function(functionName, params){
+            var deferred = $q.defer();
+
+            Parse.Cloud.run(functionName, params || {}, {
+                success: function(result) {
+                    $rootScope.safeApply(function(){
+                        deferred.resolve(result);
+                    });
+                },
+                error: function(error) {
+                    $rootScope.safeApply(function(){
+                        deferred.reject(error);
+                    });
+                }
+            });
+
+            return deferred.promise;
+        },
         save: function(className, data, options){
             var ObjType = Parse.Object.extend(className),
                 obj = new ObjType(),

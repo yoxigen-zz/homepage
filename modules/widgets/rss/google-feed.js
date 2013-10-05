@@ -84,7 +84,7 @@
                         if (/^[\/\\]/.test(imgSrc))
                             imgSrc = utils.url.getDomain(item.link) + imgSrc;
 
-                        image.replace(srcRegExp, "");
+                        image = image.replace(srcRegExp, "");
                         var imgElementWrapper = document.createElement("span");
                         imgElementWrapper.innerHTML = image;
                         var imgElement = imgElementWrapper.firstElementChild;
