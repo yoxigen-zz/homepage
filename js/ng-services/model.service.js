@@ -375,7 +375,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
             // Remove the module from model
             var foundModule,
                 moduleType,
-                storageData = users.getCurrentUser() ? storageModel.attributes : storageModel;
+                storageData = users.getCurrentUser() ? storageModel.attributes : storageModel.attributes;
 
             for(var moduleTypeName in storageData){
                 moduleType = storageData[moduleTypeName];
@@ -400,8 +400,8 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
             }
             else{
                 storage.local.setItem(storageKeys.MODEL_STORAGE_KEY, storageModel);
-                if (storageSettings.attributes[moduleToRemove.id]){
-                    delete storageSettings.attributes[moduleToRemove.id];
+                if (storageSettings.attributes.moduleSettings[moduleToRemove.id]){
+                    delete storageSettings.attributes.moduleSettings[moduleToRemove.id];
                     storage.local.setItem(storageKeys.SETTINGS_STORAGE_KEY, storageSettings);
                 }
             }
@@ -490,7 +490,7 @@ angular.module("HomepageModel", ["Storage", "Utils", "EventBus", "HomepageUsers"
                     storageLayout.save();
                 }
                 else{
-                    storage.local.setItem(storageKeys.LAYOUT_STORAGE_KEY, { attributes: newStorageLayout });
+                    storage.local.setItem(storageKeys.LAYOUT_STORAGE_KEY, storageLayout = { attributes: newStorageLayout });
                 }
             }, 500);
         }
