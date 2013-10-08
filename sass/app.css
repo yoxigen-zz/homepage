@@ -851,9 +851,10 @@ h1, h2, h3, h4, h5 {
       float: left;
       text-align: left; }
     .items-list [dir=rtl] .item-text-header {
-      margin: 5px 20px 5px 0 span;
-        margin-margin-right: 0;
-        margin-margin-left: 10px; }
+      margin: 5px 20px 5px 0; }
+      .items-list [dir=rtl] .item-text-header span {
+        margin-right: 0;
+        margin-left: 10px; }
       .items-list [dir=rtl] .item-text-header i {
         margin-right: 0;
         margin-left: 4px; }

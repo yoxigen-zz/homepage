@@ -80,13 +80,13 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
     });
 
     $scope.$on("userLogin", function(e, data){
-        $scope.currentUser = data.user;
-        loadLayout();
+        window.location.reload();
+        //$scope.currentUser = data.user;
+        //loadLayout();
     });
 
     $scope.$on("userLogout", function(e, data){
         $scope.currentUser = null;
-        $scope.$broadcast("logout");
         loadLayout();
     });
 

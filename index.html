@@ -26,7 +26,7 @@
         Loading Homepage...
     </div>
     <div id="background" ng-repeat="module in background.widgets" ng-include="module.html.widget"></div>
-    <header id="header">
+    <header id="header" ng-show="!hideContents">
         <div class="header-menu">
             <menu id="notifications">
                 <ng-include src="includes.notifications" ng-repeat="notification in notifications"></ng-include>
@@ -48,7 +48,7 @@
             <div ng-repeat="column in row.columns"
                  class="layout-column"
                  nc-ui-sortable="nc-ui-sortable"
-                 ui-options="{ connectWith: '.layout-column', scroll: false, out: sortOver, stop: updateLayout, handle: '.module-header', items: '.module-wrapper' }"
+                 ui-options="{ connectWith: '.layout-column', scroll: false, out: sortOver, stop: updateLayout, handle: '.module-header', items: '.module-wrapper', tolerance: 'pointer' }"
                  ng-model="column.widgets"
                  update-layout-on="column.widgets.length"
                  on-layout-change="onColumnLayoutChange(column, heights, refreshLayout)"
