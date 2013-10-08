@@ -7,7 +7,9 @@
   @include transition(opacity 600ms ease-out);
   position: relative;
   z-index: 15;
+  display: none;
 
+  &.show{ display: block }
   .logo{
     position: relative;
     top: 4px;

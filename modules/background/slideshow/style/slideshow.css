@@ -37,6 +37,10 @@
     -webkit-transition: all 300ms ease-out;
     -moz-transition: all 300ms ease-out;
     transition: all 300ms ease-out; }
+    .slideshow .slideshow-menu .icon-th {
+      font-size: 14px;
+      position: relative;
+      top: 1px; }
   .slideshow .slideshow-menu-header {
     height: 40px;
     line-height: 40px;

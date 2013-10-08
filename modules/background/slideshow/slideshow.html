@@ -17,6 +17,9 @@
                 <a ng-click="toggleFitFill()" title="{{module.settings.fitMode && 'Fill screen with image' || 'Fit image to screen'}}">
                     <i class="icon-{{module.settings.fitMode && 'fullscreen' || 'crop'}}"></i>
                 </a>
+                <a title="Thumbnails">
+                    <i class="icon-th" ng-click="toggleMenu()"></i>
+                </a>
                 <a ng-click="closeSlideshow()" title="Close slideshow (Esc)"><i class="icon-remove icon-large"></i></a>
             </div>
             <h2>Slideshow</h2>
@@ -38,8 +41,8 @@
                     <h3>{{currentSource.name}}</h3>
                     <span ng-show="currentFeed.type == 'album' || contentsType == 'albums'" ng-switch="contentsType">
                         <i class="icon-caret-right"></i>
-                        <a ng-switch-when="album" ng-click="getAlbumsForCurrentSource()">Albums</a>
-                        <span ng-switch-when="albums">Albums</span>
+                        <a ng-show="currentFeed.type == 'album'" ng-click="getAlbumsForCurrentSource()">Albums</a>
+                        <span ng-switch-when="albums" ng-show="currentFeed.type != 'album'">Albums</span>
                     </span>
                     <span ng-show="currentFeed">
                         <i class="icon-caret-right"></i>

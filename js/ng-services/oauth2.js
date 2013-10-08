@@ -1,4 +1,4 @@
-angular.module("OAuth2", ["Parse"]).factory('OAuth2', ["$injector", "$rootScope", "$q", "Storage", "users", function ($injector, $rootScope, $q, Storage, users) {
+angular.module("OAuth2", ["Parse", "EventBus"]).factory('OAuth2', ["$injector", "$rootScope", "$q", "Storage", "users", "EventBus", function ($injector, $rootScope, $q, Storage, users, EventBus) {
     var defaultOptions = {
         oauthWindowDimensions: {
             width: 500,
@@ -8,6 +8,10 @@ angular.module("OAuth2", ["Parse"]).factory('OAuth2', ["$injector", "$rootScope"
 
     function OAuth2(options){
         this.options = angular.extend({}, defaultOptions, options);
+        this.eventBus = new EventBus();
+
+        this.onLogin = this.eventBus.getEventPair("onLogin");
+
         if (!OAuth2.prototype.storage)
             OAuth2.prototype.storage = new Storage("oauth2");
     }
@@ -185,6 +189,7 @@ angular.module("OAuth2", ["Parse"]).factory('OAuth2', ["$injector", "$rootScope"
                     this.storage.local.setItem(this.options.apiName + "oauth", oauthData);
 
                 this.oauthData = oauthData;
+                this.eventBus.triggerEvent("onLogin", oauthData);
             }
         };
 

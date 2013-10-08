@@ -1,4 +1,4 @@
-angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", "utils", "parse", function(OAuth2, $q, $http, Cache, utils, parse){
+angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Cache", "utils", "parse", function(GoogleOAuth2, $q, $http, Cache, utils, parse){
 
     var clientId = "225561981539-vrlluijrg9h9gvq6ghbnnv59rcerkrh8.apps.googleusercontent.com",
         cache = new Cache({
@@ -6,35 +6,9 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
             hold: true,
             itemsExpireIn: 60 * 30 // cache items expire in 30 minutes
         }),
-        picasaOauth = new OAuth2({
+        picasaOauth = new GoogleOAuth2({
             apiName: "picasa",
-            baseUrl: "https://accounts.google.com/o/oauth2/auth?access_type=offline&approval_prompt=force",
-            redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
-            responseType: "code",
-            clientId: clientId,
-            scope: "https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.profile",
-            oauthWindowDimensions: {
-                width: 765,
-                height: 450
-            },
-            tokenValidation: function(auth){
-                var deferred = $q.defer();
-
-                parse.runFunction("googleAuth", {
-                    code: auth.code,
-                    client_id: clientId,
-                    redirect_uri: "http://yoxigen.github.io/homepage/oauth2.html",
-                    grant_type: "authorization_code"
-                }).then(function(result){
-                    auth.access_token = result.access_token;
-                    auth.refresh_token = result.refresh_token;
-
-                    var now = new Date();
-                    auth.expires = now.setSeconds(now.getSeconds() + result.expires_in);
-                }, deferred.reject);
-
-                return deferred.promise;
-            }
+            scope: "https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.profile"
         }),
         apiUrl = "https://picasaweb.google.com/data/feed/api/",
         picasaCropSizes = [32, 48, 64, 72, 104, 144, 150, 160],
@@ -53,8 +27,12 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
         };
 
     var feeds = {
-        albums: { name: "My Albums", id: "userAlbums", hasChildren: true, user: "default", childrenType: "albums", cache: true, cacheTime: 6 * 3600 },
-        featured: { name: "Featured Photos", id: "featured", url: "https://picasaweb.google.com/data/feed/api/featured", isPublic: true }
+        publicFeeds: [
+            { name: "Featured Photos", id: "featured", url: "https://picasaweb.google.com/data/feed/api/featured", isPublic: true }
+        ],
+        privateFeeds: [
+            { name: "My Albums", id: "userAlbums", hasChildren: true, user: "default", childrenType: "albums", cache: true, cacheTime: 6 * 3600, type: "albums" }
+        ]
     };
 
     function getDataFromUrl(source, options){
@@ -318,25 +296,14 @@ angular.module("Homepage").factory("picasa", ["OAuth2", "$q", "$http", "Cache", 
                 picasaOauth.logout();
                 picasaOauth.destroy();
             },
-            getCurrentUser: function(){
-
-            }
+            getCurrentUser: picasaOauth.getCurrentUser
         },
         images: {
             getAlbums: function(){
                 return methods.images.load(feeds.albums);
             },
             getFeeds: function(){
-                var deferred = $q.defer();
-
-                picasaOauth.isLoggedIn().then(function(isLoggedIn){
-                    if (isLoggedIn)
-                        deferred.resolve([feeds.featured, feeds.albums]);
-                    else
-                        deferred.resolve([feeds.featured]);
-                });
-
-                return deferred.promise;
+                return feeds;
             },
             load: function(source){
                 var deferred = $q.defer();

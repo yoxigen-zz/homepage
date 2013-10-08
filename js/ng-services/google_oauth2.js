@@ -1,8 +1,9 @@
-angular.module("GoogleOAuth2", ["Parse", "OAuth2"]).factory('GoogleOAuth2', ["$injector", "$rootScope", "$q", "OAuth2", "parse", function($injector, $rootScope, $q, OAuth2, parse){
-    var clientId = "225561981539-vrlluijrg9h9gvq6ghbnnv59rcerkrh8.apps.googleusercontent.com"
+angular.module("GoogleOAuth2", ["Parse", "OAuth2"]).factory('GoogleOAuth2', ["$injector", "$rootScope", "$q", "$http", "OAuth2", "parse", function($injector, $rootScope, $q, $http, OAuth2, parse){
+    var clientId = "225561981539-vrlluijrg9h9gvq6ghbnnv59rcerkrh8.apps.googleusercontent.com",
+        scopes = [];
 
     function GoogleOAuth2(options){
-        this.oauth2 = new OAuth2({
+        var oauth2 = new OAuth2({
             apiName: options.apiName,
             baseUrl: "https://accounts.google.com/o/oauth2/auth?access_type=offline&approval_prompt=force",
             redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
@@ -54,8 +55,34 @@ angular.module("GoogleOAuth2", ["Parse", "OAuth2"]).factory('GoogleOAuth2', ["$i
             }
         });
 
-        for(var method in this.oauth2){
-            this[method] = this.oauth2[method];
+        oauth2.onLogin.addListener(function(oauthData){
+            this.oauthData = oauthData;
+        });
+
+        this.getCurrentUser = function(){
+            var deferred = $q.defer();
+
+            oauth2.getOauth().then(function(oauthData){
+                if (oauthData){
+                    $http.jsonp("https://www.googleapis.com/oauth2/v2/userinfo", {
+                        params: { callback: "JSON_CALLBACK", key: clientId, access_token: oauthData.token }
+                    }).then(function(result){
+                        deferred.resolve({
+                            id: result.data.id,
+                            name: result.data.name,
+                            link: result.data.link,
+                            locale: result.data.locale,
+                            image: result.data.picture
+                        });
+                    }, deferred.reject);
+                }
+            });
+
+            return deferred.promise;
+        };
+
+        for(var method in oauth2){
+            this[method] = oauth2[method];
         }
     }
 

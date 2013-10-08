@@ -428,7 +428,10 @@ h1, h2, h3, h4, h5 {
   -moz-transition: opacity 600ms ease-out;
   transition: opacity 600ms ease-out;
   position: relative;
-  z-index: 15; }
+  z-index: 15;
+  display: none; }
+  #header.show {
+    display: block; }
   #header .logo {
     position: relative;
     top: 4px;

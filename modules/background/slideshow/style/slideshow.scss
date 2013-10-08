@@ -46,7 +46,10 @@ $slideshowMenuContentsMargins: 2px;
     @include transform(translateY(-$slideshowMenuHeaderHeight));
     @include transition(all 300ms ease-out);
 
-    &.open{
+    .icon-th{
+      font-size: 14px;
+      position: relative;
+      top: 1px;
     }
   }
 
