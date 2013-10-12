@@ -159,6 +159,10 @@ $itemDetailsWidth: 120px;
     .item-text-summary{
       margin: .5em 0 .5em 20px;
 
+      img{
+        max-width: 100%;
+      }
+
       li{
         list-style-position: inside;
       }
@@ -200,10 +204,6 @@ $itemDetailsWidth: 120px;
     .item-text-summary{
       margin-right: 20px;
       margin-left: 0;
-
-      img{
-        max-width: 100%;
-      }
     }
   }
   .item-feed{

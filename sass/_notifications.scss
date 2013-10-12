@@ -154,7 +154,7 @@
     margin-right: 3px;
   }
 
-  &:focus {
+  &.dropdown-open {
     & > a{
       background: $notificationsBackground !important;
       .notification-close{ display: block }
@@ -167,6 +167,10 @@
     &:hover{
       color: rgb(98, 169, 204);
     }
+  }
+
+  .icon-refresh{
+    display: inline-block;
   }
 }
 

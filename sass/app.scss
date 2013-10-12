@@ -128,7 +128,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
   position: relative;
   outline: none;
 
-  &:focus .main-menu{
+  &.dropdown-open .main-menu{
     display: block;
   }
 }
@@ -311,6 +311,7 @@ h1,h2,h3,h4,h5{ margin: 0; padding: 0; }
       color: $headerBtnColor;
       margin-left: 10px;
 
+      i{ display: inline-block; }
       &:hover{
         text-decoration: none;
         color: $headerBtnColorHover;

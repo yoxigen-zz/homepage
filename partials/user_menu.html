@@ -1,4 +1,4 @@
-<div class="main-menu-wrapper options-menu-wrapper" tabindex="1" ng-switch="!!currentUser" ng-controller="UserMenuController">
+<div class="main-menu-wrapper options-menu-wrapper" dropdown ng-switch="!!currentUser" ng-controller="UserMenuController">
     <div ng-switch-when="true">
         <a class="menu-link">
             {{ currentUser.attributes.displayName || currentUser.attributes.username }} <i class="icon-caret-down"></i>

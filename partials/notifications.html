@@ -1,4 +1,4 @@
-<div class="main-menu-wrapper notification" ng-controller="NotificationsController" tabindex="1">
+<div class="main-menu-wrapper notification" ng-controller="NotificationsController" dropdown>
     <a class="menu-link" ng-mousedown="openNotifications()">
         <img class="notification-icon" ng-src="{{notification.icon}}" />
         <span ng-cloak ng-show="notification.unreadCount" class="notification-count">{{notification.unreadCount}}</span>
