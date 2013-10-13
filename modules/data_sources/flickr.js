@@ -9,7 +9,7 @@ angular.module("Homepage").factory("flickr", ["$q", "$http", function($q, $http)
                 { api_key: apiKey, method: method }
             )})
             .then(function(result){
-                deferred.resolve(convert.photos(result.data.photos.photo));
+                deferred.resolve({ items: convert.photos(result.data.photos.photo) });
             }, function(error){
                 deferred.reject(error);
             });

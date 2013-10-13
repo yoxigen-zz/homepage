@@ -32,20 +32,20 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
         ],
         privateFeeds: [
             { name: "My Albums", id: "userAlbums", hasChildren: true, user: "default", childrenType: "albums", cache: true, cacheTime: 6 * 3600, type: "albums" }
-        ]
-    };
+        ]},
+        albumsFeed = { name: "My Albums", id: "userAlbums", hasChildren: true, user: "default", childrenType: "albums", cache: true, cacheTime: 6 * 3600, type: "albums" };
 
     function getDataFromUrl(source, options){
         var data = $.extend({}, picasaDefaults, options),
             urlMatch;
 
-        if (source.url){
-            if (source.url.indexOf(apiUrl) === 0){
-                var query = source.url.split("?");
+        if (source.link){
+            if (source.link.indexOf(apiUrl) === 0){
+                var query = source.link.split("?");
                 if (query.length > 1){
                     var fields = query[1].split("&");
                     for(var i = 0, field; i < fields.length; i++){
-                        field = fields[i].split("=")
+                        field = fields[i].split("=");
                         data[field[0]] = field[1] || true;
                     }
                 }
@@ -113,6 +113,39 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
         return feedUrl;
     }
 
+    var convert = {
+        album: function(picasaData, authorData){
+            var thumbnail = picasaData.media$group.media$thumbnail[0];
+            return {
+                name: picasaData.title.$t,
+                id: picasaData.gphoto$id.$t,
+                link: picasaData.link[0].href,
+                imageCount: picasaData.gphoto$numphotos.$t,
+                thumbnail: {
+                    src: thumbnail.url,
+                    width: thumbnail.width,
+                    height: thumbnail.height
+                },
+                type: "album"
+            }
+        },
+        albums: function(picasaData, authorData){
+            var albums = [];
+
+            angular.forEach(picasaData, function(albumData){
+                albums.push(convert.album(albumData, authorData));
+            });
+
+            return albums;
+        },
+        photo: function(picasaData){
+
+        },
+        photos: function(picasaData){
+
+        }
+    };
+
     function getImagesData(picasaData, source, authorData)
     {
         var itemsData = [];
@@ -127,9 +160,11 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
                 thumbnailData = image.media$group.media$thumbnail[0],
                 itemData = {
                     thumbnail: {
-                        src: thumbnailData.url
+                        src: thumbnailData.url,
+                        width: thumbnailData.width,
+                        height: thumbnailData.height
                     },
-                    url: mediaData.url,
+                    src: mediaData.url,
                     link: image.link[0].href,
                     title: imageTitle,
                     type: "image",
@@ -150,6 +185,7 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
                     };
                 }
             } catch(e){ console.log("ERROR: ", image, e)}
+
             if (source.cropThumbnails){
                 angular.extend(itemData.thumbnail, {
                     width: source.thumbsize,
@@ -214,57 +250,66 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
             }
         }
           */
-        var picasaData = getDataFromUrl(source, source);
-        delete picasaData.fields;
 
-        $http.jsonp(picasaData.url || getFeedUrl(picasaData), {
-            params: angular.extend( { callback: "JSON_CALLBACK" }, picasaData)
-        }).then(function(result){
-                var data = result.data;
-                returnData.totalItems = data.feed.openSearch$totalResults.$t;
+        if (picasaOauth.oauthData)
+            getData();
+        else
+            picasaOauth.getOauth().then(function(oauthData){
+                getData();
+            }, deferred.reject);
 
-                if (!data.feed.entry || data.feed.entry.length == 0){
-                    returnData.items = [];
-                }
-                else{
-                    var kind = data.feed.category ? data.feed.category[0].term.match(/#(.*)$/)[1] : "photo",
-                        author = data.feed.author && data.feed.author[0],
-                        authorData;
-                    if (author){
-                        authorData = {
-                            id: author.uri.$t.match(/\d+/)[0],
-                            name: author.name.$t,
-                            link: author.uri.$t
-                        };
+        function getData(){
+            var picasaData = getDataFromUrl(source, source);
+            delete picasaData.fields;
 
-                        authorData.avatar = "http://profiles.google.com/s2/photos/profile/" + authorData.id;
+            $http.jsonp(picasaData.url || getFeedUrl(picasaData), {
+                params: angular.extend( { callback: "JSON_CALLBACK" }, picasaData)
+            }).then(function(result){
+                    var data = result.data;
+                    returnData.totalItems = data.feed.openSearch$totalResults.$t;
+
+                    if (!data.feed.entry || data.feed.entry.length == 0){
+                        returnData.items = [];
+                    }
+                    else{
+                        var kind = data.feed.category ? data.feed.category[0].term.match(/#(.*)$/)[1] : "photo",
+                            author = data.feed.author && data.feed.author[0],
+                            authorData;
+                        if (author){
+                            authorData = {
+                                id: author.uri.$t.match(/\d+/)[0],
+                                name: author.name.$t,
+                                link: author.uri.$t
+                            };
+
+                            authorData.avatar = "http://profiles.google.com/s2/photos/profile/" + authorData.id;
+                        }
+
+                        if (kind === "user"){
+                            var author = data.feed.author[0];
+                            angular.extend(returnData, {
+                                title: data.feed.title.$t,
+                                data: {
+                                    kind: "user",
+                                    author: authorData
+                                }
+                            });
+                        }
+                        returnData.createThumbnails = true;
+                        returnData.items = source.id === "userAlbums" ? convert.albums(data.feed.entry, authorData) : getImagesData(data, source, authorData);
+                        /*
+                        if (source.cache)
+                            cache().setItem(source.id, { items: returnData.items, totalItems: returnData.totalItems }, { expiresIn: source.cacheTime }); // Albums are cached for 6 hours
+                            */
                     }
 
-                    if (kind === "user"){
-                        var author = data.feed.author[0];
-                        angular.extend(returnData, {
-                            title: data.feed.title.$t,
-                            data: {
-                                kind: "user",
-                                author: authorData
-                            }
-                        });
-                    }
-                    returnData.createThumbnails = true;
-                    returnData.items = getImagesData(data, source, authorData);
-                    /*
-                    if (source.cache)
-                        cache().setItem(source.id, { items: returnData.items, totalItems: returnData.totalItems }, { expiresIn: source.cacheTime }); // Albums are cached for 6 hours
-                        */
+                    deferred.resolve(returnData);
+                },
+                function(error){
+                    deferred.reject(error);
                 }
-
-                deferred.resolve(returnData);
-            },
-            function(error){
-                deferred.reject(error);
-            }
-        );
-
+            );
+        }
         return deferred.promise;
     }
 
@@ -300,7 +345,7 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
         },
         images: {
             getAlbums: function(){
-                return methods.images.load(feeds.albums);
+                return methods.images.load(albumsFeed);
             },
             getFeeds: function(){
                 return feeds;

@@ -85,7 +85,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
             options = options || {};
             options.limit = 100;
             fbApi("/" + feed.id + "/photos", options).then(function(response){
-                deferred.resolve(convert.photos(response.data));
+                deferred.resolve({ items: convert.photos(response.data) });
             }, deferred.reject);
 
             return deferred.promise;
@@ -244,7 +244,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                         albumsData.push(albumData);
                     }
 
-                    deferred.resolve(albumsData);
+                    deferred.resolve({ items: albumsData });
                 }, deferred.reject);
 
                 return deferred.promise;

@@ -110,7 +110,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
             else{
                 showLoader();
                 $scope.currentSource.images.load(feed).then(function(data){
-                    loadImages(data);
+                    loadImages(data.items);
                     hideLoader();
 
                     $scope.contentsType = "images";
@@ -155,8 +155,8 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
         $scope.currentFeed = null;
 
         if (albumsSource !== $scope.currentSource || !currentSourceAlbums){
-            $scope.currentSource.images.getAlbums().then(function(albums){
-                $scope.currentSourceAlbums = albums;
+            $scope.currentSource.images.getAlbums().then(function(data){
+                $scope.currentSourceAlbums = data.items;
             });
         }
     };
