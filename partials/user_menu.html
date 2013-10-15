@@ -1,14 +1,12 @@
 <div class="main-menu-wrapper options-menu-wrapper" dropdown ng-switch="!!currentUser" ng-controller="UserMenuController">
     <div ng-switch-when="true">
         <a class="menu-link">
+            <img ng-show="currentUser.attributes.image" ng-src="{{currentUser.attributes.image}}" class="menu-link-image" />
             {{ currentUser.attributes.displayName || currentUser.attributes.username }} <i class="icon-caret-down"></i>
         </a>
         <div class="main-menu options-menu">
             <div class="main-menu-scroll options-menu-scroll">
                 <ul class="options-items">
-                    <li>
-                        <a ng-click="openModuleSettings()"><i class="icon-th-large"></i> + Add widgets</a>
-                    </li>
                     <li>
                         <a ng-click="logout()"><i class="icon-signout"></i> Logout</a>
                     </li>

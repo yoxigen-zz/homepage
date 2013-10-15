@@ -66,6 +66,20 @@
     width: $headerHeight;
     text-align: center;
   }
+
+  .menu-link-add{
+    font-size: 18px;
+  }
+
+  .menu-link-image{
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    border: solid 1px #ccc;
+    position: relative;
+    top: -1px;
+    margin-right: 5px;
+  }
 }
 
 .background-enabled #header{

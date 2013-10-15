@@ -108,7 +108,11 @@ angular.module("Parse", []).factory("parse", ["$q", "$rootScope", function($q, $
             return deferred.promise;
         },
         getCurrentUser: function(){
-            return Parse.User.current();
+            var parseUser = Parse.User.current();
+            if (parseUser && parseUser.attributes.authData && parseUser.attributes.authData.facebook)
+                parseUser.attributes.image = "http://graph.facebook.com/" + parseUser.attributes.authData.facebook.id + "/picture";
+
+            return parseUser;
         },
         login: function(username, password){
             var deferred = $q.defer();
