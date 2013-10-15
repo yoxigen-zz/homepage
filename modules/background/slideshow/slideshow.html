@@ -10,7 +10,7 @@
         <div class="loading-indicator" ng-class="{active: slideshowImageLoading && background.enabled }"></div>
     </div>
     <div class="slideshow-menu" ng-class="{ open: slideshowMenuOpen }">
-        <header class="slideshow-menu-header" ng-click="toggleMenu($event)">
+        <header class="slideshow-menu-header opens-slideshow-thumbnails" ng-click="toggleMenu($event)">
             <div class="slideshow-menu-header-controls slideshow-main-menu-header-controls">
                 <a ng-click="pause()" ng-show="isPlaying"><i class="icon-pause"></i> Pause slideshow</a>
                 <a ng-click="play()" ng-show="!isPlaying"><i class="icon-play"></i> Start slideshow</a>
@@ -22,7 +22,21 @@
                 </a>
                 <a ng-click="closeSlideshow()" title="Close slideshow (Esc)"><i class="icon-remove icon-large"></i></a>
             </div>
-            <h2>Slideshow</h2>
+            <div class="opens-slideshow-thumbnails">
+                <span ng-show="currentImage.author">
+                    <a href="{{currentImage.author.link}}"
+                      target="_blank"
+                      title="{{currentImage.author.name}} on {{currentSource.name}}">
+                        <img ng-show="currentImage.author.image" ng-src="{{currentImage.author.image}}" class="slideshow-title-author-image" />
+                        {{currentImage.author.name}}
+                    </a>
+                    <span class="slideshow-title-divider" ng-show="currentImage.title">|</span>
+                </span>
+                {{currentImage.title}}
+                <a href="{{currentImage.link}}" target="_blank" title="View image on {{currentSource.name}}">
+                    <i class="icon-external-link"></i>
+                </a>
+            </div>
         </header>
         <div class="slideshow-menu-contents">
             <menu class="slideshow-menu-sources">

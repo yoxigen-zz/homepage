@@ -55,6 +55,11 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
         photo: function(fbPhoto){
             var thumbnailImage = fbPhoto.images.length >= 6 ? fbPhoto.images[5] : fbPhoto.images[fbPhoto.images.length - 1];
             return {
+                author: {
+                    name: fbPhoto.from.name,
+                    link: "http://www.facebook.com/" + fbPhoto.from.id,
+                    image: getProfileImage(fbPhoto.from.id)
+                },
                 src: fbPhoto.images[0].source,
                 width: fbPhoto.images[0].width,
                 height: fbPhoto.images[0].height,

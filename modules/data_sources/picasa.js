@@ -155,6 +155,7 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
             if (isAlbum && !image.gphoto$numphotos.$t)
                 return true;
 
+            var author = image.author && image.author[0] || authorData;
             var imageTitle = isAlbum ? image.title.$t : image.summary.$t,
                 mediaData = image.media$group.media$content[0],
                 thumbnailData = image.media$group.media$thumbnail[0],
@@ -168,12 +169,20 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
                     link: image.link[0].href,
                     title: imageTitle,
                     type: "image",
-                    author: authorData,
                     time: new Date(parseInt(image.gphoto$timestamp.$t, 10)),
                     social: {
                         commentsCount: image.gphoto$commentCount && image.gphoto$commentCount.$t
                     }
                 };
+
+            if (author){
+                itemData.author = {
+                    name: author.name.$t,
+                    link: author.uri.$t,
+                    image: author.gphoto$thumbnail.$t
+                };
+            }
+            /*
             try{
                 if (!authorData && image.author){
                     var author = image.author[0];
@@ -185,7 +194,7 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
                     };
                 }
             } catch(e){ console.log("ERROR: ", image, e)}
-
+              */
             if (source.cropThumbnails){
                 angular.extend(itemData.thumbnail, {
                     width: source.thumbsize,

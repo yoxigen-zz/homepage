@@ -37,6 +37,11 @@
                title="{{background.enabled && 'Hide background' || 'Show background'}}">
                 <i class="icon-picture"></i>
             </a>
+            <a class="menu-link menu-link-square"
+               ng-click="openModuleSettings()"
+               title="Add widgets">
+                <i class="icon-plus"></i>
+            </a>
             <menu id="user-menu" ng-include="includes.userMenu"></menu>
         </div>
         <img class="logo" src="img/logo.png" />

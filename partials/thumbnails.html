@@ -1,5 +1,5 @@
 <div class="thumbnails">
-    <a ng-repeat="item in items" ng-click="selectItem(item, $index)" class="thumbnail" title="{{item.title}} | {{item.author.username}}">
+    <a ng-repeat="item in items" ng-click="selectItem(item, $index)" class="thumbnail" title="{{item.title}}{{item.title && '\n'}}&copy; {{item.author.username}}">
         <img class="thumbnail-img" ng-src="{{item.thumbnail.src}}" alt="{{item.title}}" />
     </a>
 </div>

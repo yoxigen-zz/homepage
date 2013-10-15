@@ -33,7 +33,7 @@ angular.module("Slideshow").controller("SlideshowController", ["$scope", "$timeo
 
     $scope.isPlaying = true;
     $scope.toggleMenu = function($event){
-        if (!$event || $event.target.className === "slideshow-menu-header" || $event.target.nodeName === "H2")
+        if (!$event || $event.target.classList.contains("opens-slideshow-thumbnails"))
             $scope.slideshowMenuOpen = !$scope.slideshowMenuOpen;
     };
 

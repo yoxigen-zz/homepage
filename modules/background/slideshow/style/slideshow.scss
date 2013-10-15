@@ -58,12 +58,30 @@ $slideshowMenuContentsMargins: 2px;
     line-height: $slideshowMenuHeaderHeight;
     padding: 0 $slideshowMenuPadding;
     background: rgba(0,0,0,.25);
-    cursor: pointer;
 
-    h2{
-      font-size: 17px;
-      font-weight: bold;
+    .slideshow-title-divider{
+      color: rgba(255,255,255,.5);
     }
+
+    .slideshow-title-author-image{
+      max-width: 25px;
+      max-height: 25px;
+      vertical-align: middle;
+      border: solid 1px #4e4e4e;
+      position: relative;
+      top: -1px;
+      margin-right: 5px;
+    }
+
+    .icon-external-link{
+      font-size: .8em;
+      display: inline-block;
+      margin-left: 5px;
+    }
+  }
+
+  .opens-slideshow-thumbnails{
+    cursor: pointer;
   }
 
   .slideshow-main-menu-header-controls{

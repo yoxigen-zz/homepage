@@ -28,6 +28,8 @@ angular.module("Homepage").factory("flickr", ["$q", "$http", function($q, $http)
         photos: function(flickrPhotos){
             var photos = [];
             angular.forEach(flickrPhotos, function(flickrPhoto){
+                var userId = flickrPhoto.pathalias || flickrPhoto.owner;
+
                 photos.push({
                     title: flickrPhoto.title,
                     src: flickrPhoto.url_o || flickrPhoto.url_l,
@@ -38,12 +40,14 @@ angular.module("Homepage").factory("flickr", ["$q", "$http", function($q, $http)
                         width: Number(flickrPhoto.width_sq),
                         height: Number(flickrPhoto.height_sq)
                     },
+                    link: "http://www.flickr.com/photos/" + userId + "/" + flickrPhoto.id + "/",
                     author: {
-                        name: flickrPhoto.owner_name,
-                        link: "http://flickr.com/photos/" + (flickrPhoto.pathalias || flickrPhoto.owner)
+                        name: flickrPhoto.ownername,
+                        link: "http://flickr.com/photos/" + userId,
+                        image: ["http://www.flickr.com/buddyicons/", flickrPhoto.owner, ".jpg"].join("")
                     }
                 });
-            })
+            });
 
             return photos;
         }
