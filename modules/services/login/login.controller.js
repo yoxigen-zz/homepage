@@ -1,6 +1,7 @@
 angular.module("Login").controller("LoginController", ["$scope", "users", function($scope, users){
     $scope.loginOpen = false;
     $scope.newUser = true;
+    $scope.confirmPassword = "";
 
     var methods = {
         open: function(options){
@@ -10,6 +11,7 @@ angular.module("Login").controller("LoginController", ["$scope", "users", functi
             $scope.newUser = options.newUser;
             $scope.focusUsername = true;
 
+            $scope.$emit("showLogin");
             users.getLastUser().then(function(username){
                 $scope.loginUser.username = username;
             });
@@ -20,18 +22,51 @@ angular.module("Login").controller("LoginController", ["$scope", "users", functi
         methods[eventData.method] && methods[eventData.method](eventData.data);
     });
 
-    $scope.$on("modalClose", $scope.closeViewer);
+    $scope.$on("modalClose", function(){
+        $scope.closeViewer();
+    });
 
     $scope.closeViewer = function(){
         $scope.loginUser = {};
         $scope.loginOpen = false;
+
+        $scope.$emit("hideLogin");
+    };
+
+    $scope.toggleNewUser = function(){
+        $scope.newUser = !$scope.newUser;
     };
 
     $scope.signIn = function(){
-        if ($scope.newUser){
-            $scope.loginUser.email = $scope.loginUser.username;
+        if (!$scope.loginUser || !$scope.loginUser.username || !$scope.loginUser.password){
+            $scope.loginError = "Please enter email adress and password.";
+            return;
+        }
 
-            users.signUp($scope.loginUser).then(function(user){
+        if (!users.validateUsername($scope.loginUser.username)){
+            $scope.loginError = "Invalid email address.";
+            return;
+        }
+
+        if ($scope.newUser){
+            if (!$scope.loginUser.confirmPassword){
+                $scope.loginError = "Please confirm password.";
+                return;
+            }
+
+            if ($scope.loginUser.confirmPassword !== $scope.loginUser.password){
+                $scope.loginError = "Passwords don't match.";
+                return;
+            }
+
+            $scope.loginUser.email = $scope.loginUser.username;
+            var newUser = {
+                email: $scope.loginUser.username,
+                username: $scope.loginUser.username,
+                password: $scope.loginUser.password
+            };
+
+            users.signUp(newUser).then(function(user){
                 onLogin(user);
             }, function(error){
                 $scope.loginError = error.message;

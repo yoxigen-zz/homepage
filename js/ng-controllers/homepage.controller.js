@@ -79,6 +79,14 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
         $scope.pageTitle = title;
     });
 
+    $scope.$on("showLogin", function(){
+        $scope.hideContents = true;
+    });
+
+    $scope.$on("hideLogin", function(){
+        $scope.hideContents = false;
+    });
+
     $scope.$on("userLogin", function(e, data){
         window.location.reload();
         //$scope.currentUser = data.user;

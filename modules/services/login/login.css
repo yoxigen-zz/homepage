@@ -1,17 +1,44 @@
 .login-modal {
-  width: 500px;
-  height: 400px;
+  width: 240px;
   position: absolute;
+  right: 20%;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
   top: 50%;
-  left: 50%;
-  margin-top: -200px;
-  margin-left: -250px; }
+  margin-top: -200px; }
+  .login-modal .login-close {
+    position: absolute;
+    right: 7px;
+    top: 5px;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 15px; }
+    .login-modal .login-close:hover {
+      color: White; }
+  .login-modal .modal-subtitle {
+    position: absolute;
+    left: -420px;
+    width: 400px; }
+    .login-modal .modal-subtitle h2 {
+      margin-bottom: 10px; }
+  .login-modal .login-or {
+    margin-top: 14px; }
+    .login-modal .login-or hr {
+      display: inline-block;
+      width: 40%;
+      border-color: rgba(255, 255, 255, 0.2);
+      position: relative;
+      top: 4px;
+      border-bottom: 0;
+      border-style: dotted; }
+    .login-modal .login-or span {
+      display: inline-block;
+      width: 17%;
+      text-align: center; }
   .login-modal .login-form {
-    margin-top: 50px;
-    padding: 0 20px; }
+    margin-top: 5px; }
     .login-modal .login-form label > span {
       display: inline-block;
-      width: 100px;
       padding-right: 6px; }
     .login-modal .login-form input[type=text], .login-modal .login-form input[type=password] {
       border: none;
@@ -22,12 +49,20 @@
       outline: none; }
       .login-modal .login-form input[type=text]:focus, .login-modal .login-form input[type=password]:focus {
         background: White; }
-    .login-modal .login-form .input-email {
-      width: 250px; }
+    .login-modal .login-form .input-email, .login-modal .login-form input[type=password] {
+      width: 225px; }
     .login-modal .login-form .form-element {
-      padding: 8px 0;
-      border-bottom: dotted 1px #002e45; }
+      padding: 8px 0; }
       .login-modal .login-form .form-element:last-child {
         border-bottom: none; }
-    .login-modal .login-form .error-message {
-      margin-left: 112px; }
+  .login-modal .login-modal-buttons {
+    width: 240px;
+    margin: 0 auto; }
+  .login-modal .login-signin-btn {
+    width: 60%;
+    margin-top: 5px; }
+  .login-modal .login-new-user {
+    border-top: dotted 1px rgba(255, 255, 255, 0.2);
+    margin-top: 10px;
+    padding-top: 15px;
+    text-align: center; }

@@ -95,8 +95,7 @@ h1, h2, h3, h4, h5 {
   padding-left: 0;
   font-family: Arial, sans-serif;
   font-size: 18px;
-  width: auto !important;
-  margin-left: 20px; }
+  width: auto !important; }
   .facebook-login-btn span {
     display: inline-block;
     border-right: solid 1px #394A6A;
@@ -677,9 +676,24 @@ h1, h2, h3, h4, h5 {
   top: 40px;
   font-weight: normal; }
 
+.light-modal .modal-header {
+  background: none;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  padding: 0;
+  position: static;
+  margin: 0 0 20px;
+  height: 30px;
+  line-height: 14px;
+  border-radius: 0; }
+.light-modal .modal-subtitle {
+  color: White; }
+
 .modal-background {
   background: rgba(0, 0, 0, 0.9);
   color: white; }
+
+.modal-light-background .modal-background {
+  background: rgba(0, 0, 0, 0.4); }
 
 .modal-close {
   position: absolute;

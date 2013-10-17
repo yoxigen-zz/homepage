@@ -1,33 +1,52 @@
 <div ng-controller="LoginController">
-    <modal ng-model="loginOpen">
-        <div class="closes-modal login-modal">
+    <modal ng-model="loginOpen"class="modal-light-background">
+        <div class="closes-modal login-modal light-modal">
+            <a class="login-close" ng-click="modalClose()" title="Cancel sign in">
+                <i class="icon-remove"></i>
+            </a>
             <h3 class="modal-header">{{ newUser && 'Create user' || 'Sign In' }}</h3>
-            <form ng-submit="signIn()" class="login-form">
-                <div class="form-element">
-                    <label>
-                        <span>Email address</span>
-                        <input type="text" ng-model="loginUser.username" class="input-email" focus-me="focusUsername" />
-                    </label>
-                </div>
-                <div class="form-element">
-                    <label>
-                        <span>Password</span>
-                        <input type="password" ng-model="loginUser.password" />
-                    </label>
-                </div>
-                <p class="error-message" ng-show="loginError">
-                    <i class="icon-warning-sign"></i> {{ loginError }}
-                </p>
-                <div class="form-element">
-                    <input class="btn" type="submit" value="{{ newUser && 'Create user' || 'Sign In' }}" />
-                    or
+            <div class="modal-subtitle">
+                <h2>Welcome to Homepage</h2>
+                Signing in allows you to save your homepage layout and configuration for use on other devices.
+            </div>
+            <div class="login-modal-buttons">
+                <div ng-show="!newUser">
                     <a class="btn facebook-login-btn" ng-click="facebookLogin()">
                         <span><i class="icon-facebook"></i></span>
                         Login with Facebook</a>
+                    <div class="login-or">
+                        <hr /><span>Or</span><hr />
+                    </div>
                 </div>
-            </form>
-            <div class="login-new-user">
-                <a ng-click="newUser = true">Create a new user</a>
+                <form ng-submit="signIn()" class="login-form">
+                    <div class="form-element">
+                        <label>
+                            <span>Email address</span>
+                            <input type="text" ng-model="loginUser.username" class="input-email" focus-me="focusUsername" />
+                        </label>
+                    </div>
+                    <div class="form-element">
+                        <label>
+                            <span>Password</span>
+                            <input type="password" ng-model="loginUser.password" />
+                        </label>
+                    </div>
+                    <div class="form-element" ng-show="newUser">
+                        <label>
+                            <span>Confirm password</span>
+                            <input type="password" ng-model="loginUser.confirmPassword" />
+                        </label>
+                    </div>
+                    <p class="error-message" ng-show="loginError">
+                        <i class="icon-warning-sign"></i> {{ loginError }}
+                    </p>
+                    <div class="form-element">
+                        <input class="btn login-signin-btn" type="submit" value="{{ newUser && 'Create user' || 'Sign In' }}" />
+                    </div>
+                </form>
+                <div class="login-new-user">
+                    <a ng-click="toggleNewUser()">{{newUser && "Sign in with existing user" || "Create a new user"}}</a>
+                </div>
             </div>
         </div>
     </modal>

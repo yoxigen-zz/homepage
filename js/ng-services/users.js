@@ -1,5 +1,6 @@
 angular.module("HomepageUsers", ["Storage"]).factory("users", ["$q", "parse", "Storage", function($q, parse, Storage){
     var usersStorage = new Storage("users");
+    var emailRegExp = /^(([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+)?$/;
 
     var methods = {
         facebookLogin: function(){
@@ -26,6 +27,9 @@ angular.module("HomepageUsers", ["Storage"]).factory("users", ["$q", "parse", "S
         },
         signUp: function(userDetails){
             return parse.signUp(userDetails);
+        },
+        validateUsername: function(username){
+            return emailRegExp.test(username);
         }
     };
 
