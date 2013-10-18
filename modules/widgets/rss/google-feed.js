@@ -6,7 +6,9 @@
         }),
         defaultOptions = {
             count: 5
-        };
+        },
+        imgRegExp = /<img [^>]+>/ig,
+        srcRegExp = /([^\"']+(?:png|gif|jpg|jpeg))/i;
 
     function loadFeed(feedUrl, forceRefresh, options){
         var deferred = $q.defer(),
@@ -71,13 +73,13 @@
                 direction: utils.strings.getDirection(item.content)
             };
 
-            var images = item.content.match(/<img [^>]+>/ig),
-                imgSrc,
-                srcRegExp = /([^\"']+(?:png|gif|jpg|jpeg))/i;
+            var images = item.content.match(imgRegExp),
+                imgSrc;
 
             if (images){
                 for(var imageIndex= 0, image; image = images[imageIndex]; imageIndex++){
                     imgSrc = image.match(srcRegExp);
+
                     if (imgSrc){
                         imgSrc = imgSrc[1];
 
@@ -97,6 +99,12 @@
                         break;
                     }
                 }
+
+                formattedItem.text = formattedItem.text.replace(imgRegExp, function(img){
+                    var fixedImg = img.replace(/width\s?=\s?[\"']\d+[\"']/i, "");
+                    fixedImg = fixedImg.replace(/height\s?=\s?[\"']\d+[\"']/i, "");
+                    return fixedImg;
+                });
             }
 
             formattedItems.push(formattedItem);
@@ -111,6 +119,15 @@
                 link = utils.url.getDomain(item.link) + link;
             }
             return link;
+        });
+
+        itemText = itemText.replace(/<a\s[^>]+/ig, function(link){
+            var targetExists;
+            var fixedLink = link.replace(/\starget\s?=\s?['"]([^'"]+)/i, function(){ targetExists = true; return " target='_blank'"; })
+            if (!targetExists)
+                fixedLink += " target='_blank'";
+
+            return fixedLink;
         });
 
         return itemText;
