@@ -1,36 +1,6 @@
 angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$rootScope", function(OAuth2, $q, $http, $rootScope){
-    var apiKey = "132603783569142",
-        appSecret = "ba840592bd31f05bec737573893f939e",
-        graphApiUrl = "https://graph.facebook.com/",
-        legacyApiUrl = "https://api.facebook.com/method/",
-        fbOauth = new OAuth2({
-            apiName: "facebook",
-            baseUrl: "http://www.facebook.com/dialog/oauth/",
-            redirectUri: "http://yoxigen.github.io/homepage/oauth2.html",
-            clientId: apiKey,
-            scope: "manage_notifications,user_photos,friends_photos",
-            tokenValidation: function(auth){
-                var deferred = $q.defer();
-
-                $http.get("https://graph.facebook.com/oauth/access_token?callback=JSON_CALLBACK", {
-                    params: {
-                        client_id: apiKey,
-                        client_secret: appSecret,
-                        grant_type: "fb_exchange_token",
-                        fb_exchange_token: auth.token
-                    }}).then(function(result){
-                        if (result.data.error)
-                            deferred.reject(result.data.error);
-                        else
-                            deferred.resolve(result.data);
-                    },
-                    function(error){
-                        deferred.reject(error);
-                    });
-
-                return deferred.promise;
-            }
-        }),
+    var legacyApiUrl = "https://api.facebook.com/method/",
+        fbAuthScope = "manage_notifications,user_photos,friends_photos",
         currentUser;
 
     var convert = {
@@ -139,6 +109,28 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
         return deferred.promise;
     }
 
+    function fbApiBatch(batch, options){
+        var deferred = $q.defer();
+
+        angular.forEach(batch, function(batchItem){
+            angular.extend(batchItem, options);
+        });
+
+        FB.api("/", "POST", {
+            access_token: currentUser.access_token,
+            batch: batch
+        }, function(response) {
+            $rootScope.$apply(function(){
+                if (!response || response.error)
+                    deferred.reject(response && response.error);
+                else
+                    deferred.resolve(response);
+            });
+        });
+
+        return deferred.promise;
+    }
+
     function getFbUrlCommons(){
         return "access_token=" + fbOauth.oauthData.token + "&callback=JSON_CALLBACK";
     }
@@ -181,7 +173,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                             deferred.reject('User cancelled login or did not fully authorize.');
                         }
                     });
-                }, { scope: fbOauth.scope });
+                }, { scope: fbAuthScope });
 
                 return deferred.promise;
             },
@@ -289,7 +281,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                             });
 
                             var notification = {
-                                id: fbNotification.notification_id,
+                                id: ["notif", currentUser.id, fbNotification.notification_id].join("_"),
                                 icon: fbNotification.icon_url,
                                 unread: fbNotification.is_unread === "1",
                                 link: fbNotification.href,
@@ -326,7 +318,13 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                 if (!notificationIds || !notificationIds.length)
                     return false;
 
-                FB.method("notifications.markRead", {unread: "0", notification_ids: notificationIds.join(",")});
+                var batch = [];
+                angular.forEach(notificationIds, function(notificationId){
+                    batch.push({
+                        relative_url: notificationId + "?unread=0"
+                    });
+                });
+                return fbApiBatch(batch, { method: "POST" });
             }
         }
     };
