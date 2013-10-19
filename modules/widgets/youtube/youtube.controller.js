@@ -20,5 +20,21 @@ angular.module("YouTube").controller("YouTubeController", ["$scope", "youtube", 
         });
     });
 
-    loadVideos();
+    youtube.auth.isLoggedIn().then(function(isLoggedIn){
+        $scope.isLoggedIn = isLoggedIn;
+        if (isLoggedIn)
+            loadVideos();
+    });
+
+    $scope.login = function(){
+        youtube.auth.login().then(function(){
+            $scope.isLoggedIn = true;
+            loadVideos();
+        });
+    };
+
+    $scope.logout = function(){
+        youtube.auth.logout();
+        $scope.isLoggedIn = false;
+    }
 }]);

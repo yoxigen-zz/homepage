@@ -98,6 +98,9 @@ angular.module("Homepage").factory("youtube", [ "GoogleOAuth2", "$q", "$http", "
                 });
 
                 return deferred.promise;
+            },
+            logout: function(){
+                ytOauth.logout();
             }
         },
         notifications: {
