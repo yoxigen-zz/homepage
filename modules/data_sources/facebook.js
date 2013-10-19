@@ -1,6 +1,5 @@
-angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$rootScope", function(OAuth2, $q, $http, $rootScope){
-    var legacyApiUrl = "https://api.facebook.com/method/",
-        fbAuthScope = "manage_notifications,user_photos,friends_photos",
+angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$rootScope", "users", function(OAuth2, $q, $http, $rootScope, users){
+    var fbAuthScope = "manage_notifications,user_photos,friends_photos",
         currentUser;
 
     var convert = {
@@ -266,9 +265,18 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                     notifications: fqlQuery,
                     photos: "SELECT src_small, src_small_height, src_small_width, object_id FROM photo WHERE object_id IN (SELECT object_id FROM #notifications WHERE object_type = 'photo')"
                 }).then(function(response){
-                    var fbNotifications = response[0].fql_result_set,
-                        fbPhotos = response[1].fql_result_set,
-                        i, photo;
+                    if (response.error_code){
+                        var errorCode = parseInt(response.error_code);
+                        if (errorCode >=200 && errorCode < 300){
+                            methods.auth.login().then(function(){
+                                methods.notifications.getNotifications(options).then(deferred.resolve, deferred.reject);
+                            }, deferred.reject);
+                        }
+                    }
+                    else{
+                        var fbNotifications = response[0].fql_result_set,
+                            fbPhotos = response[1].fql_result_set,
+                            i, photo;
 
                         var notifications = { items: [], unreadCount: 0 };
                         angular.forEach(fbNotifications, function(fbNotification){
@@ -309,6 +317,7 @@ angular.module("Homepage").factory("facebook", [ "OAuth2", "$q", "$http", "$root
                         });
 
                         deferred.resolve(notifications);
+                    }
                 }, deferred.reject);
 
 

@@ -176,10 +176,14 @@ angular.module("Homepage").factory("picasa", ["GoogleOAuth2", "$q", "$http", "Ca
                 };
 
             if (author){
-                itemData.author = {
+                itemData.author = author.uri ? {
                     name: author.name.$t,
                     link: author.uri.$t,
                     image: author.gphoto$thumbnail.$t
+                } : {
+                    name: author.name,
+                    link: author.link,
+                    image: author.avatar
                 };
             }
             /*

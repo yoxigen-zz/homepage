@@ -38,7 +38,7 @@ angular.module("Parse", []).factory("parse", ["$q", "$rootScope", function($q, $
                 facebookUtilsInit = true;
             }
 
-            Parse.FacebookUtils.logIn(null, {
+            Parse.FacebookUtils.logIn("manage_notifications,user_photos", {
                 success: function(user) {
                     // If it's a new user, let's fetch their name from FB
                     if (!user.existed()) {

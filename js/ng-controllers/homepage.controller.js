@@ -89,8 +89,6 @@ angular.module("Homepage").controller("HomepageController", ["$scope", "model", 
 
     $scope.$on("userLogin", function(e, data){
         window.location.reload();
-        //$scope.currentUser = data.user;
-        //loadLayout();
     });
 
     $scope.$on("userLogout", function(e, data){
