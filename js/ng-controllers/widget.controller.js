@@ -6,6 +6,16 @@ angular.module("Homepage").controller("WidgetController", ["$scope", "$timeout",
         $scope.$broadcast(eventName);
     };
 
+    $scope.setLastRefresh = function(){
+        var now = new Date(),
+            minutes = now.getMinutes();
+
+        if (minutes < 10)
+            minutes = "0" + minutes;
+
+        $scope.lastRefresh = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + minutes;
+    };
+
     $scope.settings = {
         broadcast: function(event, data){
             $scope.$broadcast(event, data);

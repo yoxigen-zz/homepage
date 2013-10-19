@@ -3,7 +3,12 @@
         <a class="module-settings-btn" ng-class="{active:settingsEnabled}" title="Settings" ng-show="module.settingsOptions.length" ng-click="settingsEnabled = !settingsEnabled">
             <i class="icon-cog"></i>
         </a>
-        <a ng-show="module.settings.refreshRate" ng-click="refresh()" ng-disabled="refreshing" class="module-settings-btn" ng-class="{refreshing:loading}" title="Refresh">
+        <a ng-show="module.settings.refreshRate"
+           ng-click="refresh()"
+           ng-disabled="refreshing"
+           class="module-settings-btn"
+           ng-class="{refreshing:loading}"
+           title="Refresh{{lastRefresh && '(last refresh: ' + lastRefresh + ')' || ''}}">
             <i class="icon-refresh"></i>
         </a>
         <a class="module-header-link" href="{{module.link}}" target="_blank">

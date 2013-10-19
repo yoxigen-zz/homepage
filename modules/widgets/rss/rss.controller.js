@@ -6,6 +6,7 @@ angular.module("Rss").controller("RssController", ["$scope", "rss", function($sc
     $scope.loadFeeds = function(forceRefresh){
         rss.load($scope.module.settings.feed || $scope.module.settings.feeds, forceRefresh, { count: $scope.module.settings.count }).then(function(feeds){
             var items = getAllItems(feeds);
+            $scope.setLastRefresh();
 
             if(isSameItems(items)){
                 $scope.$emit("load", { module: $scope.module, count: 0 });
