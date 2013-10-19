@@ -23,6 +23,7 @@ $rssFooterHeight: 30px;
     height: 30px;
     width: 80%;
     max-width: 300px;
+    box-sizing: border-box;
   }
 
   &.rss-add-with-feeds{
@@ -34,7 +35,12 @@ $rssFooterHeight: 30px;
     top: 1px;
     height: 32px;
     line-height: 32px;
-    padding: 0 15px
+    padding: 0;
+    width: 18%;
+
+    @media screen and (max-width: 1400px) {
+      font-size: 16px;
+    }
   }
 }
 

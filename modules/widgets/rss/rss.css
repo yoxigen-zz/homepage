@@ -22,7 +22,8 @@
   .rss-add-box input[type=text] {
     height: 30px;
     width: 80%;
-    max-width: 300px; }
+    max-width: 300px;
+    box-sizing: border-box; }
   .rss-add-box.rss-add-with-feeds {
     -webkit-transform: translateY(24px);
     -moz-transform: translateY(24px);
@@ -34,7 +35,11 @@
     top: 1px;
     height: 32px;
     line-height: 32px;
-    padding: 0 15px; }
+    padding: 0;
+    width: 18%; }
+    @media screen and (max-width: 1400px) {
+      .rss-add-box .rss-search-btn {
+        font-size: 16px; } }
 
 .rss-add-loader-panel {
   position: relative;
