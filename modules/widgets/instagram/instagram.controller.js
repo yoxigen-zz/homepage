@@ -33,7 +33,7 @@ angular.module("Instagram").controller("InstagramController", ["$scope", "instag
     };
 
     $scope.$on("refresh", function(){
-        instagram.images.getNewItems($scope.currentFeed, $scope.items[0].id).then(function(igData){
+        instagram.images.getNewItems($scope.currentFeed, $scope.items.length && $scope.items[0].id).then(function(igData){
             $scope.items = igData.items.concat($scope.items);
             $scope.$emit("load", { module: $scope.module, count: igData.items.length });
             $scope.setLastRefresh();
