@@ -196,7 +196,7 @@ angular.module("Homepage").factory("instagram", ["OAuth2", "$q", "$http", "Cache
                 return deferred.promise;
             },
             getNewItems: function(feed, lastItemId){
-                return methods.images.load(feed, { min_id: lastItemId })
+                return methods.images.load(feed, { min_id: lastItemId || undefined }, true)
             }
         }
     };
