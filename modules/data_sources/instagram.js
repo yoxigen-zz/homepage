@@ -151,7 +151,7 @@ angular.module("Homepage").factory("instagram", ["OAuth2", "$q", "$http", "Cache
                         params: angular.extend(params, { access_token: igOauth.oauthData.token, count: 20 }) })
                         .then(function(igData){
                             var normalizedData = {
-                                paging: { next_max_id: igData.data.pagination.next_max_id },
+                                paging: { next_max_id: igData.data.pagination && igData.data.pagination.next_max_id },
                                 items: igData.data.data ? convert.images(igData.data.data) : []
                             };
 
